@@ -1,0 +1,75 @@
+import bcrypt from "bcryptjs";
+import { db } from "../libs/db.js";
+import { ApiError } from "../utils/api-error.js";
+import { ApiResponse } from "../utils/api-response.js";
+import { UserRole } from "../generated/prisma/index.js";
+import jwt from "jsonwebtoken";
+
+const register = async (req, res) => {
+  const { name, email, password } = req.body;
+
+  if (!name || !email || !password) {
+    return res.status(401).json(new ApiError(401, "All fields are required"));
+  }
+  try {
+    const existingUser = await db.user.findUnique({
+      where: { email },
+    });
+    if (existingUser) {
+      return es.status(400).json(new ApiError(400, "User already exists"));
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await db.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+        role: UserRole.USER,
+      },
+    });
+
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
+    const cookieOptions = {
+      httpOnly: true,
+      sameSite: "strict",
+      secure: process.env.NODE_ENV !== "development",
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    };
+    res.cookie("jwt", token, cookieOptions);
+
+    res.status(200).json(
+      new ApiResponse(
+        200,
+        {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          image: user.image,
+        },
+        "User successfully registered"
+      )
+    );
+  } catch (error) {
+    console.log("Error in registering user",error)
+    res.status(500).json(new ApiError(400,"Unable to register user"))
+  }
+};
+
+const login = async(req,res)=>{
+
+}
+
+const logout = async(req,res)=>{
+    
+}
+
+const getMe = async(req,res)=>{
+    
+}
+
+export { register, login, logout, getMe };
