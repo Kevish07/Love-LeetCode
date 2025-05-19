@@ -17,7 +17,9 @@ const register = async (req, res) => {
     });
     if (existingUser) {
       console.log("user exists");
-      return res.status(400).json(new ApiError(400, "User already exists",[],""));          //Looking to fix this       ##  **
+      return res
+        .status(400)
+        .json(new ApiError(400, "User already exists", [], "")); //Looking to fix this       ##  **
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -61,7 +63,58 @@ const register = async (req, res) => {
   }
 };
 
-const login = async (req, res) => {};
+const login = async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(401).json(new ApiError(401, "All fields are required"));
+  }
+  try {
+    const user = await db.user.findUnique({
+      where: { email },
+    });
+    if (!user) {
+      console.log("user does not exists");
+      return res
+        .status(401)
+        .json(new ApiError(401, "User do not exists", [], "")); //Looking to fix this       ##  **
+    }
+
+    const isMatch = await bcrypt.compare(password,user.password)
+    if (!isMatch){
+        return res
+        .status(401)
+        .json(new ApiError(401, "Invalid Credentials", [], ""));
+    }
+
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
+    const cookieOptions = {
+      httpOnly: true,
+      sameSite: "strict",
+      secure: process.env.NODE_ENV !== "development",
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    };
+    res.cookie("jwt", token, cookieOptions);
+
+    res.status(200).json(
+      new ApiResponse(
+        200,
+        {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          image: user.image,
+        },
+        `Welcome ${user.name}`
+      )
+    );
+  } catch (error) {
+    console.log("Error in login", error);
+    res.status(500).json(new ApiError(500, "Unable to login user"));
+  }
+};
 
 const logout = async (req, res) => {};
 
