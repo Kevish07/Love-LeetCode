@@ -79,9 +79,9 @@ const login = async (req, res) => {
         .json(new ApiError(401, "User do not exists", [], "")); //Looking to fix this       ##  **
     }
 
-    const isMatch = await bcrypt.compare(password,user.password)
-    if (!isMatch){
-        return res
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res
         .status(401)
         .json(new ApiError(401, "Invalid Credentials", [], ""));
     }
@@ -116,8 +116,28 @@ const login = async (req, res) => {
   }
 };
 
-const logout = async (req, res) => {};
+const logout = async (req, res) => {
+  try {
+    const cookieOptions = {
+      httpOnly: true,
+      sameSite: "strict",
+      secure: process.env.NODE_ENV !== "development",
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    };
+    res.clearCookie("jwt",cookieOptions);
 
-const getMe = async (req, res) => {};
+    res.status(200).json(new ApiResponse(200,{},"User successfully logout"))
+  } catch (error) {
+    res.status(500).json(new ApiError(500,"Unable to logout"))
+  }
+};
+
+const getMe = async (req, res) => {
+    try {
+        res.status(200).json(new ApiResponse(200,req.user,"Authentication Successful"))
+    } catch (error) {
+        res.status(500).json(new ApiError(500,"Error while Getting user"))
+    }
+};
 
 export { register, login, logout, getMe };
