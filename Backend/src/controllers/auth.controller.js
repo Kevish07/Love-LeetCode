@@ -16,7 +16,8 @@ const register = async (req, res) => {
       where: { email },
     });
     if (existingUser) {
-      return es.status(400).json(new ApiError(400, "User already exists"));
+      console.log("user exists");
+      return res.status(400).json(new ApiError(400, "User already exists",[],""));          //Looking to fix this       ##  **
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -55,21 +56,15 @@ const register = async (req, res) => {
       )
     );
   } catch (error) {
-    console.log("Error in registering user",error)
-    res.status(500).json(new ApiError(400,"Unable to register user"))
+    console.log("Error in registering user", error);
+    res.status(500).json(new ApiError(500, "Unable to register user"));
   }
 };
 
-const login = async(req,res)=>{
+const login = async (req, res) => {};
 
-}
+const logout = async (req, res) => {};
 
-const logout = async(req,res)=>{
-    
-}
-
-const getMe = async(req,res)=>{
-    
-}
+const getMe = async (req, res) => {};
 
 export { register, login, logout, getMe };
