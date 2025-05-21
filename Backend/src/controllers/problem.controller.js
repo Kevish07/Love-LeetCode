@@ -1,5 +1,9 @@
 import { db } from "../libs/db.js";
-import { getJudge0LanguageId, pollBatchResults, submitBatch } from "../libs/judge0.lib.js";
+import {
+  getJudge0LanguageId,
+  pollBatchResults,
+  submitBatch,
+} from "../libs/judge0.lib.js";
 import { ApiError } from "../utils/api-error.js";
 import { ApiResponse } from "../utils/api-response.js";
 
@@ -9,22 +13,22 @@ const createProblem = async (req, res) => {
     description,
     difficulty,
     tags,
-    userId,
     examples,
     constraints,
     testCases,
     codeSnippets,
     referenceSolution,
   } = req.body;
-
   if (req.user.role !== "ADMIN") {
+    console.log("Only Admin is allowed to crate a problem");
     return res
       .status(403)
       .json(new ApiError(403, "Only Admin is allowed to crate a problem"));
   }
   try {
     for (const [language, solutionCode] of Object.entries(referenceSolution)) {
-      const languageId = getJudge0LanguageId(language);
+      const languageId = await getJudge0LanguageId(language);
+
       if (!languageId) {
         return res
           .status(400)
@@ -43,6 +47,8 @@ const createProblem = async (req, res) => {
       const tokens = submissionResults.map((res) => res.token);
 
       const results = await pollBatchResults(tokens);
+
+      console.log(results)
 
       for (let i = 1; i <= results.length; i++) {
         const result = results[i];
@@ -74,7 +80,9 @@ const createProblem = async (req, res) => {
         },
       });
 
-      res.status(200).json(new ApiResponse(200,newProblem,"Problem created successfully"))
+      res
+        .status(200)
+        .json(new ApiResponse(200, newProblem, "Problem created successfully"));
     }
   } catch (error) {
     res.status(500).json(new ApiError(500, "Problem in creating a problem"));
