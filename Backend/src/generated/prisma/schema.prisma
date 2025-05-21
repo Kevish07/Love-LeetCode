@@ -35,7 +35,9 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  problems Problem[]
+  problems      Problem[]
+  submission    Submission[]
+  ProblemSolved ProblemSolved[]
 }
 
 model Problem {
@@ -57,5 +59,62 @@ model Problem {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  submission    Submission[]
+  ProblemSolved ProblemSolved[]
+}
+
+model Submission {
+  id            String  @id @default(uuid())
+  userId        String
+  problemId     String
+  language      String
+  sourceCode    Json
+  stdin         String?
+  stdout        String?
+  stderr        String?
+  compileOutput String?
+  status        String?
+  memory        String?
+  time          String?
+
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  User      User              @relation(fields: [userId], references: [id])
+  Problem   Problem           @relation(fields: [problemId], references: [id])
+  TestCases TestCasesResult[]
+}
+
+model TestCasesResult {
+  id            String  @id @default(uuid())
+  submissionId  String
+  testCase      Int
+  passed        Boolean
+  stdout        String?
+  expected      String
+  stderr        String?
+  compileOutput String?
+  status        String
+  memory        String?
+  time          String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  submission Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+
+  @@index([submissionId])
+}
+
+model ProblemSolved {
+  id        String   @id @default(uuid())
+  userId    String
+  problemId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  User    User    @relation(fields: [userId], references: [id])
+  Problem Problem @relation(fields: [problemId], references: [id])
+
+  @@unique([userId, problemId])
 }
