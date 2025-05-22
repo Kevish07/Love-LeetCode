@@ -5,6 +5,7 @@ import { ApiResponse } from "./utils/api-response.js"
 
 import authRoutes from "./routes/auth.routes.js"
 import problemRoutes from "./routes/problem.routes.js"
+import executionRoutes from "./routes/executionCode.routes.js"
 
 dotenv.config({
     path:"./.env"
@@ -17,7 +18,7 @@ app.use(cookieParser())
 
 
 app.get("/",(req,res)=>{
-    res.status(200).json(new ApiResponse(200,{},"Sever is running"));
+    res.status(200).json(new ApiResponse(200,"Sever is running"));
 })
 
 app.use("/api/v1/auth",authRoutes)

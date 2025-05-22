@@ -82,7 +82,7 @@ const createProblem = async (req, res) => {
 
       res
         .status(200)
-        .json(new ApiResponse(200, newProblem, "Problem created successfully"));
+        .json(new ApiResponse(200, "Problem created successfully", newProblem));
     }
   } catch (error) {
     res.status(500).json(new ApiError(500, "Problem in creating a problem"));
@@ -99,7 +99,7 @@ const getAllProblems = async (req, res) => {
     res
       .status(200)
       .json(
-        new ApiResponse(200, problems, "All problems fetched successfully"),
+        new ApiResponse(200, "All problems fetched successfully", problems),
       );
   } catch (error) {
     res.status(500).json(new ApiError(500, "Error in fetching all problems"));
@@ -120,7 +120,7 @@ const getProblemById = async (req, res) => {
       return res.status(400).json(new ApiError(400, "Problem not found"));
     }
 
-    res.status(200).json(new ApiResponse(200, problem, "Given problem found"));
+    res.status(200).json(new ApiResponse(200, "Given problem found", problem));
   } catch (error) {
     res.status(500).json(new ApiError(500, "Could not find the problem by id"));
   }

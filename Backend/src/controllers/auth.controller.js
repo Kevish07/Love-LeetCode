@@ -47,14 +47,14 @@ const register = async (req, res) => {
     res.status(200).json(
       new ApiResponse(
         200,
+        "User successfully registered",
         {
           id: user.id,
           name: user.name,
           email: user.email,
           role: user.role,
           image: user.image,
-        },
-        "User successfully registered"
+        }
       )
     );
   } catch (error) {
@@ -100,14 +100,14 @@ const login = async (req, res) => {
     res.status(200).json(
       new ApiResponse(
         200,
+        `Welcome ${user.name}`,
         {
           id: user.id,
           name: user.name,
           email: user.email,
           role: user.role,
           image: user.image,
-        },
-        `Welcome ${user.name}`
+        }
       )
     );
   } catch (error) {
@@ -126,7 +126,7 @@ const logout = async (req, res) => {
     };
     res.clearCookie("jwt",cookieOptions);
 
-    res.status(200).json(new ApiResponse(200,{},"User successfully logout"))
+    res.status(200).json(new ApiResponse(200,"User successfully logout"))
   } catch (error) {
     res.status(500).json(new ApiError(500,"Unable to logout"))
   }
@@ -134,7 +134,7 @@ const logout = async (req, res) => {
 
 const getMe = async (req, res) => {
     try {
-        res.status(200).json(new ApiResponse(200,req.user,"Authentication Successful"))
+        res.status(200).json(new ApiResponse(200,"Authentication Successful",req.user))
     } catch (error) {
         res.status(500).json(new ApiError(500,"Error while Getting user"))
     }
