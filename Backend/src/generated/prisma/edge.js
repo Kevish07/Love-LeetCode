@@ -220,7 +220,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/kevishsewliya/Desktop/New Chai/Love-LeetCode/Backend/src/generated/prisma",
+      "value": "C:\\Users\\kevis\\OneDrive\\Desktop\\New folder\\Love-LeetCode\\Backend\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -229,12 +229,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "darwin-arm64",
+        "value": "windows",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/kevishsewliya/Desktop/New Chai/Love-LeetCode/Backend/prisma/schema.prisma",
+    "sourceFilePath": "C:\\Users\\kevis\\OneDrive\\Desktop\\New folder\\Love-LeetCode\\Backend\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

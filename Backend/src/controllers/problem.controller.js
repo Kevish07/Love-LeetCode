@@ -8,6 +8,7 @@ import { ApiError } from "../utils/api-error.js";
 import { ApiResponse } from "../utils/api-response.js";
 
 const createProblem = async (req, res) => {
+  
   const {
     title,
     description,
@@ -19,6 +20,8 @@ const createProblem = async (req, res) => {
     codeSnippets,
     referenceSolution,
   } = req.body;
+  
+  
   if (req.user.role !== "ADMIN") {
     console.log("Only Admin is allowed to crate a problem");
     return res
@@ -26,9 +29,10 @@ const createProblem = async (req, res) => {
       .json(new ApiError(403, "Only Admin is allowed to crate a problem"));
   }
   try {
+    
     for (const [language, solutionCode] of Object.entries(referenceSolution)) {
       const languageId = await getJudge0LanguageId(language);
-
+      
       if (!languageId) {
         return res
           .status(400)
@@ -41,16 +45,14 @@ const createProblem = async (req, res) => {
         stdin: input,
         expected_output: output,
       }));
-
+      
       const submissionResults = await submitBatch(submissions);
 
       const tokens = submissionResults.map((res) => res.token);
 
       const results = await pollBatchResults(tokens);
 
-      console.log(results);
-
-      for (let i = 1; i <= results.length; i++) {
+      for (let i = 0; i < results.length; i++) {
         const result = results[i];
 
         if (result.status.id !== 3) {
@@ -64,7 +66,7 @@ const createProblem = async (req, res) => {
             );
         }
       }
-
+      
       const newProblem = await db.problem.create({
         data: {
           title,
@@ -80,12 +82,12 @@ const createProblem = async (req, res) => {
         },
       });
 
-      res
+      return res
         .status(200)
         .json(new ApiResponse(200, "Problem created successfully", newProblem));
     }
   } catch (error) {
-    res.status(500).json(new ApiError(500, "Problem in creating a problem"));
+    return res.status(500).json(new ApiError(500, "Problem in creating a problem"));
   }
 };
 
