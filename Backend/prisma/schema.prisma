@@ -38,7 +38,7 @@ model User {
 
   problems      Problem[]
   submission    Submission[]
-  ProblemSolved ProblemSolved[]
+  solvedBy ProblemSolved[]
 }
 
 model Problem {
@@ -62,7 +62,7 @@ model Problem {
 
   user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   submission    Submission[]
-  ProblemSolved ProblemSolved[]
+  solvedBy ProblemSolved[]
 }
 
 model Submission {
@@ -83,7 +83,7 @@ model Submission {
   updatedAt DateTime          @updatedAt
   User      User              @relation(fields: [userId], references: [id])
   Problem   Problem           @relation(fields: [problemId], references: [id])
-  TestCases TestCasesResult[]
+  testCases TestCasesResult[]
 }
 
 model TestCasesResult {
