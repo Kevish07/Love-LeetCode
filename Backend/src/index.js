@@ -26,6 +26,7 @@ app.use("/api/v1/auth",authRoutes)
 app.use("/api/v1/problems",problemRoutes)
 app.use("/api/v1/execution-code",executionRoutes)
 app.use("/api/v1/submission",submissionRoutes)
+app.use("/api/v1/playlist",playlistRoutes)
 
 
 app.listen(port,()=>{{

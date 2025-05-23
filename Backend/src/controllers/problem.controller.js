@@ -8,7 +8,6 @@ import { ApiError } from "../utils/api-error.js";
 import { ApiResponse } from "../utils/api-response.js";
 
 const createProblem = async (req, res) => {
-  
   const {
     title,
     description,
@@ -20,8 +19,7 @@ const createProblem = async (req, res) => {
     codeSnippets,
     referenceSolution,
   } = req.body;
-  
-  
+
   if (req.user.role !== "ADMIN") {
     console.log("Only Admin is allowed to crate a problem");
     return res
@@ -29,10 +27,9 @@ const createProblem = async (req, res) => {
       .json(new ApiError(403, "Only Admin is allowed to crate a problem"));
   }
   try {
-    
     for (const [language, solutionCode] of Object.entries(referenceSolution)) {
       const languageId = await getJudge0LanguageId(language);
-      
+
       if (!languageId) {
         return res
           .status(400)
@@ -45,7 +42,7 @@ const createProblem = async (req, res) => {
         stdin: input,
         expected_output: output,
       }));
-      
+
       const submissionResults = await submitBatch(submissions);
 
       const tokens = submissionResults.map((res) => res.token);
@@ -66,7 +63,7 @@ const createProblem = async (req, res) => {
             );
         }
       }
-      
+
       const newProblem = await db.problem.create({
         data: {
           title,
@@ -87,7 +84,9 @@ const createProblem = async (req, res) => {
         .json(new ApiResponse(200, "Problem created successfully", newProblem));
     }
   } catch (error) {
-    return res.status(500).json(new ApiError(500, "Problem in creating a problem"));
+    return res
+      .status(500)
+      .json(new ApiError(500, "Problem in creating a problem"));
   }
 };
 
@@ -248,10 +247,37 @@ const deleteProblem = async (req, res) => {
   }
 };
 
-// TODO
 const getAllSolvedProblemsByUser = async (req, res) => {
   try {
-  } catch (error) {}
+    const problems = await db.problem.findMany({
+      where: {
+        solvedBy: {
+          some: {
+            userId: req.user.id,
+          },
+        },
+        include: {
+          solvedBy: {
+            where: {
+              userId: req.user.id,
+            },
+          },
+        },
+      },
+    });
+  
+    res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          "Successfully fetched all solved problems",
+          problems,
+        ),
+      );
+  } catch (error) {
+    res.status(500).json(500,"Error while fetching all solved problems")
+  }
 };
 
 export {
