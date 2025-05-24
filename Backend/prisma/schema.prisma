@@ -138,12 +138,12 @@ model Playlist {
 model ProblemInPlaylist {
   id         String   @id @default(uuid())
   playlistId String
-  problemID  String
+  problemId  String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
   playlist Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
-  problem  Problem  @relation(fields: [problemID], references: [id], onDelete: Cascade)
+  problem  Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
 
-  @@unique([playlistId, problemID])
+  @@unique([playlistId, problemId])
 }

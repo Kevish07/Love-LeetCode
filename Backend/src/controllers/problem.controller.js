@@ -21,10 +21,9 @@ const createProblem = async (req, res) => {
   } = req.body;
 
   if (req.user.role !== "ADMIN") {
-    console.log("Only Admin is allowed to crate a problem");
     return res
       .status(403)
-      .json(new ApiError(403, "Only Admin is allowed to crate a problem"));
+      .json(new ApiError(403, "Access Denied - Only Admin is allowed to crate a problem"));
   }
   try {
     for (const [language, solutionCode] of Object.entries(referenceSolution)) {
@@ -48,7 +47,7 @@ const createProblem = async (req, res) => {
       const tokens = submissionResults.map((res) => res.token);
 
       const results = await pollBatchResults(tokens);
-
+      
       for (let i = 0; i < results.length; i++) {
         const result = results[i];
 
@@ -58,7 +57,7 @@ const createProblem = async (req, res) => {
             .json(
               new ApiError(
                 400,
-                `Testcase ${i} failed for language ${language}`,
+                `Testcase ${i} failed for language ${language} and ${result.status.description}`,
               ),
             );
         }
@@ -80,8 +79,8 @@ const createProblem = async (req, res) => {
       });
 
       return res
-        .status(200)
-        .json(new ApiResponse(200, "Problem created successfully", newProblem));
+        .status(201)
+        .json(new ApiResponse(201, "Problem created successfully", newProblem));
     }
   } catch (error) {
     return res
@@ -92,11 +91,21 @@ const createProblem = async (req, res) => {
 
 const getAllProblems = async (req, res) => {
   try {
-    const problems = await db.problem.findMany();
-    if (!problems) {
+   const problems = await db.problem.findMany(
+      {
+        include:{
+          solvedBy:{
+            where:{
+              userId:req.user.id
+            }
+          }
+        }
+      }
+    );
+    if (!problems || problems.length === 0) {
       return res.status(404).json(new ApiError(404, "No problems found"));
     }
-
+    
     res
       .status(200)
       .json(
@@ -108,17 +117,17 @@ const getAllProblems = async (req, res) => {
 };
 
 const getProblemById = async (req, res) => {
-  const { id } = req.params;
+  const { problemId } = req.params;
 
   try {
     const problem = await db.problem.findUnique({
       where: {
-        id,
+        id:problemId,
       },
     });
 
     if (!problem) {
-      return res.status(400).json(new ApiError(400, "Problem not found"));
+      return res.status(404).json(new ApiError(404, "Problem not found"));
     }
 
     res.status(200).json(new ApiResponse(200, "Given problem found", problem));
@@ -127,16 +136,15 @@ const getProblemById = async (req, res) => {
   }
 };
 
-// Re-Checking remaining...
 const updateProblem = async (req, res) => {
-  const { id } = req.params;
-
+  const { problemId } = req.params;
   try {
     const problem = await db.problem.findUnique({
       where: {
-        id,
+        id:problemId,
       },
     });
+    
     if (!problem)
       return res.status(400).json(new ApiError(400, "Problem not found"));
 
@@ -157,7 +165,6 @@ const updateProblem = async (req, res) => {
         .status(403)
         .json(new ApiError(403, "Only Admin is allowed to update a problem"));
     }
-
     // Problem updating { cheated by create problem }
 
     try {
@@ -185,9 +192,7 @@ const updateProblem = async (req, res) => {
 
         const results = await pollBatchResults(tokens);
 
-        console.log(results);
-
-        for (let i = 1; i <= results.length; i++) {
+        for (let i = 0; i < results.length; i++) {
           const result = results[i];
 
           if (result.status.id !== 3) {
@@ -196,13 +201,16 @@ const updateProblem = async (req, res) => {
               .json(
                 new ApiError(
                   400,
-                  `Testcase ${i} failed for language ${language}`,
+                  `Testcase ${i} failed for language ${language} and ${result.status.description}`,
                 ),
               );
           }
         }
-
+        
         const newProblem = await db.problem.update({
+          where: {
+    id: problemId,
+  },
           data: {
             title,
             description,
@@ -216,11 +224,11 @@ const updateProblem = async (req, res) => {
             userId: req.user.id,
           },
         });
-
-        res
+        
+        return res
           .status(200)
           .json(
-            new ApiResponse(200, newProblem, "Problem updated successfully"),
+            new ApiResponse(200,"Problem updated successfully",newProblem),
           );
       }
     } catch (error) {
@@ -232,14 +240,14 @@ const updateProblem = async (req, res) => {
 };
 
 const deleteProblem = async (req, res) => {
-  const { id } = req.params;
-
+  const { problemId } = req.params;
+  
   try {
-    const problem = await db.problem.findUnique({ where: { id } });
+    const problem = await db.problem.findUnique({ where: { id:problemId } });
     if (!problem)
-      return res.status(400).json(new ApiError(400, "Problem not found"));
-
-    await db.problem.delete({ where: { id } });
+      return res.status(404).json(new ApiError(404, "Problem not found"));
+    
+    await db.problem.delete({ where: { id:problemId } });
 
     res.status(200).json(new ApiResponse(200, "Problem deleted successfully"));
   } catch (error) {

@@ -5,16 +5,23 @@ import { ApiResponse } from "../utils/api-response.js";
 const createPlaylist = async (req, res) => {
   try {
     const { name, description } = req.body;
-    const userId = req.user.userId;
-    const playlist = await db.playlist.create({
-      data: {
-        name,
-        description,
-        userId,
-      },
-    });
+    if (!name.trim()) {
+      return res
+        .status(400)
+        .json(new ApiError(400, "Name is required"));
+    }
 
-    res
+    const userId = req.user.id;
+    
+      const playlist = await db.playlist.create({
+        data: {
+          name,
+          description,
+          userId,
+        },
+      });
+    
+    return res
       .status(201)
       .json(new ApiResponse(201, "playlist created Successfully", playlist));
   } catch (error) {
@@ -27,11 +34,11 @@ const createPlaylist = async (req, res) => {
 const getPlaylistDetails = async (req, res) => {
   try {
     const { playlistId } = req.params;
-
+    
     const playlist = await db.playlist.findUnique({
       where: {
         id: playlistId,
-        userid: req.user.id,
+        userId: req.user.id,
       },
       include: {
         problems: {
@@ -41,6 +48,7 @@ const getPlaylistDetails = async (req, res) => {
         },
       },
     });
+    
     if (!playlist) {
       return res
         .status(400)
@@ -70,6 +78,12 @@ const getAllListDetails = async (req, res) => {
       },
     });
 
+    if (!playlists || playlists.length === 0) {
+      return res
+        .status(404)
+        .json(new ApiError(404, "No playlists found for this user"));
+    }
+
     res.status(200).json(new ApiResponse(200, "Playlist Fetched!", playlists));
   } catch (error) {
     res.status(500).json(new ApiError(500, "Playlist could not Fetched!"));
@@ -87,11 +101,14 @@ const addProblemToPlaylist = async (req, res) => {
         .json(new ApiError(400, "Invalid or missing problem Id"));
     }
 
-    const problemsInPlaylist = await db.problemsInPlaylist.createMany({
-      data: problemIds.map((problemId) => {
-        playlistId, problemId;
-      }),
-    });
+    // Create records for each problem in the playlist
+      const problemsInPlaylist = await db.problemInPlaylist.createMany({
+        data: problemIds.map((problemId) => ({
+          playlistId, // ✅ match your Prisma field name exactly
+          problemId,
+        })),
+      });
+
     res
       .status(201)
       .json(
@@ -129,15 +146,15 @@ const removePlaylist = async (req, res) => {
 const removerProblemFromPlaylist = async (req, res) => {
   const { playlistId } = req.params;
   const { problemIds } = req.body;
-
+  
   try {
     if (!Array.isArray(problemIds) || problemIds.length === 0) {
       return res
         .status(400)
         .json(new ApiError(400, "Invalid or missing problem Id"));
     }
-
-    const deleteProblem = await db.problemsInPlaylist.deleteMany({
+  
+    const deleteProblem = await db.problemInPlaylist.deleteMany({
       where: {
         playlistId,
         problemId: {
@@ -145,6 +162,7 @@ const removerProblemFromPlaylist = async (req, res) => {
         },
       },
     });
+
     res.status(200).json(new ApiResponse(200,"Problem deleted"))
   } catch (error) {
     res.status(500).json(new ApiResponse(500,"Problem not deleted"))

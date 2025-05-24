@@ -1,11 +1,12 @@
 import axios from "axios";
 export const getJudge0LanguageId = async (language) => {
   const languageMap = {
-    JAVASCRIPT: 63,
-    PYTHON: 71,
+    "Python": 71,
     "C++": 54,
+    "Java": 62,
+    "JavaScript": 63,
   };
-  return languageMap[language.toUpperCase()];
+  return languageMap[language];
 };
 
 export const submitBatch = async (submissions) => {

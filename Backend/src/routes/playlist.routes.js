@@ -1,5 +1,6 @@
 import express from "express"
 import { authMiddleware } from "../middlewares/auth.middleware.js";
+import { addProblemToPlaylist, createPlaylist, getAllListDetails, getPlaylistDetails, removerProblemFromPlaylist, removePlaylist } from "../controllers/playlist.controller.js";
 
 const playlistRoutes =  express.Router()
 
