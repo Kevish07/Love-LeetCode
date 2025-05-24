@@ -13,17 +13,17 @@ problemRoutes.post(
 
 problemRoutes.get("/get-all-problems", authMiddleware, getAllProblems);
 
-problemRoutes.get("/get-problem/:id", authMiddleware, getProblemById);
+problemRoutes.get("/get-problem/:problemId", authMiddleware, getProblemById);
 
 problemRoutes.put(
-  "/update-problem/:id",
+  "/update-problem/:problemId",
   authMiddleware,
   checkAdmin,
   updateProblem,
 );
 
 problemRoutes.delete(
-  "/delete-problem/:id",
+  "/delete-problem/:problemId",
   authMiddleware,
   checkAdmin,
   deleteProblem,
