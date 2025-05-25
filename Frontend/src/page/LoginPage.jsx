@@ -40,7 +40,7 @@ const LoginPage = () => {
       await login(data)
       
     } catch (error) {
-      console.error("Signup failed" , error)
+      console.error("Register failed" , error)
     }
   }
 
@@ -144,7 +144,7 @@ const LoginPage = () => {
           <div className="text-center">
             <p className="text-base-content/60">
               Don't have an account?{" "}
-              <Link to="/signup" className="link link-primary">
+              <Link to="/register" className="link link-primary">
                 Sign up
               </Link>
             </p>
