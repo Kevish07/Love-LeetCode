@@ -26,7 +26,7 @@ const LoginPage = () => {
 
   const {isLoggingIn , login} = useAuthStore()
   const [showPassword , setShowPassword] = useState(false);
-   const navigate = useNavigate();
+  const navigation = useNavigate();
 
   const {
     register ,
@@ -41,6 +41,7 @@ const LoginPage = () => {
       
       await login(data);
       window.location.reload();
+      // navigation("/");
 
     } catch (error) {
       console.error("Register failed", error);

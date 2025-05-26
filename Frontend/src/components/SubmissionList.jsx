@@ -19,14 +19,18 @@ const SubmissionsList = ({ submissions, isLoading }) => {
 
   // Helper function to calculate average memory usage
   const calculateAverageMemory = (memoryData) => {
-    const memoryArray = safeParse(memoryData).map((m) =>
-      parseFloat(m.split(" ")[0])
-    );
-    if (memoryArray.length === 0) return 0;
-    return (
-      memoryArray.reduce((acc, curr) => acc + curr, 0) / memoryArray.length
-    );
-  };
+  const memoryArray = safeParse(memoryData).map((m) =>
+    parseFloat(m.split(" ")[0])
+  );
+  if (memoryArray.length === 0) return 0;
+
+  const averageInKB =
+    memoryArray.reduce((acc, curr) => acc + curr, 0) / memoryArray.length;
+
+  const averageInMB = averageInKB / 1024;
+  return averageInMB;
+};
+
 
   // Helper function to calculate average runtime
   const calculateAverageTime = (timeData) => {
@@ -92,7 +96,7 @@ const SubmissionsList = ({ submissions, isLoading }) => {
                   </div>
                   <div className="flex items-center gap-1">
                     <Memory className="w-4 h-4" />
-                    <span>{avgMemory.toFixed(0)} KB</span>
+                    <span>{avgMemory.toFixed(2)} Mb</span>
                   </div>
 <div className="flex items-center gap-1">
   <Calendar className="w-4 h-4" />

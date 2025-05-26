@@ -186,9 +186,12 @@ const ProblemsTable = ({ problems }) => {
                             >
                               <TrashIcon className="w-4 h-4 text-white" />
                             </button>
-                            <button disabled className="btn btn-sm btn-warning">
+                            <Link to="/add-problem">
+                            <button
+                             className="btn btn-sm btn-warning">
                               <PencilIcon className="w-4 h-4 text-white" />
                             </button>
+                            </Link>
                           </div>
                         )}
                         <button

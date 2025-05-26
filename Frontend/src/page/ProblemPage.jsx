@@ -50,6 +50,7 @@ const ProblemPage = () => {
   }, [id]);
 
   useEffect(() => {
+    console.log("Problem data:", problem);
     
     if (problem) {
       setCode(
@@ -167,10 +168,21 @@ const ProblemPage = () => {
             isLoading={isSubmissionsLoading}
           />
         );
-      case "discussion":
+      case "editorial":
         return (
           <div className="p-4 text-center text-base-content/70">
-            No discussions yet
+            
+            {problem?.editorial ? (
+              <div className="bg-base-200 p-6 rounded-xl">
+                <span className="bg-black/90 px-4 py-1 rounded-lg  text-white text-lg">
+                  {problem.editorial}
+                </span>
+              </div>
+            ) : (
+              <div className="text-center text-base-content/70">
+                No editorial available for this problem.
+              </div>
+            )}
           </div>
         );
       case "hints":
@@ -274,12 +286,12 @@ const ProblemPage = () => {
                 </button>
                 <button
                   className={`tab gap-2 ${
-                    activeTab === "discussion" ? "tab-active" : ""
+                    activeTab === "editorial" ? "tab-active" : ""
                   }`}
-                  onClick={() => setActiveTab("discussion")}
+                  onClick={() => setActiveTab("editorial")}
                 >
                   <MessageSquare className="w-4 h-4" />
-                  Discussion
+                  Editorial
                 </button>
                 <button
                   className={`tab gap-2 ${

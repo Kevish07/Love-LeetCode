@@ -18,6 +18,9 @@ const createProblem = async (req, res) => {
     testCases,
     codeSnippets,
     referenceSolution,
+    hints = "",
+    editorial = "",
+
   } = req.body;
 
   if (req.user.role !== "ADMIN") {
@@ -74,6 +77,8 @@ const createProblem = async (req, res) => {
           testCases,
           codeSnippets,
           referenceSolution,
+          hints,
+          editorial,
           userId: req.user.id,
         },
       });
@@ -251,6 +256,8 @@ const deleteProblem = async (req, res) => {
 
     res.status(200).json(new ApiResponse(200, "Problem deleted successfully"));
   } catch (error) {
+    console.log(error);
+    
     res.status(500).json(new ApiError(500, "Error in deleting Problem"));
   }
 };
