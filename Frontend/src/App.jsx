@@ -18,7 +18,7 @@ const App = () => {
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
-
+  
   if (isCheckingAuth && !authUser) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -31,12 +31,10 @@ const App = () => {
     <div className="flex flex-col items-center justify-start ">
       <Toaster />
       <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route
-            index
+        <Route path="/" 
             element={authUser ? <HomePage /> : <Navigate to={"/login"} />}
           />
-        </Route>
+
 
         <Route
           path="/login"

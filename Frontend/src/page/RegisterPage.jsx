@@ -25,7 +25,7 @@ const RegisterPage = () => {
 
   const [showPassword , setShowPassword] = useState(false);
 
-  const {registered , isRegistered} = useAuthStore()
+  const {registers , isRegistered} = useAuthStore()
 
   const {
     register,
@@ -37,7 +37,7 @@ const RegisterPage = () => {
 
   const onSubmit = async (data)=>{
    try {
-    await register(data)
+    await registers(data)
     console.log("register data" , data)
    } catch (error) {
      console.error("registration failed:", error);

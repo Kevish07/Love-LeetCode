@@ -10,6 +10,18 @@ const createPlaylist = async (req, res) => {
         .status(400)
         .json(new ApiError(400, "Name is required"));
     }
+    const existingPlaylist = await db.playlist.findFirst({
+      where: {
+        name: name.trim(),
+        userId: req.user.id,
+      },
+    });
+
+    if (existingPlaylist) {
+      return res
+        .status(400)
+        .json(new ApiError(400, "Playlist with this name already exists"));
+    }
 
     const userId = req.user.id;
     

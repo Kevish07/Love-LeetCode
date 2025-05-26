@@ -1,7 +1,7 @@
 import React , {useState} from 'react'
 import {useForm} from "react-hook-form"
 import {zodResolver} from "@hookform/resolvers/zod"
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import {
   Code,
   Eye,
@@ -26,6 +26,7 @@ const LoginPage = () => {
 
   const {isLoggingIn , login} = useAuthStore()
   const [showPassword , setShowPassword] = useState(false);
+   const navigate = useNavigate();
 
   const {
     register ,
@@ -35,12 +36,14 @@ const LoginPage = () => {
     resolver:zodResolver(LoginSchema)
   })
 
-  const onSubmit = async (data)=>{
+  const onSubmit = async (data) => {
     try {
-      await login(data)
       
+      await login(data);
+      window.location.reload();
+
     } catch (error) {
-      console.error("Register failed" , error)
+      console.error("Register failed", error);
     }
   }
 
@@ -145,7 +148,7 @@ const LoginPage = () => {
             <p className="text-base-content/60">
               Don't have an account?{" "}
               <Link to="/register" className="link link-primary">
-                Sign up
+                Register now
               </Link>
             </p>
           </div>

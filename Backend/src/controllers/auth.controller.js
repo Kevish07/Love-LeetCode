@@ -6,8 +6,8 @@ import { UserRole } from "../generated/prisma/index.js";
 import jwt from "jsonwebtoken";
 
 const register = async (req, res) => {
-  const { name, email, password } = req.body;
-
+  const { name, email, password } = req.body; 
+  
   if (!name || !email || !password) {
     return res.status(401).json(new ApiError(401, "All fields are required"));
   }

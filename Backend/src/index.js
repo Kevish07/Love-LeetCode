@@ -1,8 +1,9 @@
 import express from "express"
 import dotenv from "dotenv"
 import cookieParser from "cookie-parser"
-import { ApiResponse } from "./utils/api-response.js"
+import cors from "cors"
 
+import { ApiResponse } from "./utils/api-response.js"
 import authRoutes from "./routes/auth.routes.js"
 import problemRoutes from "./routes/problem.routes.js"
 import executionRoutes from "./routes/executionCode.routes.js"
@@ -15,6 +16,10 @@ dotenv.config({
 
 const port = process.env.PORT
 const app = express()
+app.use(cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true
+}))
 app.use(express.json())
 app.use(cookieParser())
 

@@ -49,7 +49,7 @@ const SubmissionsList = ({ submissions, isLoading }) => {
   // No submissions state
   if (!submissions?.length) {
     return (
-      <div className="text-center p-8">
+      <div className="text-center p-4">
         <div className="text-base-content/70">No submissions yet</div>
       </div>
     );
@@ -94,12 +94,15 @@ const SubmissionsList = ({ submissions, isLoading }) => {
                     <Memory className="w-4 h-4" />
                     <span>{avgMemory.toFixed(0)} KB</span>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <Calendar className="w-4 h-4" />
-                    <span>
-                      {new Date(submission.createdAt).toLocaleDateString()}
-                    </span>
-                  </div>
+<div className="flex items-center gap-1">
+  <Calendar className="w-4 h-4" />
+  <span>
+    {(() => {
+      const date = new Date(submission.createdAt);
+      return `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
+    })()}
+  </span>
+</div>
                 </div>
               </div>
             </div>

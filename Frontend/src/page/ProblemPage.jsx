@@ -38,7 +38,7 @@ const ProblemPage = () => {
 
   const [code, setCode] = useState("");
   const [activeTab, setActiveTab] = useState("description");
-  const [selectedLanguage, setSelectedLanguage] = useState("javascript");
+  const [selectedLanguage, setSelectedLanguage] = useState("JavaScript");
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [testcases, setTestCases] = useState([]);
 
@@ -50,12 +50,13 @@ const ProblemPage = () => {
   }, [id]);
 
   useEffect(() => {
+    
     if (problem) {
       setCode(
         problem.codeSnippets?.[selectedLanguage] || submission?.sourceCode || ""
       );
       setTestCases(
-        problem.testcases?.map((tc) => ({
+        problem.testCases?.map((tc) => ({
           input: tc.input,
           output: tc.output,
         })) || []
@@ -69,7 +70,6 @@ const ProblemPage = () => {
     }
   }, [activeTab, id]);
 
-  console.log("submission", submissions);
 
   const handleLanguageChange = (e) => {
     const lang = e.target.value;
@@ -81,8 +81,8 @@ const ProblemPage = () => {
     e.preventDefault();
     try {
       const language_id = getLanguageId(selectedLanguage);
-      const stdin = problem.testcases.map((tc) => tc.input);
-      const expected_outputs = problem.testcases.map((tc) => tc.output);
+      const stdin = problem.testCases.map((tc) => tc.input);
+      const expected_outputs = problem.testCases.map((tc) => tc.output);
       executeCode(code, language_id, stdin, expected_outputs, id);
     } catch (error) {
       console.log("Error executing code", error);
@@ -105,11 +105,11 @@ const ProblemPage = () => {
       case "description":
         return (
           <div className="prose max-w-none">
-            <p className="text-lg mb-6">{problem.description}</p>
+            <p className="text-[1.25rem] mb-6">{problem.description}</p>
 
             {problem.examples && (
               <>
-                <h3 className="text-xl font-bold mb-4">Examples:</h3>
+                <h3 className="text-[1rem] font-bold mb-2">Examples:</h3>
                 {Object.entries(problem.examples).map(
                   ([lang, example], idx) => (
                     <div
@@ -314,10 +314,10 @@ const ProblemPage = () => {
                   onChange={(value) => setCode(value || "")}
                   options={{
                     minimap: { enabled: false },
-                    fontSize: 20,
+                    fontSize: 14,
                     lineNumbers: "on",
                     roundedSelection: false,
-                    scrollBeyondLastLine: false,
+                    scrollBeyondLastLine: true,
                     readOnly: false,
                     automaticLayout: true,
                   }}

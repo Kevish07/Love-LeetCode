@@ -30,7 +30,7 @@ const Navbar = ()=>{
               <div className="w-10 rounded-full ">
                 <img
                   src={
-                    authUser?.image ||
+                    authUser?.data?.image ||
                     "https://avatar.iran.liara.run/public/boy"
                   }
                   alt="User Avatar"
@@ -50,7 +50,7 @@ const Navbar = ()=>{
               <li>
                 <p className="text-base font-semibold">
                  
-                  {authUser?.name}
+                  {authUser?.data?.name}
 
                 </p>
                 <hr className="border-gray-200/10" />
@@ -64,7 +64,7 @@ const Navbar = ()=>{
                   My Profile
                 </Link>
               </li>
-              {authUser?.role === "ADMIN" && (
+              {authUser?.data?.role === "ADMIN" && (
                 <li>
                   <Link
                     to="/add-problem"

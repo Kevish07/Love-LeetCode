@@ -133,8 +133,9 @@ const ProblemsTable = ({ problems }) => {
             {paginatedProblems.length > 0 ? (
               paginatedProblems.map((problem) => {
                 const isSolved = problem.solvedBy.some(
-                  (user) => user.userId === authUser?.id
+                  (user) => user.userId === authUser?.data?.id
                 );
+                
                 return (
                   <tr key={problem.id}>
                     <td>
@@ -177,7 +178,7 @@ const ProblemsTable = ({ problems }) => {
                     </td>
                     <td>
                       <div className="flex flex-col md:flex-row gap-2 items-start md:items-center">
-                        {authUser?.role === "ADMIN" && (
+                        {authUser?.data?.role === "ADMIN" && (
                           <div className="flex gap-2">
                             <button
                               onClick={() => handleDelete(problem.id)}

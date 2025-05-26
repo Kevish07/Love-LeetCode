@@ -12,23 +12,22 @@ export const useAuthStore = create((set) => ({
     set({ isCheckingAuth: true });
     try {
       const res = await axiosInstance.get("/auth/get-profile");
-      console.log("check auth response", res.data);
 
-      set({ authUser: res.data.user });
+      set({ authUser: res.data });
     } catch (error) {
-      console.log("❌ Error checking auth:", error);
+      // console.log("❌ Error checking auth:", error);
       set({ authUser: null });
     } finally {
       set({ isCheckingAuth: false });
     }
   },
 
-  register: async (data) => {
+  registers: async (data) => {
     set({ isRegistered: true });
     try {
       const res = await axiosInstance.post("/auth/register", data);
 
-      set({ authUser: res.data.user });
+      set({ authUser: res.data });
 
       toast.success(res.data.message);
     } catch (error) {
@@ -47,6 +46,7 @@ export const useAuthStore = create((set) => ({
       set({ authUser: res.data.user });
 
       toast.success(res.data.message);
+      return true
     } catch (error) {
       console.log("Error logging in", error);
       toast.error("Error logging in");
