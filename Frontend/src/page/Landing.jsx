@@ -3,6 +3,7 @@ import AppHero from '../components/mvpblocks/App-hero'
 import WhyCode from '../components/WhyCode'
 import LearningPath from '../components/LearningPath'
 import Navbar from '../components/NewNavbar'
+// import Navbar from '../components/Navbar'
 
 export default function Landing() {
   return (
