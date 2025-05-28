@@ -16,6 +16,8 @@ import ProblemPage from "./page/ProblemPage";
 // import Test from "./page/ContactUs1"
 // import Test from "./page/Auth"
 import Test from "./page/Landing"
+import NewProblemPage from "./page/NewProblemPage";
+import NewProblemSolver from "./page/NewProblemSolver"
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -33,7 +35,7 @@ const App = () => {
   }
 
   return (
-    <div className="">
+    <div className="bg-black">
       <Toaster />
       <Routes>
         <Route path="/" 
@@ -44,6 +46,14 @@ const App = () => {
         <Route
           path="/test"
           element= {<Test/>}
+        />
+        <Route
+          path="/problems"
+          element= {<NewProblemPage/>}
+        />
+        <Route
+          path="/solution"
+          element= {<NewProblemSolver/>}
         />
 
         <Route
