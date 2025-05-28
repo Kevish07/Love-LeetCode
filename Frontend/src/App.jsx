@@ -12,6 +12,10 @@ import AdminRoute from "./components/AdminRoute";
 import AddProblem from "./page/AddProblem";
 import ProblemPage from "./page/ProblemPage";
 
+// import Test from "./components/mvpblocks/App-hero"
+// import Test from "./page/ContactUs1"
+import Test from "./page/Auth"
+
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
 
@@ -32,9 +36,14 @@ const App = () => {
       <Toaster />
       <Routes>
         <Route path="/" 
-            element={authUser ? <HomePage /> : <Navigate to={"/login"} />}
+            element={authUser ? <HomePage /> : <Navigate to={"/test"} />}
           />
 
+
+        <Route
+          path="/test"
+          element= {<Test/>}
+        />
 
         <Route
           path="/login"
