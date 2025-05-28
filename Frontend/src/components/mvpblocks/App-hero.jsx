@@ -15,7 +15,7 @@ export default function AppHero() {
   // State for animated counters
   const [stats, setStats] = useState({
     users: 0,
-    transactions: 0,
+    submissions: 0,
     networks: 0,
   });
 
@@ -23,22 +23,22 @@ export default function AppHero() {
   useEffect(() => {
     const interval = setInterval(() => {
       setStats((prev) => {
-        const newUsers = prev.users >= 20000 ? 20000 : prev.users + 500;
-        const newTransactions =
-          prev.transactions >= 1500000 ? 1500000 : prev.transactions + 37500;
-        const newNetworks = prev.networks >= 40 ? 40 : prev.networks + 1;
+        const newUsers = prev.users >= 200 ? 200 : prev.users + 10;
+        const newSubmissions =
+          prev.submissions >= 500 ? 500 : prev.submissions + 25;
+        const newNetworks = prev.networks >= 20 ? 20 : prev.networks + 1;
 
         if (
-          newUsers === 20000 &&
-          newTransactions === 1500000 &&
-          newNetworks === 40
+          newUsers === 200 &&
+          newSubmissions === 500 &&
+          newNetworks === 20
         ) {
           clearInterval(interval);
         }
 
         return {
           users: newUsers,
-          transactions: newTransactions,
+          submissions: newSubmissions,
           networks: newNetworks,
         };
       });
@@ -200,7 +200,7 @@ export default function AppHero() {
         </div>
       </div>
 
-      <div className="fadein-blur relative z-0 mx-auto mb-10 h-[300px] w-[300px] lg:absolute lg:right-1/2 lg:top-1/2 lg:mx-0 lg:mb-0 lg:h-[500px] lg:w-[500px] lg:-translate-y-2/3 lg:translate-x-1/2">
+      <div className="fadein-blur relative z-11 mx-auto mb-10 h-[300px] w-[300px] lg:absolute lg:right-1/2 lg:top-1/2 lg:mx-0 lg:mb-0 lg:h-[500px] lg:w-[500px] lg:-translate-y-2/3 lg:translate-x-1/2">
         <img
           src="https://blocks.mvp-subha.me/Adobe Express - file(1).png"
           alt="Nexus Platform 3D Visualization"
@@ -214,7 +214,7 @@ export default function AppHero() {
             <Zap className="h-4 w-4 text-purple-400" />
             <span className="text-xs font-medium text-purple-200">
               <BlurText
-  text="High Performance"
+  text="Fast Enough"
   delay={150}
   animateBy="words"
   direction="top"
@@ -233,7 +233,7 @@ export default function AppHero() {
             <Database className="h-4 w-4 text-blue-400" />
             <span className="text-xs font-medium text-blue-200">
               <BlurText
-  text="Decentralized Storage"
+  text="Database Ready"
   delay={200}
   animateBy="words"
   direction="top"
@@ -252,7 +252,7 @@ export default function AppHero() {
             <Sparkles className="h-4 w-4 text-indigo-400" />
             <span className="text-xs font-medium text-indigo-200">
               <BlurText
-  text="AI-Powered"
+  text="Easy to Use"
   delay={250}
   animateBy="words"
   direction="top"
@@ -280,16 +280,18 @@ export default function AppHero() {
               <span className="mr-2 rounded-full bg-purple-500 px-2 py-0.5 text-xs font-semibold text-white">
                 New
               </span>
-              Introducing Nexus Platform
+              The Ultimate DSA Platform
             </motion.div>
 
             <motion.h1
               variants={itemVariants}
               className="mb-6 bg-gradient-to-r from-white/70 via-white to-slate-500/80 bg-clip-text text-3xl leading-tight text-transparent sm:text-4xl md:text-5xl lg:text-6xl"
             >
-              The Bridge Between <br className="hidden sm:inline" />
-              <span className="bg-gradient-to-r from-purple-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
-                AI and Web3
+              <span className="text-6xl">
+              Master Data Structures and Algorithms <br className="hidden sm:inline" />
+              </span>
+              <span className="bg-gradient-to-r from-purple-400 via-blue-400 to-purple-400 bg-clip-text text-transparent text-4xl">
+                Ace Interviews, Build your Future.
               </span>
             </motion.h1>
 
@@ -306,9 +308,9 @@ export default function AppHero() {
               </div>
               <div className="rounded-lg border border-blue-500/20 bg-black/40 px-4 py-2 backdrop-blur-sm">
                 <p className="text-2xl font-bold text-white">
-                  {stats.transactions.toLocaleString()}+
+                  {stats.submissions.toLocaleString()}+
                 </p>
-                <p className="text-xs text-gray-400">Transactions</p>
+                <p className="text-xs text-gray-400">Submissions</p>
               </div>
               <div className="rounded-lg border border-indigo-500/20 bg-black/40 px-4 py-2 backdrop-blur-sm">
                 <p className="text-2xl font-bold text-white">
@@ -328,15 +330,15 @@ export default function AppHero() {
               </span>
               <div className="flex cursor-pointer items-center gap-2 rounded-full border border-slate-800 bg-slate-900/60 px-2 py-1 text-xs font-medium text-slate-300 backdrop-blur-sm transition-all hover:bg-purple-950">
                 <div className="h-2 w-2 rounded-full bg-blue-400"></div>
-                Ethereum
+                Leetcode
               </div>
               <div className="flex cursor-pointer items-center gap-2 rounded-full border border-slate-800 bg-slate-900/60 px-2 py-1 text-xs font-medium text-slate-300 backdrop-blur-sm transition-all hover:bg-purple-950">
                 <div className="h-2 w-2 rounded-full bg-purple-400"></div>
-                Solana
+                Hacker Earth
               </div>
               <div className="flex cursor-pointer items-center gap-2 rounded-full border border-slate-800 bg-slate-900/60 px-2 py-1 text-xs font-medium text-slate-300 backdrop-blur-sm transition-all hover:bg-purple-950">
                 <div className="h-2 w-2 rounded-full bg-green-400"></div>
-                OpenAI
+                Code Chef
               </div>
               <div className="flex cursor-pointer items-center gap-2 rounded-full border border-slate-800 bg-slate-900/60 px-2 py-1 text-xs font-medium text-slate-300 backdrop-blur-sm transition-all hover:bg-purple-950">
                 <div className="h-2 w-2 rounded-full bg-yellow-400"></div>
@@ -359,19 +361,19 @@ export default function AppHero() {
               className="mb-8 flex flex-col flex-wrap gap-4 sm:flex-row lg:justify-end"
             >
               <Button
-                className="group rounded-full border-t border-purple-400 bg-gradient-to-b from-purple-700 to-slate-950/80 px-6 py-6 text-white shadow-lg shadow-purple-600/20 transition-all hover:shadow-purple-600/40"
+                className="group rounded-full border-t border-purple-400 bg-gradient-to-b from-purple-700 to-slate-950/80 px-6 py-6 text-white shadow-lg shadow-purple-600/20 transition-all hover:shadow-purple-600/40 cursor-pointer"
                 size="lg"
               >
-                Start Building
+                Start Solving Now
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
 
               <Button
                 variant="outline"
-                className="rounded-full border-purple-500/30 bg-transparent text-white hover:bg-purple-500/10 hover:text-white"
+                className="rounded-full border-purple-500/30 bg-transparent text-white hover:bg-purple-500/10 hover:text-white cursor-pointer"
                 size="lg"
               >
-                View Demo
+                Explore Learning Paths
               </Button>
             </motion.div>
 
@@ -386,7 +388,9 @@ export default function AppHero() {
                     key={i}
                     className="h-6 w-6 overflow-hidden rounded-full border-2 border-slate-900 bg-slate-800"
                   >
-                    <div className="h-full w-full bg-gradient-to-br from-purple-500 to-blue-600 opacity-80"></div>
+                    <div className="h-full w-full bg-gradient-to-br from-purple-500 to-blue-600 opacity-80">
+                      <img src="https://avatar.iran.liara.run/public" alt="" />
+                    </div>
                   </div>
                 ))}
               </div>

@@ -14,7 +14,8 @@ import ProblemPage from "./page/ProblemPage";
 
 // import Test from "./components/mvpblocks/App-hero"
 // import Test from "./page/ContactUs1"
-import Test from "./page/Auth"
+// import Test from "./page/Auth"
+import Test from "./page/Landing"
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -32,7 +33,7 @@ const App = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-start ">
+    <div className="">
       <Toaster />
       <Routes>
         <Route path="/" 

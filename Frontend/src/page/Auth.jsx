@@ -132,20 +132,6 @@ export default function AuthPage() {
         />
       </div>
 
-      {/* Header */}
-      <header className="relative z-10 border-b border-gray-800/50 bg-gray-950/80 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-4">
-          <Link href="/" className="flex items-center space-x-2 w-fit">
-            <div className="w-8 h-8 bg-gradient-to-r from-violet-500 to-emerald-500 rounded-lg flex items-center justify-center">
-              <Code2 className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-violet-400 to-emerald-400 bg-clip-text text-transparent">
-              CodeMaster
-            </span>
-          </Link>
-        </div>
-      </header>
-
       {/* Main Content */}
       <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-80px)] p-4">
         <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-12 items-center">
@@ -154,12 +140,12 @@ export default function AuthPage() {
             <div className="space-y-4">
               <div className="inline-flex items-center space-x-2 bg-violet-500/10 border border-violet-500/20 rounded-full px-4 py-2">
                 <Sparkles className="w-4 h-4 text-violet-400" />
-                <span className="text-violet-300 text-sm font-medium">Join 2M+ Developers</span>
+                <span className="text-violet-300 text-sm font-medium">Join Now</span>
               </div>
 
               <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
                 <span className="bg-gradient-to-r from-white via-violet-200 to-emerald-200 bg-clip-text text-transparent">
-                  Master Coding
+                  Master DSA
                 </span>
                 <br />
                 <span className="bg-gradient-to-r from-violet-400 to-emerald-400 bg-clip-text text-transparent">
@@ -175,10 +161,10 @@ export default function AuthPage() {
             {/* Features */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg mx-auto lg:mx-0">
               {[
-                { icon: Shield, text: "Secure & Private", color: "emerald" },
-                { icon: Zap, text: "Instant Access", color: "violet" },
-                { icon: Trophy, text: "Global Contests", color: "orange" },
-                { icon: Brain, text: "AI-Powered Hints", color: "pink" },
+                { icon: Shield, text: "Access to Problems", color: "emerald" },
+                { icon: Zap, text: "Level up Skills", color: "violet" },
+                { icon: Trophy, text: "Customized problems", color: "orange" },
+                { icon: Brain, text: "Reference Solutions", color: "pink" },
               ].map((feature, index) => (
                 <div
                   key={index}
@@ -195,8 +181,8 @@ export default function AuthPage() {
             {/* Stats */}
             <div className="flex justify-center lg:justify-start space-x-8">
               {[
-                { value: "2M+", label: "Users" },
-                { value: "5K+", label: "Problems" },
+                { value: "2+", label: "Users" },
+                { value: "10+", label: "Problems" },
                 { value: "95%", label: "Success Rate" },
               ].map((stat, index) => (
                 <div key={index} className="text-center">
@@ -217,7 +203,7 @@ export default function AuthPage() {
                 <div className="text-center mb-8">
                   <h2 className="text-3xl font-bold text-white mb-2">{isLogin ? "Welcome Back" : "Join CodeMaster"}</h2>
                   <p className="text-gray-400">
-                    {isLogin ? "Sign in to continue your coding journey" : "Start your coding journey today"}
+                    {isLogin ? "Sign in to continue your problem solving journey" : "Start your problem solving journey today"}
                   </p>
                 </div>
 
@@ -226,7 +212,7 @@ export default function AuthPage() {
                   <Button
                     onClick={() => handleSocialAuth("google")}
                     disabled={isLoading}
-                    className="w-full bg-white hover:bg-gray-100 text-gray-900 font-medium py-3 transition-all duration-300 transform hover:scale-[1.02]"
+                    className="w-full bg-white hover:bg-gray-100 text-gray-900 font-medium py-3 transition-all duration-300 transform hover:scale-[1.02] cursor-pointer"
                   >
                     <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
                       <path
@@ -252,7 +238,7 @@ export default function AuthPage() {
                   <Button
                     onClick={() => handleSocialAuth("github")}
                     disabled={isLoading}
-                    className="w-full bg-gray-800 hover:bg-gray-700 text-white font-medium py-3 transition-all duration-300 transform hover:scale-[1.02]"
+                    className="w-full bg-gray-800 hover:bg-gray-700 text-white font-medium py-3 transition-all duration-300 transform hover:scale-[1.02] cursor-pointer"
                   >
                     <Github className="w-5 h-5 mr-3" />
                     Continue with GitHub
@@ -279,7 +265,7 @@ export default function AuthPage() {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Enter your full name"
-                        className="bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:border-violet-500 focus:ring-violet-500/20"
+                        className="bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:border-violet-500 focus:ring-violet-500/20 "
                         required={!isLogin}
                       />
                     </div>
@@ -344,22 +330,11 @@ export default function AuthPage() {
                     </div>
                   )}
 
-                  {isLogin && (
-                    <div className="flex items-center justify-between text-sm">
-                      <label className="flex items-center space-x-2 text-gray-400">
-                        <input type="checkbox" className="rounded border-gray-600 bg-gray-800" />
-                        <span>Remember me</span>
-                      </label>
-                      <Link href="#" className="text-violet-400 hover:text-violet-300 transition-colors">
-                        Forgot password?
-                      </Link>
-                    </div>
-                  )}
 
                   <Button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full bg-gradient-to-r from-violet-600 to-emerald-600 hover:from-violet-700 hover:to-emerald-700 text-white font-medium py-3 transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-gradient-to-r from-violet-600 to-emerald-600 hover:from-violet-700 hover:to-emerald-700 text-white font-medium py-3 transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                   >
                     {isLoading ? (
                       <div className="flex items-center space-x-2">
@@ -381,7 +356,7 @@ export default function AuthPage() {
                     {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
                     <button
                       onClick={() => setIsLogin(!isLogin)}
-                      className="text-violet-400 hover:text-violet-300 font-medium transition-colors"
+                      className="text-violet-400 hover:text-violet-300 font-medium transition-colors cursor-pointer"
                     >
                       {isLogin ? "Sign up" : "Sign in"}
                     </button>
