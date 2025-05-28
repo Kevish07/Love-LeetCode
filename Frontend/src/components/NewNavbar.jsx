@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Code, User } from 'lucide-react';
+import { Menu, X, Code, User, LogOut } from 'lucide-react';
+import LogoutButton from './LogoutButton';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -70,6 +71,60 @@ const Navbar = () => {
                   {link.name}
                 </Link>
               ))}
+              <div className="dropdown dropdown-end">
+            <label tabIndex={0} className="btn btn-ghost btn-circle avatar flex flex-row ">
+              <div className="w-10 rounded-full ">
+                <img
+                  src={
+                    "https://avatar.iran.liara.run/public/boy"
+                  }
+                  alt="User Avatar"
+                  className="object-cover"
+                />
+              </div>
+           
+            </label>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 space-y-3"
+            >
+              {/* Admin Option */}
+             
+
+              {/* Common Options */}
+              <li>
+                <p className="text-base font-semibold">
+                 
+                  Name
+
+                </p>
+                <hr className="border-gray-200/10" />
+              </li>
+              <li>
+                <Link
+                  to="/profile"
+                  className="hover:bg-primary hover:text-white text-base font-semibold"
+                >
+                  <User className="w-4 h-4 mr-2" />
+                  My Profile
+                </Link>
+              </li>
+                <li>
+                  <Link
+                    to="/add-problem"
+                    className="hover:bg-primary hover:text-white text-base font-semibold"
+                  >
+                    Add Problem
+                  </Link>
+                </li>
+              <li>
+                <LogoutButton className="hover:bg-primary hover:text-white">
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </LogoutButton>
+              </li>
+            </ul>
+          </div>
               <Link
                 to="/profile"
                 className="p-2 rounded-full text-gray-300 hover:text-white focus:outline-none"

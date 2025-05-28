@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ArrowRight, CheckCircle } from "lucide-react"
+import { Link } from "react-router-dom"
 
 export default function LearningPath() {
   return (
@@ -44,9 +45,11 @@ export default function LearningPath() {
                           </p>
                         </div>
                       </div>
+                        <Link to="/paths">
                       <Button variant="ghost" className="text-purple-400 hover:text-purple-300 cursor-pointer">
                         Start Learning <ArrowRight className="w-4 h-4 ml-2" />
                       </Button>
+                        </Link>
                     </div>
                   </CardContent>
                 </Card>

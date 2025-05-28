@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 
 import BlurText from "../BlurText/BlurText";
+import { Link } from "react-router-dom";
 
 export default function AppHero() {
   // State for animated counters
@@ -364,7 +365,9 @@ export default function AppHero() {
                 className="group rounded-full border-t border-purple-400 bg-gradient-to-b from-purple-700 to-slate-950/80 px-6 py-6 text-white shadow-lg shadow-purple-600/20 transition-all hover:shadow-purple-600/40 cursor-pointer"
                 size="lg"
               >
+                <Link to="/problems">
                 Start Solving Now
+                </Link>
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
 
@@ -373,7 +376,9 @@ export default function AppHero() {
                 className="rounded-full border-purple-500/30 bg-transparent text-white hover:bg-purple-500/10 hover:text-white cursor-pointer"
                 size="lg"
               >
-                Explore Learning Paths
+                <Link to="/paths">
+                  Explore Learning Paths
+                </Link>
               </Button>
             </motion.div>
 
