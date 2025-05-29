@@ -9,12 +9,46 @@ import {
 } from "lucide-react";
 import { mockProblems } from "../data/mockData";
 
-export default function NewProblemPage() {
+import { useAuthStore } from "../store/useAuthStore";
+import { useActions } from "../store/useAction";
+import { usePlaylistStore } from "../store/usePlaylistStore";
+
+export default function NewProblemPage({ problems }) {
+  const { authUser } = useAuthStore();
+  const { onDeleteProblem } = useActions();
+  const { createPlaylist } = usePlaylistStore();
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isAddToPlaylistModalOpen, setIsAddToPlaylistModalOpen] =
+    useState(false);
+  const [selectedProblemId, setSelectedProblemId] = useState(null);
+
+  // Extract all unique tags from problems
+  const allTags = useMemo(() => {
+    if (!Array.isArray(problems)) return [];
+    const tagsSet = new Set();
+    problems.forEach((p) => p.tags?.forEach((t) => tagsSet.add(t)));
+    return Array.from(tagsSet);
+  }, [problems]);
+
+  const handleDelete = (id) => {
+    onDeleteProblem(id);
+  };
+
+  const handleCreatePlaylist = async (data) => {
+    await createPlaylist(data);
+  };
+
+  const handleAddToPlaylist = (problemId) => {
+    setSelectedProblemId(problemId);
+    setIsAddToPlaylistModalOpen(true);
+  };
+
+  // -----------
   const [searchTerm, setSearchTerm] = useState("");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filters, setFilters] = useState({
     difficulty: [],
-    tags: [],
+    tags: allTags,
     status: [],
   });
   const [visibleCount, setVisibleCount] = useState(5);
@@ -34,7 +68,7 @@ export default function NewProblemPage() {
     });
   };
 
-  const filteredProblems = mockProblems.filter((problem) => {
+  const filteredProblems = problems.filter((problem) => {
     // Search filter
     if (
       searchTerm &&
@@ -77,11 +111,11 @@ export default function NewProblemPage() {
 
   const getDifficultyColor = (difficulty) => {
     switch (difficulty.toLowerCase()) {
-      case "easy":
+      case "Easy":
         return "text-green-500 bg-green-900/20";
-      case "medium":
+      case "Medium":
         return "text-yellow-500 bg-yellow-900/20";
-      case "hard":
+      case "Hard":
         return "text-red-500 bg-red-900/20";
       default:
         return "text-gray-500 bg-gray-900/20";
@@ -131,12 +165,21 @@ export default function NewProblemPage() {
   return (
     <div className="pt-20 pb-16 px-4 min-h-screen">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Problem Set</h1>
-          <p className="text-gray-400">
-            Sharpen your coding skills with our curated collection of
-            algorithmic challenges.
-          </p>
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h1 className="text-3xl font-bold text-white mb-2">Problem Set</h1>
+            <p className="text-gray-400">
+              Sharpen your coding skills with our curated collection of
+              algorithmic challenges.
+            </p>
+          </div>
+          <button
+            className="btn btn-primary gap-2"
+            onClick={() => setIsCreateModalOpen(true)}
+          >
+            <Plus className="w-4 h-4" />
+            Create Playlist
+          </button>
         </div>
 
         <div className="mb-8 flex flex-col md:flex-row gap-4">
@@ -174,7 +217,7 @@ export default function NewProblemPage() {
                 <div className="mb-4">
                   <h3 className="text-white font-medium mb-2">Difficulty</h3>
                   <div className="space-y-2">
-                    {["Easy", "Medium", "Hard"].map((difficulty) => (
+                    {filters.difficulty.map((difficulty) => (
                       <label
                         key={difficulty}
                         className="flex items-center text-gray-300"
@@ -196,14 +239,7 @@ export default function NewProblemPage() {
                 <div className="mb-4">
                   <h3 className="text-white font-medium mb-2">Tags</h3>
                   <div className="space-y-2">
-                    {[
-                      "Array",
-                      "String",
-                      "Dynamic Programming",
-                      "Tree",
-                      "Graph",
-                      "Sorting",
-                    ].map((tag) => (
+                    {filters.tags.map((tag) => (
                       <label
                         key={tag}
                         className="flex items-center text-gray-300"
@@ -215,26 +251,6 @@ export default function NewProblemPage() {
                           className="mr-2 h-4 w-4 rounded border-gray-700 text-indigo-600 focus:ring-indigo-500"
                         />
                         {tag}
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-white font-medium mb-2">Status</h3>
-                  <div className="space-y-2">
-                    {["Solved", "Unsolved", "Attempted"].map((status) => (
-                      <label
-                        key={status}
-                        className="flex items-center text-gray-300"
-                      >
-                        <input
-                          type="checkbox"
-                          checked={filters.status.includes(status)}
-                          onChange={() => handleFilterChange("status", status)}
-                          className="mr-2 h-4 w-4 rounded border-gray-700 text-indigo-600 focus:ring-indigo-500"
-                        />
-                        {status}
                       </label>
                     ))}
                   </div>
@@ -252,6 +268,9 @@ export default function NewProblemPage() {
                   Status
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  Save
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                   Title
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
@@ -266,17 +285,28 @@ export default function NewProblemPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-800">
-              {filteredProblems.slice(0, visibleCount).map((problem) => (
+              {filteredProblems.slice(0, visibleCount).map((problem) => {
+                const isSolved = problem.solvedBy.some(
+                  (user) => user.userId === authUser?.data?.id,
+                );
                 <tr
                   key={problem.id}
                   className="group transition-colors hover:bg-gray-800/50"
                 >
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {problem.isSolved ? (
+                    {isSolved ? (
                       <CheckCircle className="h-5 w-5 text-green-500" />
                     ) : (
                       <div className="h-5 w-5 rounded-full border-2 border-gray-500" />
                     )}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <button
+                      className="text-indigo-400 hover:text-indigo-300 font-medium flex items-center"
+                      onClick={() => handleAddToPlaylist(problem.id)}
+                    >
+                      <Bookmark className="w-4 h-4" />
+                    </button>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <Link
@@ -297,7 +327,7 @@ export default function NewProblemPage() {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                    {problem.acceptance}%
+                    {Math.floor(Math.random() * 100) + 1}%
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex flex-wrap gap-2">
@@ -316,8 +346,8 @@ export default function NewProblemPage() {
                       )}
                     </div>
                   </td>
-                </tr>
-              ))}
+                </tr>;
+              })}
             </tbody>
           </table>
         </div>

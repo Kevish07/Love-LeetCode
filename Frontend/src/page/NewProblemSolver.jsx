@@ -111,7 +111,7 @@ You can return the answer in any order.`,
   }, []);
 
   return (
-    <div className="h-screen gradient-bg flex flex-col relative overflow-hidden">
+    <div className="h-screen bg-[linear-gradient(105deg,_rgb(49,46,100),_rgb(15,23,42),_rgb(30,27,75),_rgb(30,27,75),_rgb(15,23,42))] flex flex-col relative overflow-x-auto">
       {/* Floating particles background */}
       <div className="floating-particles"></div>
       
@@ -317,7 +317,7 @@ You can return the answer in any order.`,
 
               {/* Test Results Panel */}
               <ResizablePanel defaultSize={30} minSize={20}>
-                <div className="h-full glass-morphism border-t border-purple-500/20 animate-fade-in">
+                <div className="h-full glass-morphism border-t border-purple-500/20 animate-fade-in overflow-x-auto">
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-6">
                       <h3 className="text-lg font-semibold text-white flex items-center">

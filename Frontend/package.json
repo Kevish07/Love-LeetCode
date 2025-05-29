@@ -16,6 +16,7 @@
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.3",
+    "@react-three/fiber": "^9.1.2",
     "@tailwindcss/vite": "^4.1.7",
     "axios": "^1.9.0",
     "class-variance-authority": "^0.7.1",
@@ -33,6 +34,7 @@
     "react-router-dom": "^7.6.0",
     "tailwind-merge": "^3.3.0",
     "tailwindcss": "^4.1.7",
+    "three": "^0.176.0",
     "zod": "^3.25.28",
     "zustand": "^5.0.5"
   },
