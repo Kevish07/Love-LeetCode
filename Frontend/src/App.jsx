@@ -4,8 +4,6 @@ import { Toaster } from "react-hot-toast";
 import { useAuthStore } from "./store/useAuthStore";
 import { Loader } from "lucide-react";
 
-import HomePage from "./page/HomePage";
-import LoginPage from "./page/LoginPage";
 import RegisterPage from "./page/RegisterPage";
 import Layout from "./layout/Layout";
 import AdminRoute from "./components/AdminRoute";
@@ -15,9 +13,11 @@ import ProblemPage from "./page/ProblemPage";
 // import Test from "./components/mvpblocks/App-hero"
 // import Test from "./page/ContactUs1"
 // import Test from "./page/Auth"
-import Test from "./page/Landing"
+import Auth from "./page/Auth"
+import LandingPage from "./page/Landing"
 import NewProblemPage from "./page/NewProblemPage";
 import NewProblemSolver from "./page/NewProblemSolver"
+import AllProblems from "./page/AllProblems";
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -38,19 +38,17 @@ const App = () => {
     <div className="bg-black">
       <Toaster />
       <Routes>
-        <Route path="/" 
-            element={authUser ? <HomePage /> : <Navigate to={"/test"} />}
+        <Route path="/" element={<Layout />}>
+          <Route
+            index
+            element={authUser ? <LandingPage /> : <Navigate to={"/login"} />}
           />
-
-
-        <Route
-          path="/test"
-          element= {<Test/>}
-        />
-        <Route
+          <Route
           path="/problems"
-          element= {<NewProblemPage/>}
+          element= {authUser ? <AllProblems /> : <Navigate to={"/login"} />}
         />
+        </Route>
+
         <Route
           path="/solution"
           element= {<NewProblemSolver/>}
@@ -58,7 +56,7 @@ const App = () => {
 
         <Route
           path="/login"
-          element={!authUser ? <LoginPage /> : <Navigate to={"/"} />}
+          element={!authUser ? <Auth /> : <Navigate to={"/"} />}
         />
 
         <Route
@@ -68,7 +66,7 @@ const App = () => {
 
         <Route
           path="/problem/:id"
-          element={authUser ? <ProblemPage /> : <Navigate to={"/login"} />}
+          element={authUser ? <NewProblemSolver /> : <Navigate to={"/login"} />}
         />
 
         <Route element={<AdminRoute />}>

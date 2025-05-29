@@ -19,11 +19,71 @@ import {
   Brain,
   Target,
 } from "lucide-react"
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from 'react-router-dom'
+import {useForm} from "react-hook-form"
+import {zodResolver} from "@hookform/resolvers/zod"
+import {z} from "zod";
+import { useAuthStore } from '../store/useAuthStore';
+
+
+const LoginSchema = z.object({
+  email:z.string().email("Enter a valid email"),
+  password:z.string().min(6 , "Password must be atleast of 6 characters"),
+
+})
+
+const RegisterSchema = z.object({
+  email:z.string().email("Enter a valid email"),
+  password:z.string().min(6 , "Password must be at least of 6 characters"),
+  name:z.string().min(3 , "Name must be at least 3 character")
+})
 
 export default function AuthPage() {
+
+  const {isLoggingIn , login} = useAuthStore()
+  const [showPassword , setShowPassword] = useState(false);
+  const navigation = useNavigate();
+
+  const {
+      register ,
+      handleSubmit,
+      formState:{errors},
+    } = useForm({
+      resolver:zodResolver(LoginSchema)
+    })
+
+const onSubmit = async (data) => {
+    try {
+      
+      await login(data);
+      window.location.reload();
+      // navigation("/");
+
+    } catch (error) {
+      console.error("Register failed", error);
+    }
+  }
+  // Register form
+  const {registers , isRegistered} = useAuthStore()
+  // const {
+  //     register,
+  //     handleSubmit,
+  //     formState:{errors},
+  //   } = useForm({
+  //     resolver:zodResolver(RegisterSchema)
+  //   })
+
+  // const onSubmit = async (data)=>{
+  //  try {
+  //   await registers(data)
+  //   console.log("register data" , data)
+  //  } catch (error) {
+  //    console.error("registration failed:", error);
+  //  }
+  // }
+
+
   const [isLogin, setIsLogin] = useState(true)
-  const [showPassword, setShowPassword] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
@@ -40,16 +100,6 @@ export default function AuthPage() {
     return () => window.removeEventListener("mousemove", handleMouseMove)
   }, [])
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setIsLoading(true)
-
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-
-    setIsLoading(false)
-    // Handle success/redirect logic here
-  }
 
   const handleSocialAuth = (provider) => {
     setIsLoading(true)
@@ -253,7 +303,7 @@ export default function AuthPage() {
                 </div>
 
                 {/* Email Form */}
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                   {!isLogin && (
                     <div className="space-y-2">
                       <Label htmlFor="name" className="text-gray-300">
@@ -280,14 +330,18 @@ export default function AuthPage() {
                       <Input
                         id="email"
                         type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        {...register("email")}
                         placeholder="Enter your email"
-                        className="pl-10 bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:border-violet-500 focus:ring-violet-500/20"
+                        className={`pl-10 bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:border-violet-500 focus:ring-violet-500/20 ${
+                    errors.email ? "input-error" : ""
+                  }`}
                         required
                       />
                     </div>
                   </div>
+                  {errors.email && (
+                <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+              )}
 
                   <div className="space-y-2">
                     <Label htmlFor="password" className="text-gray-300">
@@ -297,16 +351,17 @@ export default function AuthPage() {
                       <Input
                         id="password"
                         type={showPassword ? "text" : "password"}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        {...register("password")}
                         placeholder="Enter your password"
-                        className="pr-10 bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:border-violet-500 focus:ring-violet-500/20"
+                        className={`pr-10 bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:border-violet-500 focus:ring-violet-500/20  ${
+                    errors.password ? "input-error" : ""
+                  }`}
                         required
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors cursor-pointer"
                       >
                         {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
@@ -333,10 +388,10 @@ export default function AuthPage() {
 
                   <Button
                     type="submit"
-                    disabled={isLoading}
+                    disabled={isLoggingIn}
                     className="w-full bg-gradient-to-r from-violet-600 to-emerald-600 hover:from-violet-700 hover:to-emerald-700 text-white font-medium py-3 transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                   >
-                    {isLoading ? (
+                    {isLoggingIn ? (
                       <div className="flex items-center space-x-2">
                         <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                         <span>Please wait...</span>

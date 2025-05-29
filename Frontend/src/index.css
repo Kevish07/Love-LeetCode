@@ -2,7 +2,7 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
-/* @plugin "daisyui"; */
+@plugin "daisyui";
 
 body {
   background-color: black;

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
 import {
   Search,
@@ -6,14 +6,16 @@ import {
   ChevronDown,
   CheckCircle,
   ArrowUpRight,
+  Plus,
+  Bookmark,
 } from "lucide-react";
-import { mockProblems } from "../data/mockData";
 
 import { useAuthStore } from "../store/useAuthStore";
 import { useActions } from "../store/useAction";
 import { usePlaylistStore } from "../store/usePlaylistStore";
 
 export default function NewProblemPage({ problems }) {
+  
   const { authUser } = useAuthStore();
   const { onDeleteProblem } = useActions();
   const { createPlaylist } = usePlaylistStore();
@@ -29,6 +31,7 @@ export default function NewProblemPage({ problems }) {
     problems.forEach((p) => p.tags?.forEach((t) => tagsSet.add(t)));
     return Array.from(tagsSet);
   }, [problems]);
+  
 
   const handleDelete = (id) => {
     onDeleteProblem(id);
@@ -51,7 +54,7 @@ export default function NewProblemPage({ problems }) {
     tags: allTags,
     status: [],
   });
-  const [visibleCount, setVisibleCount] = useState(5);
+  const [visibleCount, setVisibleCount] = useState(2);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleFilterChange = (category, value) => {
@@ -93,19 +96,6 @@ export default function NewProblemPage({ problems }) {
       return false;
     }
 
-    // Status filter
-    if (filters.status.length > 0) {
-      if (filters.status.includes("Solved") && !problem.isSolved) {
-        return false;
-      }
-      if (filters.status.includes("Unsolved") && problem.isSolved) {
-        return false;
-      }
-      if (filters.status.includes("Attempted") && !problem.isAttempted) {
-        return false;
-      }
-    }
-
     return true;
   });
 
@@ -124,7 +114,7 @@ export default function NewProblemPage({ problems }) {
 
   // Reset visibleCount when filters/search change
   useEffect(() => {
-    setVisibleCount(5);
+    setVisibleCount(2);
   }, [searchTerm, filters]);
 
   // Infinite scroll handler
@@ -138,7 +128,7 @@ export default function NewProblemPage({ problems }) {
       setTimeout(() => {
         setVisibleCount((prev) => Math.min(prev + 5, filteredProblems.length));
         setIsLoading(false);
-      }, 2000); // 500ms delay
+      }, 500); // 500ms delay
     }
   }, [visibleCount, filteredProblems.length, isLoading]);
 
@@ -158,7 +148,7 @@ export default function NewProblemPage({ problems }) {
       setTimeout(() => {
         setVisibleCount((prev) => Math.min(prev + 5, filteredProblems.length));
         setIsLoading(false);
-      }, 2000); // 500ms delay
+      }, 500); // 500ms delay
     }
   }, [visibleCount, filteredProblems.length, isLoading]);
 
@@ -289,64 +279,66 @@ export default function NewProblemPage({ problems }) {
                 const isSolved = problem.solvedBy.some(
                   (user) => user.userId === authUser?.data?.id,
                 );
-                <tr
-                  key={problem.id}
-                  className="group transition-colors hover:bg-gray-800/50"
-                >
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {isSolved ? (
-                      <CheckCircle className="h-5 w-5 text-green-500" />
-                    ) : (
-                      <div className="h-5 w-5 rounded-full border-2 border-gray-500" />
-                    )}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <button
-                      className="text-indigo-400 hover:text-indigo-300 font-medium flex items-center"
-                      onClick={() => handleAddToPlaylist(problem.id)}
-                    >
-                      <Bookmark className="w-4 h-4" />
-                    </button>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <Link
-                      to={`/problem/${problem.id}`}
-                      className="text-indigo-400 hover:text-indigo-300 font-medium flex items-center"
-                    >
-                      {problem.title}
-                      <ArrowUpRight className="ml-1 h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </Link>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span
-                      className={`px-2 py-1 text-xs font-medium rounded-full ${getDifficultyColor(
-                        problem.difficulty,
-                      )}`}
-                    >
-                      {problem.difficulty}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                    {Math.floor(Math.random() * 100) + 1}%
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex flex-wrap gap-2">
-                      {problem.tags.slice(0, 2).map((tag, index) => (
-                        <span
-                          key={index}
-                          className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded-full"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                      {problem.tags.length > 2 && (
-                        <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded-full">
-                          +{problem.tags.length - 2}
-                        </span>
+                return (
+                  <tr
+                    key={problem.id}
+                    className="group transition-colors hover:bg-gray-800/50"
+                  >
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {isSolved ? (
+                        <CheckCircle className="h-5 w-5 text-green-500" />
+                      ) : (
+                        <div className="h-5 w-5 rounded-full border-2 border-gray-500" />
                       )}
-                    </div>
-                  </td>
-                </tr>;
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <button
+                        className="text-indigo-400 hover:text-indigo-300 font-medium flex items-center"
+                        onClick={() => handleAddToPlaylist(problem.id)}
+                      >
+                        <Bookmark className="w-4 h-4" />
+                      </button>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <Link
+                        to={`/problem/${problem.id}`}
+                        className="text-indigo-400 hover:text-indigo-300 font-medium flex items-center"
+                      >
+                        {problem.title}
+                        <ArrowUpRight className="ml-1 h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </Link>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span
+                        className={`px-2 py-1 text-xs font-medium rounded-full ${getDifficultyColor(
+                          problem.difficulty,
+                        )}`}
+                      >
+                        {problem.difficulty}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                      {Math.floor(Math.random() * 100) + 1}%
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex flex-wrap gap-2">
+                        {problem.tags.slice(0, 2).map((tag, index) => (
+                          <span
+                            key={index}
+                            className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded-full"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                        {problem.tags.length > 2 && (
+                          <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded-full">
+                            +{problem.tags.length - 2}
+                          </span>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                );
               })}
             </tbody>
           </table>

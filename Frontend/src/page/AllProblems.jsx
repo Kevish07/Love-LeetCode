@@ -4,7 +4,7 @@ import { useProblemStore } from "../store/useProblemStore";
 import { Loader } from "lucide-react";
 import NewProblemPage from "./NewProblemPage";
 
-const HomePage = () => {
+const AllProblems = () => {
   const { getAllProblems, problems, isProblemsLoading } = useProblemStore();
 
   useEffect(() => {
@@ -32,4 +32,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default AllProblems;
