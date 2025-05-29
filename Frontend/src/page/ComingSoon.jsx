@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 
 const ComingSoon = ({ feature }) => {
+  {console.log(feature.objectives.map((item,idx)=>{console.log(item)}))}
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950/30 to-slate-900 relative overflow-hidden">
       {/* Animated Tech Background */}
@@ -24,7 +25,7 @@ const ComingSoon = ({ feature }) => {
         </div>
         
         {/* Moving Tech Icons */}
-        <div className="absolute top-20 left-1/4 animate-pulse">
+        {/* <div className="absolute top-20 left-1/4 animate-pulse">
           <Code className="h-12 w-12 text-purple-400/30" />
         </div>
         <div className="absolute bottom-40 right-1/3 animate-pulse" style={{ animationDelay: '1s' }}>
@@ -33,11 +34,11 @@ const ComingSoon = ({ feature }) => {
         <div className="absolute top-1/3 left-20 animate-pulse" style={{ animationDelay: '2s' }}>
           <Database className="h-8 w-8 text-green-400/30" />
         </div>
-        <div className="absolute bottom-20 right-20 animate-pulse" style={{ animationDelay: '1.5s' }}>
-          <Terminal className="h-14 w-14 text-yellow-400/30" />
-        </div>
         <div className="absolute top-40 right-1/4 animate-pulse" style={{ animationDelay: '0.8s' }}>
           <GitBranch className="h-9 w-9 text-cyan-400/30" />
+        </div> */}
+        <div className="absolute bottom-20 right-20 animate-pulse" style={{ animationDelay: '1.5s' }}>
+          <Terminal className="h-14 w-14 text-yellow-400/30" />
         </div>
 
         {/* Floating Particles */}
@@ -65,10 +66,10 @@ const ComingSoon = ({ feature }) => {
           }}></div>
         </div>
 
-        {/* Glowing Orbs */}
+        {/* Glowing Orbs
         <div className="absolute top-1/4 left-1/3 w-32 h-32 bg-purple-500/20 rounded-full blur-xl animate-pulse"></div>
         <div className="absolute bottom-1/3 right-1/4 w-24 h-24 bg-blue-500/20 rounded-full blur-xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/2 left-1/2 w-20 h-20 bg-green-500/20 rounded-full blur-xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/2 w-20 h-20 bg-green-500/20 rounded-full blur-xl animate-pulse" style={{ animationDelay: '2s' }}></div> */}
       </div>
 
       <div className="flex items-center justify-center min-h-screen px-4 relative z-10">
@@ -153,22 +154,6 @@ const ComingSoon = ({ feature }) => {
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
-          50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
-        }
-        
-        @keyframes grid-move {
-          0% { transform: translate(0, 0); }
-          100% { transform: translate(50px, 50px); }
-        }
-        
-        .animate-float {
-          animation: float 4s ease-in-out infinite;
-        }
-      `}</style>
     </div>
   );
 };

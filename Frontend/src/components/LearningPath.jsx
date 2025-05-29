@@ -45,7 +45,7 @@ export default function LearningPath() {
                           </p>
                         </div>
                       </div>
-                        <Link to="/paths">
+                        <Link to="/learn">
                       <Button variant="ghost" className="text-purple-400 hover:text-purple-300 cursor-pointer">
                         Start Learning <ArrowRight className="w-4 h-4 ml-2" />
                       </Button>

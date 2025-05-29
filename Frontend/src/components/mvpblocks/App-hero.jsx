@@ -371,7 +371,7 @@ export default function AppHero() {
               </Button>
                 </Link>
 
-              <Link to="/paths">
+              <Link to="/learn">
               <Button
                 variant="outline"
                 className="rounded-full border-purple-500/30 bg-transparent text-white hover:bg-purple-500/10 hover:text-white cursor-pointer"
