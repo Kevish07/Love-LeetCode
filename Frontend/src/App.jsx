@@ -13,11 +13,13 @@ import ProblemPage from "./page/ProblemPage";
 // import Test from "./components/mvpblocks/App-hero"
 // import Test from "./page/ContactUs1"
 // import Test from "./page/Auth"
-import Auth from "./page/Auth"
-import LandingPage from "./page/Landing"
+import Auth from "./page/Auth";
+import LandingPage from "./page/Landing";
 import NewProblemPage from "./page/NewProblemPage";
-import NewProblemSolver from "./page/NewProblemSolver"
+import NewProblemSolver from "./page/NewProblemSolver";
 import AllProblems from "./page/AllProblems";
+import LearnPage from "./page/LearnPage";
+import ContestPage from "./page/ContestPage";
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -25,7 +27,7 @@ const App = () => {
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
-  
+
   if (isCheckingAuth && !authUser) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -38,21 +40,21 @@ const App = () => {
     <div className="bg-black">
       <Toaster />
       <Routes>
+        <Route path="/test" element={<LandingPage />} />
         <Route path="/" element={<Layout />}>
           <Route
             index
             element={authUser ? <LandingPage /> : <Navigate to={"/login"} />}
           />
           <Route
-          path="/problems"
-          element= {authUser ? <AllProblems /> : <Navigate to={"/login"} />}
-        />
+            path="/problems"
+            element={authUser ? <AllProblems /> : <Navigate to={"/login"} />}
+          />
         </Route>
 
-        <Route
-          path="/solution"
-          element= {<NewProblemSolver/>}
-        />
+        <Route path="/learn" element={<LearnPage />} />
+        <Route path="/contest" element={<ContestPage />} />
+
 
         <Route
           path="/login"

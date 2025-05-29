@@ -1,8 +1,0 @@
-// Fetching all unique tags for all problems
-
-const allTags = useMemo(() => {
-    if (!Array.isArray(problems)) return [];
-    const tagsSet = new Set();
-    problems.forEach((p) => p.tags?.forEach((t) => tagsSet.add(t)));
-    return Array.from(tagsSet);
-}, [problems]);
