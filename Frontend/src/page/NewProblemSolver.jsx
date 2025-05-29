@@ -9,6 +9,9 @@ import { useExecutionStore } from "../store/useExecutionStore";
 import { useProblemStore } from "../store/useProblemStore";
 import { useSubmissionStore } from "../store/useSubmissionStore";
 import { Editor } from "@monaco-editor/react";
+import { getLanguageId } from "../lib/lang";
+import Submission from "../components/Submission";
+import SubmissionsList from "../components/SubmissionList";
 
 const ProblemSolver = () => {
   const { id } = useParams();
@@ -112,7 +115,7 @@ const ProblemSolver = () => {
                     <Code2 className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <h2 className="text-lg font-semibold text-white">{problem.tilte}</h2>
+                    <h2 className="text-lg font-semibold text-white">{problem.title}</h2>
                     <p className="text-sm text-slate-400">Solve step by step</p>
                   </div>
                 </div>
@@ -162,12 +165,12 @@ const ProblemSolver = () => {
                       <Database className="w-4 h-4 mr-2 text-purple-400 animate-pulse" />
                       Constraints
                     </h3>
-                    <ul className="space-y-2">
-                        <li className="text-slate-400 text-sm flex items-start hover:text-slate-300 transition-colors animate-fade-in">
+                    <div className="space-y-2">
+                        <span className="text-slate-400 text-sm flex items-start hover:text-slate-300 transition-colors animate-fade-in">
                           <span className="text-purple-400 mr-2 animate-pulse">•</span>
                           <code className="bg-slate-800/30 px-2 py-1 rounded text-xs hover:bg-slate-700/50 transition-colors">{problem.constraints}</code>
-                        </li>
-                    </ul>
+                        </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -240,7 +243,7 @@ const ProblemSolver = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-6">
             <Link to="/problems">
-              <Button variant="ghost" size="sm" className="text-slate-300 hover:text-purple-400 hover:bg-purple-500/10 transition-all duration-300 hover:scale-105">
+              <Button variant="ghost" size="sm" className="text-slate-300 hover:text-purple-400 hover:bg-purple-500/10 transition-all duration-300 hover:scale-105 cursor-pointer">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back to Problems
               </Button>
@@ -259,7 +262,7 @@ const ProblemSolver = () => {
             <Button 
               variant="outline" 
               size="sm" 
-              className={`border-purple-500/50 text-purple-300 hover:bg-purple-500/10 transition-all duration-300 hover:scale-105 `}
+              className={`border-purple-500/50 text-purple-300 hover:bg-purple-500/10 transition-all duration-300 hover:scale-105 cursor-pointer `}
               onClick={handleReset}
             >
               <RotateCcw className="h-4 w-4 mr-2" />
@@ -267,7 +270,7 @@ const ProblemSolver = () => {
             </Button>
             <Button 
               size="sm" 
-              className="bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600 text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25"
+              className="bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600 text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25 cursor-pointer"
               onClick={handleRunCode}
               disabled={isExecuting}
             >
@@ -333,7 +336,7 @@ const ProblemSolver = () => {
                 </button>
               </div>
 
-              <div className="p-6">{renderTabContent()}</div>
+              <div className="">{renderTabContent()}</div>
             </div>
           </ResizablePanel>
 
