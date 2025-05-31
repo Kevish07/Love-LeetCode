@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { X, Plus, Loader } from 'lucide-react';
-import { usePlaylistStore } from '../store/usePlaylistStore';
+import React, { useEffect, useState } from "react";
+import { X, Plus, Loader } from "lucide-react";
+import { usePlaylistStore } from "../store/usePlaylistStore";
 
 const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
-  const { playlists, getAllPlaylists, addProblemToPlaylist, isLoading } = usePlaylistStore();
-  const [selectedPlaylist, setSelectedPlaylist] = useState('');
+  const { playlists, getAllPlaylists, addProblemToPlaylist, isLoading } =
+    usePlaylistStore();
+  const [selectedPlaylist, setSelectedPlaylist] = useState("");
 
   useEffect(() => {
     if (isOpen) {
@@ -56,12 +57,16 @@ const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
             <button type="button" onClick={onClose} className="btn btn-ghost">
               Cancel
             </button>
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="btn btn-primary"
               disabled={!selectedPlaylist || isLoading}
             >
-              {isLoading ? <Loader className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
+              {isLoading ? (
+                <Loader className="w-4 h-4 animate-spin" />
+              ) : (
+                <Plus className="w-4 h-4" />
+              )}
               Add to Playlist
             </button>
           </div>

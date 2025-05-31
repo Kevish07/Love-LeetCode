@@ -1,14 +1,18 @@
-import React from 'react'
-import ComingSoon from "./ComingSoon"
+import React from "react";
+import ComingSoon from "./ComingSoon";
 
 export default function ContestPage() {
-    const options = {
-        title: "Contest",
-        objectives: ["Crafted Curriculum","Beginner Friendly","Immersive Solving Topics"]
-    }
+  const options = {
+    title: "Contest",
+    objectives: [
+      "Crafted Curriculum",
+      "Beginner Friendly",
+      "Immersive Solving Topics",
+    ],
+  };
   return (
     <>
-    <ComingSoon feature={options} />
+      <ComingSoon feature={options} />
     </>
-  )
+  );
 }

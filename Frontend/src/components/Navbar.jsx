@@ -1,93 +1,153 @@
-import React from "react"
-import { User, Code, LogOut } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Menu, X, Code, User, LogOut } from "lucide-react";
+
 import { useAuthStore } from "../store/useAuthStore";
-import { Link } from "react-router-dom";
 import LogoutButton from "./LogoutButton";
 
+const Navbar = () => {
+  const { authUser } = useAuthStore();
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
-const Navbar = ()=>{
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
 
-    const {authUser} = useAuthStore()
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-    // console.log("AUTH_USER",authUser)
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
 
-    return (
-     <nav className="sticky top-0 z-50 w-full py-5">
-      <div className="flex w-full justify-between mx-auto max-w-4xl bg-black/15 shadow-lg shadow-neutral-600/5 backdrop-blur-lg border border-gray-200/10 p-4 rounded-2xl">
-        {/* Logo Section */}
-        <Link to="/" className="flex items-center gap-3 cursor-pointer">
-          <img src="/vite.svg" className="h-18 w-18 bg-primary/20 text-primary border-none px-2 py-2 rounded-full" />
-          <span className="text-lg md:text-2xl font-bold tracking-tight text-white hidden md:block">
-          Leetlab 
-          </span>
-        </Link>
+  const navLinks = [
+    { name: "Problems", path: "/problems" },
+    { name: "Learn", path: "/learn" },
+    { name: "Contest", path: "/contest" },
+    { name: "Dashboard", path: "/dashboard" },
+    { name: "Contact Us", path: "/contact" },
+  ];
 
-        {/* User Profile and Dropdown */}
-        <div className="flex items-center gap-8">
-          <div className="dropdown dropdown-end">
-            <label tabIndex={0} className="btn btn-ghost btn-circle avatar flex flex-row ">
-              <div className="w-10 rounded-full ">
-                <img
-                  src={
-                    authUser?.data?.image ||
-                    "https://avatar.iran.liara.run/public/boy"
-                  }
-                  alt="User Avatar"
-                  className="object-cover"
-                />
-              </div>
-           
-            </label>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 space-y-3"
+  const adminNavLinks = [
+    { name: "Problems", path: "/problems" },
+    { name: "Learn", path: "/learn" },
+    { name: "Contest", path: "/contest" },
+    { name: "Add problem", path: "/add-problem" },
+    { name: "Dashboard", path: "/dashboard" },
+    { name: "Contact Us", path: "/contact" },
+  ];
+
+  return (
+    <nav
+      className={`fixed w-full z-50 transition-all duration-300 backdrop-blur-sm ${
+        scrolled ? "opacity-100 shadow-lg" : " opacity-0 bg-transparent"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center">
+            <Link
+              to="/"
+              className="flex items-center text-indigo-500 hover:text-indigo-400 transition-colors"
             >
-              {/* Admin Option */}
-             
+              <Code className="h-8 w-8 mr-2" />
+              <span className="font-bold text-xl">Love Leetcode</span>
+            </Link>
+          </div>
 
-              {/* Common Options */}
-              <li>
-                <p className="text-base font-semibold">
-                 
-                  {authUser?.data?.name}
-
-                </p>
-                <hr className="border-gray-200/10" />
-              </li>
-              <li>
+          <div className="hidden md:block">
+            <div className="ml-10 flex items-center space-x-4">
+              {navLinks.map((link) => (
                 <Link
-                  to="/profile"
-                  className="hover:bg-primary hover:text-white text-base font-semibold"
+                  key={link.name}
+                  to={link.path}
+                  className={`px-3 py-2 text-sm font-medium transition-colors ${
+                    location.pathname === link.path
+                      ? "text-indigo-400 bg-gray-800"
+                      : "text-gray-300 hover:bg-gray-800 hover:text-white"
+                  }`}
                 >
-                  <User className="w-4 h-4 mr-2" />
-                  My Profile
+                  {link.name}
                 </Link>
-              </li>
+              ))}
               {authUser?.data?.role === "ADMIN" && (
-                <li>
-                  <Link
-                    to="/add-problem"
-                    className="hover:bg-primary hover:text-white text-base font-semibold"
-                  >
-                    <Code className="w-4 h-4 mr-1" />
-                    Add Problem
-                  </Link>
-                </li>
+                <Link
+                  key={"Add problem"}
+                  to="/add-problem"
+                  className={`px-3 py-2 text-sm font-medium transition-colors ${
+                    location.pathname === "/add-problem"
+                      ? "text-indigo-400 bg-gray-800"
+                      : "text-gray-300 hover:bg-gray-800 hover:text-white"
+                  }`}
+                >
+                  Add Problem
+                </Link>
               )}
-              <li>
-                <LogoutButton className="hover:bg-primary hover:text-white">
-                  <LogOut className="w-4 h-4 mr-2" />
-                  Logout
+
+              <Link
+                to="/dashboard"
+                className="p-2 rounded-full text-gray-300 hover:text-white focus:outline-none"
+              >
+                <User size={20} />
+              </Link>
+              {authUser && (
+                <LogoutButton className="">
+                  <LogOut className="w-4 h-4 text-white" />
                 </LogoutButton>
-              </li>
-            </ul>
+              )}
+            </div>
+          </div>
+
+          <div className="md:hidden">
+            <button
+              onClick={toggleMenu}
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 focus:outline-none"
+            >
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile menu */}
+      <div className={`md:hidden ${isOpen ? "block" : "hidden"}`}>
+        <div className="px-2 pt-2 pb-3 space-y-1 backdrop-blur-sm sm:px-3 shadow-lg">
+          {navLinks.map((link) => (
+            <Link
+              key={link.name}
+              to={link.path}
+              className={`block px-3 py-2 rounded-md text-base font-medium ${
+                location.pathname === link.path
+                  ? "text-indigo-400 bg-gray-800"
+                  : "text-gray-300 hover:bg-gray-800 hover:text-white"
+              }`}
+              onClick={() => setIsOpen(false)}
+            >
+              {link.name}
+            </Link>
+          ))}
+          <div className="flex items-center justify-between px-3 py-2">
+            <Link
+              to="/profile"
+              className="p-2 rounded-full text-gray-300 hover:text-white focus:outline-none"
+              onClick={() => setIsOpen(false)}
+            >
+              <User size={20} />
+            </Link>
           </div>
         </div>
       </div>
     </nav>
-    )
-}
-
+  );
+};
 
 export default Navbar;

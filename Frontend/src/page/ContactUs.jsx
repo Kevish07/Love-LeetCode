@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Check, Loader2 } from "lucide-react";
 import Earth from "@/components/ui/globe";
 
-export default function ContactUs1() {
+export default function ContactUs() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -59,7 +59,9 @@ export default function ContactUs1() {
             <div className="relative p-6 md:p-10" ref={formRef}>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                animate={
+                  isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
+                }
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className="flex w-full gap-2"
               >
@@ -69,12 +71,13 @@ export default function ContactUs1() {
                 <span className="relative z-10 w-full text-4xl font-bold italic tracking-tight text-primary md:text-5xl">
                   Us
                 </span>
-                
               </motion.div>
 
               <motion.form
                 initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                animate={
+                  isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
+                }
                 transition={{ duration: 0.5, delay: 0.3 }}
                 onSubmit={handleSubmit}
                 className="mt-8 space-y-6"

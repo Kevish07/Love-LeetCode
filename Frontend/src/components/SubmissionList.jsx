@@ -19,23 +19,22 @@ const SubmissionsList = ({ submissions, isLoading }) => {
 
   // Helper function to calculate average memory usage
   const calculateAverageMemory = (memoryData) => {
-  const memoryArray = safeParse(memoryData).map((m) =>
-    parseFloat(m.split(" ")[0])
-  );
-  if (memoryArray.length === 0) return 0;
+    const memoryArray = safeParse(memoryData).map((m) =>
+      parseFloat(m.split(" ")[0]),
+    );
+    if (memoryArray.length === 0) return 0;
 
-  const averageInKB =
-    memoryArray.reduce((acc, curr) => acc + curr, 0) / memoryArray.length;
+    const averageInKB =
+      memoryArray.reduce((acc, curr) => acc + curr, 0) / memoryArray.length;
 
-  const averageInMB = averageInKB / 1024;
-  return averageInMB;
-};
-
+    const averageInMB = averageInKB / 1024;
+    return averageInMB;
+  };
 
   // Helper function to calculate average runtime
   const calculateAverageTime = (timeData) => {
     const timeArray = safeParse(timeData).map((t) =>
-      parseFloat(t.split(" ")[0])
+      parseFloat(t.split(" ")[0]),
     );
     if (timeArray.length === 0) return 0;
     return timeArray.reduce((acc, curr) => acc + curr, 0) / timeArray.length;
@@ -85,7 +84,9 @@ const SubmissionsList = ({ submissions, isLoading }) => {
                       <span className="font-semibold">{submission.status}</span>
                     </div>
                   )}
-                  <div className="badge badge-neutral">{submission.language}</div>
+                  <div className="badge badge-neutral">
+                    {submission.language}
+                  </div>
                 </div>
 
                 {/* Right Section: Runtime, Memory, and Date */}
@@ -98,15 +99,21 @@ const SubmissionsList = ({ submissions, isLoading }) => {
                     <Memory className="w-4 h-4" />
                     <span>{avgMemory.toFixed(2)} Mb</span>
                   </div>
-<div className="flex items-center gap-1">
-  <Calendar className="w-4 h-4" />
-  <span>
-    {(() => {
-      const date = new Date(submission.createdAt);
-      return `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
-    })()}
-  </span>
-</div>
+                  <div className="flex items-center gap-1">
+                    <Calendar className="w-4 h-4" />
+                    <span>
+                      {(() => {
+                        const date = new Date(submission.createdAt);
+                        return `${String(date.getDate()).padStart(
+                          2,
+                          "0",
+                        )}/${String(date.getMonth() + 1).padStart(
+                          2,
+                          "0",
+                        )}/${date.getFullYear()}`;
+                      })()}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>

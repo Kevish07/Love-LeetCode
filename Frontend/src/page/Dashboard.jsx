@@ -1,12 +1,44 @@
-
 import { useState } from "react";
-import { Calendar, Clock, Code, Trophy, Target, TrendingUp, Star, CheckCircle, XCircle, BarChart3, Filter, Search, Plus, PlaySquare, Trash2, X } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Clock,
+  Code,
+  Trophy,
+  Target,
+  Star,
+  CheckCircle,
+  BarChart3,
+  Search,
+  Plus,
+  PlaySquare,
+  Trash2,
+  X,
+} from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 
 const Dashboard = () => {
@@ -18,34 +50,102 @@ const Dashboard = () => {
       name: "Array Fundamentals",
       problems: [
         { id: 1, title: "Two Sum", difficulty: "Easy" },
-        { id: 3, title: "Binary Search", difficulty: "Medium" }
-      ]
+        { id: 3, title: "Binary Search", difficulty: "Medium" },
+      ],
     },
     {
       id: 2,
       name: "Dynamic Programming",
-      problems: [
-        { id: 5, title: "Maximum Subarray", difficulty: "Medium" }
-      ]
-    }
+      problems: [{ id: 5, title: "Maximum Subarray", difficulty: "Medium" }],
+    },
   ]);
   const [newPlaylistName, setNewPlaylistName] = useState("");
   const [isCreatePlaylistOpen, setIsCreatePlaylistOpen] = useState(false);
 
   const solvedProblems = [
-    { id: 1, title: "Two Sum", difficulty: "Easy", status: "Solved", date: "2024-01-15", language: "JavaScript" },
-    { id: 2, title: "Valid Parentheses", difficulty: "Easy", status: "Solved", date: "2024-01-14", language: "Python" },
-    { id: 3, title: "Binary Search", difficulty: "Medium", status: "Solved", date: "2024-01-13", language: "JavaScript" },
-    { id: 4, title: "Merge Two Sorted Lists", difficulty: "Easy", status: "Solved", date: "2024-01-12", language: "Python" },
-    { id: 5, title: "Maximum Subarray", difficulty: "Medium", status: "Solved", date: "2024-01-11", language: "JavaScript" },
-    { id: 6, title: "Climbing Stairs", difficulty: "Easy", status: "Solved", date: "2024-01-10", language: "Python" },
+    {
+      id: 1,
+      title: "Two Sum",
+      difficulty: "Easy",
+      status: "Solved",
+      date: "2024-01-15",
+      language: "JavaScript",
+    },
+    {
+      id: 2,
+      title: "Valid Parentheses",
+      difficulty: "Easy",
+      status: "Solved",
+      date: "2024-01-14",
+      language: "Python",
+    },
+    {
+      id: 3,
+      title: "Binary Search",
+      difficulty: "Medium",
+      status: "Solved",
+      date: "2024-01-13",
+      language: "JavaScript",
+    },
+    {
+      id: 4,
+      title: "Merge Two Sorted Lists",
+      difficulty: "Easy",
+      status: "Solved",
+      date: "2024-01-12",
+      language: "Python",
+    },
+    {
+      id: 5,
+      title: "Maximum Subarray",
+      difficulty: "Medium",
+      status: "Solved",
+      date: "2024-01-11",
+      language: "JavaScript",
+    },
+    {
+      id: 6,
+      title: "Climbing Stairs",
+      difficulty: "Easy",
+      status: "Solved",
+      date: "2024-01-10",
+      language: "Python",
+    },
   ];
 
   const recentSubmissions = [
-    { id: 1, problem: "Longest Palindromic Substring", result: "Accepted", time: "2 hours ago", runtime: "84ms", memory: "41.2MB" },
-    { id: 2, problem: "Container With Most Water", result: "Accepted", time: "5 hours ago", runtime: "120ms", memory: "45.1MB" },
-    { id: 3, problem: "3Sum", result: "Time Limit Exceeded", time: "1 day ago", runtime: "N/A", memory: "N/A" },
-    { id: 4, problem: "Letter Combinations", result: "Accepted", time: "2 days ago", runtime: "68ms", memory: "38.9MB" },
+    {
+      id: 1,
+      problem: "Longest Palindromic Substring",
+      result: "Accepted",
+      time: "2 hours ago",
+      runtime: "84ms",
+      memory: "41.2MB",
+    },
+    {
+      id: 2,
+      problem: "Container With Most Water",
+      result: "Accepted",
+      time: "5 hours ago",
+      runtime: "120ms",
+      memory: "45.1MB",
+    },
+    {
+      id: 3,
+      problem: "3Sum",
+      result: "Time Limit Exceeded",
+      time: "1 day ago",
+      runtime: "N/A",
+      memory: "N/A",
+    },
+    {
+      id: 4,
+      problem: "Letter Combinations",
+      result: "Accepted",
+      time: "2 days ago",
+      runtime: "68ms",
+      memory: "38.9MB",
+    },
   ];
 
   const stats = {
@@ -64,7 +164,7 @@ const Dashboard = () => {
     "How many programmers does it take to change a light bulb? None, that's a hardware problem.",
     "Why do Java developers wear glasses? Because they can't C#!",
     "What's a programmer's favorite hangout place? Foo Bar!",
-    "Why did the programmer quit his job? He didn't get arrays."
+    "Why did the programmer quit his job? He didn't get arrays.",
   ];
 
   const quotes = [
@@ -72,14 +172,14 @@ const Dashboard = () => {
     "First, solve the problem. Then, write the code. - John Johnson",
     "Experience is the name everyone gives to their mistakes. - Oscar Wilde",
     "The best way to get a project done faster is to start sooner. - Jim Highsmith",
-    "Code never lies, comments sometimes do. - Ron Jeffries"
+    "Code never lies, comments sometimes do. - Ron Jeffries",
   ];
 
   const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
   const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
 
-  const filteredProblems = solvedProblems.filter(problem =>
-    problem.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredProblems = solvedProblems.filter((problem) =>
+    problem.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const createPlaylist = () => {
@@ -87,7 +187,7 @@ const Dashboard = () => {
       const newPlaylist = {
         id: Date.now(),
         name: newPlaylistName,
-        problems: []
+        problems: [],
       };
       setPlaylists([...playlists, newPlaylist]);
       setNewPlaylistName("");
@@ -96,27 +196,33 @@ const Dashboard = () => {
   };
 
   const deletePlaylist = (playlistId) => {
-    setPlaylists(playlists.filter(p => p.id !== playlistId));
+    setPlaylists(playlists.filter((p) => p.id !== playlistId));
   };
 
   const removeProblemFromPlaylist = (playlistId, problemId) => {
-    setPlaylists(playlists.map(playlist => 
-      playlist.id === playlistId 
-        ? { ...playlist, problems: playlist.problems.filter(p => p.id !== problemId) }
-        : playlist
-    ));
+    setPlaylists(
+      playlists.map((playlist) =>
+        playlist.id === playlistId
+          ? {
+              ...playlist,
+              problems: playlist.problems.filter((p) => p.id !== problemId),
+            }
+          : playlist,
+      ),
+    );
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950/20 to-slate-900">
-      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header Section */}
         <div className="mb-8 animate-fade-in">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2">
             Your Dashboard
           </h1>
-          <p className="text-slate-400">Track your progress and coding journey</p>
+          <p className="text-slate-400">
+            Track your progress and coding journey
+          </p>
         </div>
 
         {/* Tab Navigation */}
@@ -149,10 +255,14 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card className="bg-black/50 border-slate-600 hover:border-purple-500/50 transition-all duration-300 hover:scale-105">
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-sm text-slate-400">Total Solved</CardTitle>
+                  <CardTitle className="text-sm text-slate-400">
+                    Total Solved
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-bold text-purple-400">{stats.totalSolved}</div>
+                  <div className="text-3xl font-bold text-purple-400">
+                    {stats.totalSolved}
+                  </div>
                   <p className="text-xs text-slate-500">+5 this week</p>
                 </CardContent>
               </Card>
@@ -169,38 +279,46 @@ const Dashboard = () => {
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span className="text-slate-400">Easy</span>
-                        <span className="text-green-400">{stats.easyCount}/200</span>
+                        <span className="text-green-400">
+                          {stats.easyCount}/200
+                        </span>
                       </div>
                       <div className="w-full bg-slate-700 rounded-full h-2">
-                        <div 
+                        <div
                           className="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full transition-all duration-1000 ease-out"
-                          style={{width: `${(stats.easyCount/200)*100}%`}}
+                          style={{ width: `${(stats.easyCount / 200) * 100}%` }}
                         ></div>
                       </div>
                     </div>
-                    
+
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span className="text-slate-400">Medium</span>
-                        <span className="text-yellow-400">{stats.mediumCount}/150</span>
+                        <span className="text-yellow-400">
+                          {stats.mediumCount}/150
+                        </span>
                       </div>
                       <div className="w-full bg-slate-700 rounded-full h-2">
-                        <div 
+                        <div
                           className="bg-gradient-to-r from-yellow-500 to-yellow-400 h-2 rounded-full transition-all duration-1000 ease-out"
-                          style={{width: `${(stats.mediumCount/150)*100}%`}}
+                          style={{
+                            width: `${(stats.mediumCount / 150) * 100}%`,
+                          }}
                         ></div>
                       </div>
                     </div>
-                    
+
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span className="text-slate-400">Hard</span>
-                        <span className="text-red-400">{stats.hardCount}/50</span>
+                        <span className="text-red-400">
+                          {stats.hardCount}/50
+                        </span>
                       </div>
                       <div className="w-full bg-slate-700 rounded-full h-2">
-                        <div 
+                        <div
                           className="bg-gradient-to-r from-red-500 to-red-400 h-2 rounded-full transition-all duration-1000 ease-out"
-                          style={{width: `${(stats.hardCount/50)*100}%`}}
+                          style={{ width: `${(stats.hardCount / 50) * 100}%` }}
                         ></div>
                       </div>
                     </div>
@@ -242,8 +360,13 @@ const Dashboard = () => {
         {activeTab === "playlists" && (
           <div className="space-y-6 animate-fade-in">
             <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-blue-200">Your Playlists</h2>
-              <Dialog open={isCreatePlaylistOpen} onOpenChange={setIsCreatePlaylistOpen}>
+              <h2 className="text-2xl font-bold text-blue-200">
+                Your Playlists
+              </h2>
+              <Dialog
+                open={isCreatePlaylistOpen}
+                onOpenChange={setIsCreatePlaylistOpen}
+              >
                 <DialogTrigger asChild>
                   <Button className="bg-gradient-to-r from-purple-500 to-blue-500">
                     <Plus className="h-4 w-4 mr-2" />
@@ -252,14 +375,18 @@ const Dashboard = () => {
                 </DialogTrigger>
                 <DialogContent className="bg-slate-900 border-slate-600">
                   <DialogHeader>
-                    <DialogTitle className="text-blue-200">Create New Playlist</DialogTitle>
+                    <DialogTitle className="text-blue-200">
+                      Create New Playlist
+                    </DialogTitle>
                     <DialogDescription className="text-slate-400">
                       Give your playlist a name to organize your problems.
                     </DialogDescription>
                   </DialogHeader>
                   <div className="space-y-4">
                     <div>
-                      <Label htmlFor="playlist-name" className="text-slate-300">Playlist Name</Label>
+                      <Label htmlFor="playlist-name" className="text-slate-300">
+                        Playlist Name
+                      </Label>
                       <Input
                         id="playlist-name"
                         value={newPlaylistName}
@@ -269,7 +396,10 @@ const Dashboard = () => {
                       />
                     </div>
                     <div className="flex justify-end space-x-2">
-                      <Button variant="outline" onClick={() => setIsCreatePlaylistOpen(false)}>
+                      <Button
+                        variant="outline"
+                        onClick={() => setIsCreatePlaylistOpen(false)}
+                      >
                         Cancel
                       </Button>
                       <Button onClick={createPlaylist}>Create</Button>
@@ -281,14 +411,16 @@ const Dashboard = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {playlists.map((playlist, index) => (
-                <Card 
-                  key={playlist.id} 
+                <Card
+                  key={playlist.id}
                   className="bg-black/50 border-slate-600 hover:border-purple-500/50 transition-all duration-300 animate-fade-in"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <CardHeader className="pb-3">
                     <div className="flex justify-between items-start">
-                      <CardTitle className="text-blue-200">{playlist.name}</CardTitle>
+                      <CardTitle className="text-blue-200">
+                        {playlist.name}
+                      </CardTitle>
                       <Button
                         variant="ghost"
                         size="sm"
@@ -305,24 +437,40 @@ const Dashboard = () => {
                   <CardContent>
                     <div className="space-y-2">
                       {playlist.problems.length === 0 ? (
-                        <p className="text-slate-500 text-sm">No problems added yet</p>
+                        <p className="text-slate-500 text-sm">
+                          No problems added yet
+                        </p>
                       ) : (
                         playlist.problems.map((problem) => (
-                          <div key={problem.id} className="flex items-center justify-between p-2 bg-slate-800/50 rounded">
+                          <div
+                            key={problem.id}
+                            className="flex items-center justify-between p-2 bg-slate-800/50 rounded"
+                          >
                             <div className="flex items-center space-x-2">
-                              <span className="text-slate-300 text-sm">{problem.title}</span>
-                              <Badge className={
-                                problem.difficulty === "Easy" ? "bg-green-500/20 text-green-400 border-green-500/30" :
-                                problem.difficulty === "Medium" ? "bg-yellow-500/20 text-yellow-400 border-yellow-500/30" :
-                                "bg-red-500/20 text-red-400 border-red-500/30"
-                              }>
+                              <span className="text-slate-300 text-sm">
+                                {problem.title}
+                              </span>
+                              <Badge
+                                className={
+                                  problem.difficulty === "Easy"
+                                    ? "bg-green-500/20 text-green-400 border-green-500/30"
+                                    : problem.difficulty === "Medium"
+                                    ? "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"
+                                    : "bg-red-500/20 text-red-400 border-red-500/30"
+                                }
+                              >
                                 {problem.difficulty}
                               </Badge>
                             </div>
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() => removeProblemFromPlaylist(playlist.id, problem.id)}
+                              onClick={() =>
+                                removeProblemFromPlaylist(
+                                  playlist.id,
+                                  problem.id,
+                                )
+                              }
                               className="text-red-400 hover:text-red-300 hover:bg-red-500/10"
                             >
                               <X className="h-3 w-3" />
@@ -357,37 +505,51 @@ const Dashboard = () => {
             {/* Problems Table */}
             <Card className="bg-black/50 border-slate-600">
               <CardHeader>
-                <CardTitle className="text-blue-200">Solved Problems ({filteredProblems.length})</CardTitle>
+                <CardTitle className="text-blue-200">
+                  Solved Problems ({filteredProblems.length})
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
                     <TableRow className="border-slate-700">
                       <TableHead className="text-slate-400">Problem</TableHead>
-                      <TableHead className="text-slate-400">Difficulty</TableHead>
+                      <TableHead className="text-slate-400">
+                        Difficulty
+                      </TableHead>
                       <TableHead className="text-slate-400">Language</TableHead>
                       <TableHead className="text-slate-400">Date</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {filteredProblems.map((problem, index) => (
-                      <TableRow 
-                        key={problem.id} 
+                      <TableRow
+                        key={problem.id}
                         className="border-slate-700 hover:bg-slate-800/30 transition-all duration-200 animate-fade-in"
                         style={{ animationDelay: `${index * 0.05}s` }}
                       >
-                        <TableCell className="text-blue-200 font-medium">{problem.title}</TableCell>
+                        <TableCell className="text-blue-200 font-medium">
+                          {problem.title}
+                        </TableCell>
                         <TableCell>
-                          <Badge className={
-                            problem.difficulty === "Easy" ? "bg-green-500/20 text-green-400 border-green-500/30" :
-                            problem.difficulty === "Medium" ? "bg-yellow-500/20 text-yellow-400 border-yellow-500/30" :
-                            "bg-red-500/20 text-red-400 border-red-500/30"
-                          }>
+                          <Badge
+                            className={
+                              problem.difficulty === "Easy"
+                                ? "bg-green-500/20 text-green-400 border-green-500/30"
+                                : problem.difficulty === "Medium"
+                                ? "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"
+                                : "bg-red-500/20 text-red-400 border-red-500/30"
+                            }
+                          >
                             {problem.difficulty}
                           </Badge>
                         </TableCell>
-                        <TableCell className="text-slate-300">{problem.language}</TableCell>
-                        <TableCell className="text-slate-400">{problem.date}</TableCell>
+                        <TableCell className="text-slate-300">
+                          {problem.language}
+                        </TableCell>
+                        <TableCell className="text-slate-400">
+                          {problem.date}
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -410,26 +572,36 @@ const Dashboard = () => {
               <CardContent>
                 <div className="space-y-4">
                   {recentSubmissions.map((submission, index) => (
-                    <div 
-                      key={submission.id} 
+                    <div
+                      key={submission.id}
                       className="flex items-center justify-between p-4 bg-slate-900/50 rounded-lg border border-slate-700 hover:border-purple-500/30 transition-all duration-300 animate-fade-in hover:scale-[1.02]"
                       style={{ animationDelay: `${index * 0.1}s` }}
                     >
                       <div className="flex items-center space-x-4">
-                        <div className={`w-3 h-3 rounded-full ${
-                          submission.result === "Accepted" ? "bg-green-400" : "bg-red-400"
-                        }`}></div>
+                        <div
+                          className={`w-3 h-3 rounded-full ${
+                            submission.result === "Accepted"
+                              ? "bg-green-400"
+                              : "bg-red-400"
+                          }`}
+                        ></div>
                         <div>
-                          <div className="text-blue-200 font-medium">{submission.problem}</div>
-                          <div className="text-sm text-slate-400">{submission.time}</div>
+                          <div className="text-blue-200 font-medium">
+                            {submission.problem}
+                          </div>
+                          <div className="text-sm text-slate-400">
+                            {submission.time}
+                          </div>
                         </div>
                       </div>
                       <div className="flex items-center space-x-4">
-                        <Badge className={
-                          submission.result === "Accepted" 
-                            ? "bg-green-500/20 text-green-400 border-green-500/30" 
-                            : "bg-red-500/20 text-red-400 border-red-500/30"
-                        }>
+                        <Badge
+                          className={
+                            submission.result === "Accepted"
+                              ? "bg-green-500/20 text-green-400 border-green-500/30"
+                              : "bg-red-500/20 text-red-400 border-red-500/30"
+                          }
+                        >
                           {submission.result}
                         </Badge>
                         {submission.result === "Accepted" && (

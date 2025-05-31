@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import {
   Code2,
   Github,
@@ -18,53 +18,48 @@ import {
   Trophy,
   Brain,
   Target,
-} from "lucide-react"
-import { Link, Navigate, useNavigate } from 'react-router-dom'
-import {useForm} from "react-hook-form"
-import {zodResolver} from "@hookform/resolvers/zod"
-import {z} from "zod";
-import { useAuthStore } from '../store/useAuthStore';
-
+} from "lucide-react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useAuthStore } from "../store/useAuthStore";
 
 const LoginSchema = z.object({
-  email:z.string().email("Enter a valid email"),
-  password:z.string().min(6 , "Password must be atleast of 6 characters"),
-
-})
+  email: z.string().email("Enter a valid email"),
+  password: z.string().min(6, "Password must be atleast of 6 characters"),
+});
 
 const RegisterSchema = z.object({
-  email:z.string().email("Enter a valid email"),
-  password:z.string().min(6 , "Password must be at least of 6 characters"),
-  name:z.string().min(3 , "Name must be at least 3 character")
-})
+  email: z.string().email("Enter a valid email"),
+  password: z.string().min(6, "Password must be at least of 6 characters"),
+  name: z.string().min(3, "Name must be at least 3 character"),
+});
 
 export default function AuthPage() {
-
-  const {isLoggingIn , login} = useAuthStore()
-  const [showPassword , setShowPassword] = useState(false);
+  const { isLoggingIn, login } = useAuthStore();
+  const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigate();
 
   const {
-      register ,
-      handleSubmit,
-      formState:{errors},
-    } = useForm({
-      resolver:zodResolver(LoginSchema)
-    })
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(LoginSchema),
+  });
 
-const onSubmit = async (data) => {
+  const onSubmit = async (data) => {
     try {
-      
       await login(data);
       window.location.reload();
       // navigation("/");
-
     } catch (error) {
       console.error("Register failed", error);
     }
-  }
+  };
   // Register form
-  const {registers , isRegistered} = useAuthStore()
+  const { registers, isRegistered } = useAuthStore();
   // const {
   //     register,
   //     handleSubmit,
@@ -82,33 +77,31 @@ const onSubmit = async (data) => {
   //  }
   // }
 
-
-  const [isLogin, setIsLogin] = useState(true)
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
-  const [name, setName] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [isLogin, setIsLogin] = useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
-    }
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
 
-    window.addEventListener("mousemove", handleMouseMove)
-    return () => window.removeEventListener("mousemove", handleMouseMove)
-  }, [])
-
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
   const handleSocialAuth = (provider) => {
-    setIsLoading(true)
+    setIsLoading(true);
     // Simulate social auth
     setTimeout(() => {
-      setIsLoading(false)
+      setIsLoading(false);
       // Handle social auth logic here
-    }, 1500)
-  }
+    }, 1500);
+  };
 
   const floatingIcons = [
     { icon: Code2, delay: 0, duration: 3 },
@@ -117,7 +110,7 @@ const onSubmit = async (data) => {
     { icon: Trophy, delay: 1.5, duration: 4.5 },
     { icon: Brain, delay: 2, duration: 3.8 },
     { icon: Target, delay: 2.5, duration: 4.2 },
-  ]
+  ];
 
   return (
     <div className="min-h-screen bg-gray-950 relative overflow-hidden">
@@ -152,7 +145,7 @@ const onSubmit = async (data) => {
 
         {/* Floating Icons */}
         {floatingIcons.map((item, index) => {
-          const IconComponent = item.icon
+          const IconComponent = item.icon;
           return (
             <div
               key={index}
@@ -166,7 +159,7 @@ const onSubmit = async (data) => {
             >
               <IconComponent className="w-8 h-8" />
             </div>
-          )
+          );
         })}
 
         {/* Grid Pattern */}
@@ -190,7 +183,9 @@ const onSubmit = async (data) => {
             <div className="space-y-4">
               <div className="inline-flex items-center space-x-2 bg-violet-500/10 border border-violet-500/20 rounded-full px-4 py-2">
                 <Sparkles className="w-4 h-4 text-violet-400" />
-                <span className="text-violet-300 text-sm font-medium">Join Now</span>
+                <span className="text-violet-300 text-sm font-medium">
+                  Join Now
+                </span>
               </div>
 
               <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
@@ -204,7 +199,8 @@ const onSubmit = async (data) => {
               </h1>
 
               <p className="text-xl text-gray-300 leading-relaxed max-w-lg mx-auto lg:mx-0">
-                Join the ultimate platform for Data Structures & Algorithms. Practice, compete, and land your dream job.
+                Join the ultimate platform for Data Structures & Algorithms.
+                Practice, compete, and land your dream job.
               </p>
             </div>
 
@@ -220,10 +216,16 @@ const onSubmit = async (data) => {
                   key={index}
                   className="flex items-center space-x-3 p-3 bg-gray-800/30 border border-gray-700/50 hover:border-gray-600/50 transition-all duration-300"
                 >
-                  <div className={`w-8 h-8 bg-${feature.color}-500/20 flex items-center justify-center`}>
-                    <feature.icon className={`w-4 h-4 text-${feature.color}-400`} />
+                  <div
+                    className={`w-8 h-8 bg-${feature.color}-500/20 flex items-center justify-center`}
+                  >
+                    <feature.icon
+                      className={`w-4 h-4 text-${feature.color}-400`}
+                    />
                   </div>
-                  <span className="text-gray-300 font-medium">{feature.text}</span>
+                  <span className="text-gray-300 font-medium">
+                    {feature.text}
+                  </span>
                 </div>
               ))}
             </div>
@@ -251,9 +253,13 @@ const onSubmit = async (data) => {
               <CardContent className="p-8">
                 {/* Form Header */}
                 <div className="text-center mb-8">
-                  <h2 className="text-3xl font-bold text-white mb-2">{isLogin ? "Welcome Back" : "Join CodeMaster"}</h2>
+                  <h2 className="text-3xl font-bold text-white mb-2">
+                    {isLogin ? "Welcome Back" : "Join CodeMaster"}
+                  </h2>
                   <p className="text-gray-400">
-                    {isLogin ? "Sign in to continue your problem solving journey" : "Start your problem solving journey today"}
+                    {isLogin
+                      ? "Sign in to continue your problem solving journey"
+                      : "Start your problem solving journey today"}
                   </p>
                 </div>
 
@@ -298,7 +304,9 @@ const onSubmit = async (data) => {
                 <div className="relative mb-6">
                   <Separator className="bg-gray-700" />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="bg-gray-900 px-3 text-gray-400 text-sm">or</span>
+                    <span className="bg-gray-900 px-3 text-gray-400 text-sm">
+                      or
+                    </span>
                   </div>
                 </div>
 
@@ -333,15 +341,17 @@ const onSubmit = async (data) => {
                         {...register("email")}
                         placeholder="Enter your email"
                         className={`pl-10 bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:border-violet-500 focus:ring-violet-500/20 ${
-                    errors.email ? "input-error" : ""
-                  }`}
+                          errors.email ? "input-error" : ""
+                        }`}
                         required
                       />
                     </div>
                   </div>
                   {errors.email && (
-                <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-              )}
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.email.message}
+                    </p>
+                  )}
 
                   <div className="space-y-2">
                     <Label htmlFor="password" className="text-gray-300">
@@ -354,8 +364,8 @@ const onSubmit = async (data) => {
                         {...register("password")}
                         placeholder="Enter your password"
                         className={`pr-10 bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:border-violet-500 focus:ring-violet-500/20  ${
-                    errors.password ? "input-error" : ""
-                  }`}
+                          errors.password ? "input-error" : ""
+                        }`}
                         required
                       />
                       <button
@@ -363,14 +373,21 @@ const onSubmit = async (data) => {
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors cursor-pointer"
                       >
-                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        {showPassword ? (
+                          <EyeOff className="w-4 h-4" />
+                        ) : (
+                          <Eye className="w-4 h-4" />
+                        )}
                       </button>
                     </div>
                   </div>
 
                   {!isLogin && (
                     <div className="space-y-2">
-                      <Label htmlFor="confirmPassword" className="text-gray-300">
+                      <Label
+                        htmlFor="confirmPassword"
+                        className="text-gray-300"
+                      >
                         Confirm Password
                       </Label>
                       <Input
@@ -384,7 +401,6 @@ const onSubmit = async (data) => {
                       />
                     </div>
                   )}
-
 
                   <Button
                     type="submit"
@@ -408,7 +424,9 @@ const onSubmit = async (data) => {
                 {/* Toggle Form */}
                 <div className="mt-6 text-center">
                   <p className="text-gray-400">
-                    {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
+                    {isLogin
+                      ? "Don't have an account?"
+                      : "Already have an account?"}{" "}
                     <button
                       onClick={() => setIsLogin(!isLogin)}
                       className="text-violet-400 hover:text-violet-300 font-medium transition-colors cursor-pointer"
@@ -422,11 +440,17 @@ const onSubmit = async (data) => {
                 {!isLogin && (
                   <p className="mt-4 text-xs text-gray-500 text-center">
                     By creating an account, you agree to our{" "}
-                    <Link href="#" className="text-violet-400 hover:text-violet-300">
+                    <Link
+                      href="#"
+                      className="text-violet-400 hover:text-violet-300"
+                    >
                       Terms of Service
                     </Link>{" "}
                     and{" "}
-                    <Link href="#" className="text-violet-400 hover:text-violet-300">
+                    <Link
+                      href="#"
+                      className="text-violet-400 hover:text-violet-300"
+                    >
                       Privacy Policy
                     </Link>
                   </p>
@@ -450,5 +474,5 @@ const onSubmit = async (data) => {
         }
       `}</style>
     </div>
-  )
+  );
 }

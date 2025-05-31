@@ -4,23 +4,18 @@ import { Toaster } from "react-hot-toast";
 import { useAuthStore } from "./store/useAuthStore";
 import { Loader } from "lucide-react";
 
-import RegisterPage from "./page/RegisterPage";
+import RegisterPage from "../../Error/RegisterPage";
 import Layout from "./layout/Layout";
 import AdminRoute from "./components/AdminRoute";
 import AddProblem from "./page/AddProblem";
-import ProblemPage from "./page/ProblemPage";
 
-// import Test from "./components/mvpblocks/App-hero"
-// import Test from "./page/ContactUs1"
-// import Test from "./page/Auth"
 import Auth from "./page/Auth";
 import LandingPage from "./page/Landing";
-import NewProblemPage from "./page/NewProblemPage";
-import NewProblemSolver from "./page/NewProblemSolver";
+import NewProblemSolver from "./page/ProblemSolver";
 import AllProblems from "./page/AllProblems";
 import LearnPage from "./page/LearnPage";
 import ContestPage from "./page/ContestPage";
-import ContactUs1 from "./page/ContactUs1"
+import ContactUs from "./page/ContactUs";
 import Dashboard from "./page/Dashboard";
 
 const App = () => {
@@ -56,7 +51,7 @@ const App = () => {
 
         <Route path="/learn" element={<LearnPage />} />
         <Route path="/contest" element={<ContestPage />} />
-        <Route path="/contact" element={<ContactUs1 />} />
+        <Route path="/contact" element={<ContactUs />} />
         <Route path="/dashboard" element={<Dashboard />} />
 
         <Route

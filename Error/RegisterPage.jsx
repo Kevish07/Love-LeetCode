@@ -1,53 +1,44 @@
-import React , {useState} from 'react'
-import {useForm} from "react-hook-form"
-import {zodResolver} from "@hookform/resolvers/zod"
-import { Link } from 'react-router-dom'
-import {
-  Code,
-  Eye,
-  EyeOff,
-  Loader2,
-  Lock,
-  Mail,
-} from "lucide-react";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Link } from "react-router-dom";
+import { Code, Eye, EyeOff, Loader2, Lock, Mail } from "lucide-react";
 
-import {z} from "zod";
-import AuthImagePattern from '../components/AuthImagePattern';
-import { useAuthStore } from "../store/useAuthStore";
+import { z } from "zod";
+import AuthImagePattern from "../Frontend/src/components/AuthImagePattern";
+import { useAuthStore } from "../Frontend/src/store/useAuthStore";
 
 const RegisterSchema = z.object({
-  email:z.string().email("Enter a valid email"),
-  password:z.string().min(6 , "Password must be at least of 6 characters"),
-  name:z.string().min(3 , "Name must be at least 3 character")
-})
+  email: z.string().email("Enter a valid email"),
+  password: z.string().min(6, "Password must be at least of 6 characters"),
+  name: z.string().min(3, "Name must be at least 3 character"),
+});
 
 const RegisterPage = () => {
+  const [showPassword, setShowPassword] = useState(false);
 
-  const [showPassword , setShowPassword] = useState(false);
-
-  const {registers , isRegistered} = useAuthStore()
+  const { registers, isRegistered } = useAuthStore();
 
   const {
     register,
     handleSubmit,
-    formState:{errors},
+    formState: { errors },
   } = useForm({
-    resolver:zodResolver(RegisterSchema)
-  })
+    resolver: zodResolver(RegisterSchema),
+  });
 
-  const onSubmit = async (data)=>{
-   try {
-    await registers(data)
-    console.log("register data" , data)
-   } catch (error) {
-     console.error("registration failed:", error);
-   }
-  }
-
+  const onSubmit = async (data) => {
+    try {
+      await registers(data);
+      console.log("register data", data);
+    } catch (error) {
+      console.error("registration failed:", error);
+    }
+  };
 
   return (
-    <div className='h-screen grid lg:grid-cols-2'>
-        <div className="flex flex-col justify-center items-center p-6 sm:p-12">
+    <div className="h-screen grid lg:grid-cols-2">
+      <div className="flex flex-col justify-center items-center p-6 sm:p-12">
         <div className="w-full max-w-md space-y-8">
           {/* Logo */}
           <div className="text-center mb-8">
@@ -62,7 +53,6 @@ const RegisterPage = () => {
 
           {/* Form */}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            
             {/* name */}
             <div className="form-control">
               <label className="label">
@@ -82,8 +72,10 @@ const RegisterPage = () => {
                 />
               </div>
               {errors.name && (
-                <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
-              )}              
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.name.message}
+                </p>
+              )}
             </div>
 
             {/* Email */}
@@ -105,7 +97,9 @@ const RegisterPage = () => {
                 />
               </div>
               {errors.email && (
-                <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.email.message}
+                </p>
               )}
             </div>
 
@@ -139,7 +133,9 @@ const RegisterPage = () => {
                 </button>
               </div>
               {errors.password && (
-                <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.password.message}
+                </p>
               )}
             </div>
 
@@ -147,9 +143,9 @@ const RegisterPage = () => {
             <button
               type="submit"
               className="btn btn-primary w-full"
-             disabled={isRegistered}
+              disabled={isRegistered}
             >
-               {isRegistered ? (
+              {isRegistered ? (
                 <>
                   <Loader2 className="h-5 w-5 animate-spin" />
                   Loading...
@@ -180,7 +176,7 @@ const RegisterPage = () => {
         }
       />
     </div>
-  )
-}
+  );
+};
 
-export default RegisterPage
+export default RegisterPage;

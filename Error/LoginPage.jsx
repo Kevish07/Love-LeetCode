@@ -1,57 +1,44 @@
-import React , {useState} from 'react'
-import {useForm} from "react-hook-form"
-import {zodResolver} from "@hookform/resolvers/zod"
-import { Link, Navigate, useNavigate } from 'react-router-dom'
-import {
-  Code,
-  Eye,
-  EyeOff,
-  Loader2,
-  Lock,
-  Mail,
-} from "lucide-react";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Code, Eye, EyeOff, Loader2, Lock, Mail } from "lucide-react";
 
-import {z} from "zod";
-import AuthImagePattern from '../components/AuthImagePattern';
-import { useAuthStore } from '../store/useAuthStore';
-
+import { z } from "zod";
+import AuthImagePattern from "../Frontend/src/components/AuthImagePattern";
+import { useAuthStore } from "../Frontend/src/store/useAuthStore";
 
 const LoginSchema = z.object({
-  email:z.string().email("Enter a valid email"),
-  password:z.string().min(6 , "Password must be atleast of 6 characters"),
-
-})
+  email: z.string().email("Enter a valid email"),
+  password: z.string().min(6, "Password must be atleast of 6 characters"),
+});
 
 const LoginPage = () => {
-
-  const {isLoggingIn , login} = useAuthStore()
-  const [showPassword , setShowPassword] = useState(false);
+  const { isLoggingIn, login } = useAuthStore();
+  const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigate();
 
   const {
-    register ,
+    register,
     handleSubmit,
-    formState:{errors},
+    formState: { errors },
   } = useForm({
-    resolver:zodResolver(LoginSchema)
-  })
+    resolver: zodResolver(LoginSchema),
+  });
 
   const onSubmit = async (data) => {
     try {
-      
       await login(data);
       window.location.reload();
       // navigation("/");
-
     } catch (error) {
       console.error("Register failed", error);
     }
-  }
-
+  };
 
   return (
-    <div className='h-screen grid lg:grid-cols-2'>
-        <div className="flex flex-col justify-center items-center p-6 sm:p-12">
+    <div className="h-screen grid lg:grid-cols-2">
+      <div className="flex flex-col justify-center items-center p-6 sm:p-12">
         <div className="w-full max-w-md space-y-8">
           {/* Logo */}
           <div className="text-center mb-8">
@@ -66,10 +53,6 @@ const LoginPage = () => {
 
           {/* Form */}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            
-           
-          
-
             {/* Email */}
             <div className="form-control">
               <label className="label">
@@ -89,7 +72,9 @@ const LoginPage = () => {
                 />
               </div>
               {errors.email && (
-                <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.email.message}
+                </p>
               )}
             </div>
 
@@ -123,7 +108,9 @@ const LoginPage = () => {
                 </button>
               </div>
               {errors.password && (
-                <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.password.message}
+                </p>
               )}
             </div>
 
@@ -133,7 +120,7 @@ const LoginPage = () => {
               className="btn btn-primary w-full"
               disabled={isLoggingIn}
             >
-               {isLoggingIn ? (
+              {isLoggingIn ? (
                 <>
                   <Loader2 className="h-5 w-5 animate-spin" />
                   Loading...
@@ -156,8 +143,8 @@ const LoginPage = () => {
         </div>
       </div>
 
-       {/* Right Side - Image/Pattern */}
-     {/* Right Side - Image/Pattern */}
+      {/* Right Side - Image/Pattern */}
+      {/* Right Side - Image/Pattern */}
       <AuthImagePattern
         title={"Welcome back!"}
         subtitle={
@@ -165,7 +152,7 @@ const LoginPage = () => {
         }
       />
     </div>
-  )
-}
+  );
+};
 
-export default LoginPage
+export default LoginPage;

@@ -1,396 +1,360 @@
-import React, { useState, useEffect } from "react";
-import Editor from "@monaco-editor/react";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { Link } from "react-router-dom";
 import {
-  Play,
-  FileText,
-  MessageSquare,
-  Lightbulb,
+  Search,
+  Filter,
+  ChevronDown,
+  CheckCircle,
+  ArrowUpRight,
+  Plus,
   Bookmark,
-  Share2,
-  Clock,
-  ChevronRight,
-  BookOpen,
-  Terminal,
-  Code2,
-  Users,
-  ThumbsUp,
-  Home,
 } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
-import { useProblemStore } from "../store/useProblemStore";
-import { getLanguageId } from "../lib/lang";
-import { useExecutionStore } from "../store/useExecutionStore";
-import { useSubmissionStore } from "../store/useSubmissionStore";
-import Submission from "../components/Submission";
-import SubmissionsList from "../components/SubmissionList";
 
-const ProblemPage = () => {
-  const { id } = useParams();
-  const { getProblemById, problem, isProblemLoading } = useProblemStore();
+import { useAuthStore } from "../store/useAuthStore";
+import { useActions } from "../store/useAction";
+import { usePlaylistStore } from "../store/usePlaylistStore";
 
-  const {
-    submission: submissions,
-    isLoading: isSubmissionsLoading,
-    getSubmissionForProblem,
-    getSubmissionCountForProblem,
-    submissionCount,
-  } = useSubmissionStore();
+export default function ProblemPage({ problems }) {
+  const { authUser } = useAuthStore();
+  const { onDeleteProblem } = useActions();
+  const { createPlaylist } = usePlaylistStore();
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isAddToPlaylistModalOpen, setIsAddToPlaylistModalOpen] =
+    useState(false);
+  const [selectedProblemId, setSelectedProblemId] = useState(null);
 
-  const [code, setCode] = useState("");
-  const [activeTab, setActiveTab] = useState("description");
-  const [selectedLanguage, setSelectedLanguage] = useState("JavaScript");
-  const [isBookmarked, setIsBookmarked] = useState(false);
-  const [testcases, setTestCases] = useState([]);
+  // Extract all unique tags from problems
+  const allTags = useMemo(() => {
+    if (!Array.isArray(problems)) return [];
+    const tagsSet = new Set();
+    problems.forEach((p) => p.tags?.forEach((t) => tagsSet.add(t)));
+    return Array.from(tagsSet);
+  }, [problems]);
 
-  const { executeCode, submission, isExecuting } = useExecutionStore();
-
-  useEffect(() => {
-    getProblemById(id);
-    getSubmissionCountForProblem(id);
-  }, [id]);
-
-  useEffect(() => {
-    console.log("Problem data:", problem);
-    
-    if (problem) {
-      setCode(
-        problem.codeSnippets?.[selectedLanguage] || submission?.sourceCode || ""
-      );
-      setTestCases(
-        problem.testCases?.map((tc) => ({
-          input: tc.input,
-          output: tc.output,
-        })) || []
-      );
-    }
-  }, [problem, selectedLanguage]);
-
-  useEffect(() => {
-    if (activeTab === "submissions" && id) {
-      getSubmissionForProblem(id);
-    }
-  }, [activeTab, id]);
-
-
-  const handleLanguageChange = (e) => {
-    const lang = e.target.value;
-    setSelectedLanguage(lang);
-    setCode(problem.codeSnippets?.[lang] || "");
+  const handleDelete = (id) => {
+    onDeleteProblem(id);
   };
 
-  const handleRunCode = (e) => {
-    e.preventDefault();
-    try {
-      const language_id = getLanguageId(selectedLanguage);
-      const stdin = problem.testCases.map((tc) => tc.input);
-      const expected_outputs = problem.testCases.map((tc) => tc.output);
-      executeCode(code, language_id, stdin, expected_outputs, id);
-    } catch (error) {
-      console.log("Error executing code", error);
-    }
+  const handleCreatePlaylist = async (data) => {
+    await createPlaylist(data);
   };
 
-  if (isProblemLoading || !problem) {
-    return (
-      <div className="flex items-center justify-center h-screen bg-base-200">
-        <div className="card bg-base-100 p-8 shadow-xl">
-          <span className="loading loading-spinner loading-lg text-primary"></span>
-          <p className="mt-4 text-base-content/70">Loading problem...</p>
-        </div>
-      </div>
-    );
-  }
+  const handleAddToPlaylist = (problemId) => {
+    setSelectedProblemId(problemId);
+    setIsAddToPlaylistModalOpen(true);
+  };
 
-  const renderTabContent = () => {
-    switch (activeTab) {
-      case "description":
-        return (
-          <div className="prose max-w-none">
-            <p className="text-[1.25rem] mb-6">{problem.description}</p>
+  // -----------
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [filters, setFilters] = useState({
+    difficulty: [],
+    tags: allTags,
+    status: [],
+  });
+  const [visibleCount, setVisibleCount] = useState(2);
+  const [isLoading, setIsLoading] = useState(false);
 
-            {problem.examples && (
-              <>
-                <h3 className="text-[1rem] font-bold mb-2">Examples:</h3>
-                {Object.entries(problem.examples).map(
-                  ([lang, example], idx) => (
-                    <div
-                      key={lang}
-                      className="bg-base-200 p-6 rounded-xl mb-6 font-mono"
-                    >
-                      <div className="mb-4">
-                        <div className="text-indigo-300 mb-2 text-base font-semibold">
-                          Input:
-                        </div>
-                        <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
-                          {example.input}
-                        </span>
-                      </div>
-                      <div className="mb-4">
-                        <div className="text-indigo-300 mb-2 text-base font-semibold">
-                          Output:
-                        </div>
-                        <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
-                          {example.output}
-                        </span>
-                      </div>
-                      {example.explanation && (
-                        <div>
-                          <div className="text-emerald-300 mb-2 text-base font-semibold">
-                            Explanation:
-                          </div>
-                          <p className="text-base-content/70 text-lg font-sem">
-                            {example.explanation}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  )
-                )}
-              </>
-            )}
+  const handleFilterChange = (category, value) => {
+    setFilters((prev) => {
+      const newFilters = { ...prev };
+      if (newFilters[category].includes(value)) {
+        newFilters[category] = newFilters[category].filter(
+          (item) => item !== value,
+        );
+      } else {
+        newFilters[category] = [...newFilters[category], value];
+      }
+      return newFilters;
+    });
+  };
 
-            {problem.constraints && (
-              <>
-                <h3 className="text-xl font-bold mb-4">Constraints:</h3>
-                <div className="bg-base-200 p-6 rounded-xl mb-6">
-                  <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white text-lg">
-                    {problem.constraints}
-                  </span>
-                </div>
-              </>
-            )}
-          </div>
-        );
-      case "submissions":
-        return (
-          <SubmissionsList
-            submissions={submissions}
-            isLoading={isSubmissionsLoading}
-          />
-        );
-      case "editorial":
-        return (
-          <div className="p-4 text-center text-base-content/70">
-            
-            {problem?.editorial ? (
-              <div className="bg-base-200 p-6 rounded-xl">
-                <span className="bg-black/90 px-4 py-1 rounded-lg  text-white text-lg">
-                  {problem.editorial}
-                </span>
-              </div>
-            ) : (
-              <div className="text-center text-base-content/70">
-                No editorial available for this problem.
-              </div>
-            )}
-          </div>
-        );
-      case "hints":
-        return (
-          <div className="p-4">
-            {problem?.hints ? (
-              <div className="bg-base-200 p-6 rounded-xl">
-                <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white text-lg">
-                  {problem.hints}
-                </span>
-              </div>
-            ) : (
-              <div className="text-center text-base-content/70">
-                No hints available
-              </div>
-            )}
-          </div>
-        );
+  const filteredProblems = problems.filter((problem) => {
+    // Search filter
+    if (
+      searchTerm &&
+      !problem.title.toLowerCase().includes(searchTerm.toLowerCase())
+    ) {
+      return false;
+    }
+
+    // Difficulty filter
+    if (
+      filters.difficulty.length > 0 &&
+      !filters.difficulty.includes(problem.difficulty)
+    ) {
+      return false;
+    }
+
+    // Tags filter
+    if (
+      filters.tags.length > 0 &&
+      !problem.tags.some((tag) => filters.tags.includes(tag))
+    ) {
+      return false;
+    }
+
+    return true;
+  });
+
+  const getDifficultyColor = (difficulty) => {
+    switch (difficulty.toLowerCase()) {
+      case "Easy":
+        return "text-green-500 bg-green-900/20";
+      case "Medium":
+        return "text-yellow-500 bg-yellow-900/20";
+      case "Hard":
+        return "text-red-500 bg-red-900/20";
       default:
-        return null;
+        return "text-gray-500 bg-gray-900/20";
     }
   };
+
+  // Reset visibleCount when filters/search change
+  useEffect(() => {
+    setVisibleCount(2);
+  }, [searchTerm, filters]);
+
+  // Infinite scroll handler
+  const handleScroll = useCallback(() => {
+    if (
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 200 &&
+      visibleCount < filteredProblems.length &&
+      !isLoading
+    ) {
+      setIsLoading(true);
+      setTimeout(() => {
+        setVisibleCount((prev) => Math.min(prev + 5, filteredProblems.length));
+        setIsLoading(false);
+      }, 500); // 500ms delay
+    }
+  }, [visibleCount, filteredProblems.length, isLoading]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
+
+  // Ensure enough problems are loaded to fill the viewport
+  useEffect(() => {
+    if (
+      document.body.scrollHeight <= window.innerHeight &&
+      visibleCount < filteredProblems.length &&
+      !isLoading
+    ) {
+      setIsLoading(true);
+      setTimeout(() => {
+        setVisibleCount((prev) => Math.min(prev + 5, filteredProblems.length));
+        setIsLoading(false);
+      }, 500); // 500ms delay
+    }
+  }, [visibleCount, filteredProblems.length, isLoading]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-base-300 to-base-200 max-w-7xl w-full">
-      <nav className="navbar bg-base-100 shadow-lg px-4">
-        <div className="flex-1 gap-2">
-          <Link to={"/"} className="flex items-center gap-2 text-primary">
-            <Home className="w-6 h-6" />
-            <ChevronRight className="w-4 h-4" />
-          </Link>
-          <div className="mt-2">
-            <h1 className="text-xl font-bold">{problem.title}</h1>
-            <div className="flex items-center gap-2 text-sm text-base-content/70 mt-5">
-              <Clock className="w-4 h-4" />
-              <span>
-                Updated{" "}
-                {new Date(problem.createdAt).toLocaleString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </span>
-              <span className="text-base-content/30">•</span>
-              <Users className="w-4 h-4" />
-              <span>{submissionCount} Submissions</span>
-              <span className="text-base-content/30">•</span>
-              <ThumbsUp className="w-4 h-4" />
-              <span>95% Success Rate</span>
-            </div>
+    <div className="pt-20 pb-16 px-4 min-h-screen">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h1 className="text-3xl font-bold text-white mb-2">Problem Set</h1>
+            <p className="text-gray-400">
+              Sharpen your coding skills with our curated collection of
+              algorithmic challenges.
+            </p>
           </div>
-        </div>
-        <div className="flex-none gap-4">
           <button
-            className={`btn btn-ghost btn-circle ${
-              isBookmarked ? "text-primary" : ""
-            }`}
-            onClick={() => setIsBookmarked(!isBookmarked)}
+            className="btn btn-primary gap-2"
+            onClick={() => setIsCreateModalOpen(true)}
           >
-            <Bookmark className="w-5 h-5" />
+            <Plus className="w-4 h-4" />
+            Create Playlist
           </button>
-          <button className="btn btn-ghost btn-circle">
-            <Share2 className="w-5 h-5" />
-          </button>
-          <select
-            className="select select-bordered select-primary w-40"
-            value={selectedLanguage}
-            onChange={handleLanguageChange}
-          >
-            {Object.keys(problem.codeSnippets || {}).map((lang) => (
-              <option key={lang} value={lang}>
-                {lang.charAt(0).toUpperCase() + lang.slice(1)}
-              </option>
-            ))}
-          </select>
-        </div>
-      </nav>
-
-      <div className="container mx-auto p-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="card bg-base-100 shadow-xl">
-            <div className="card-body p-0">
-              <div className="tabs tabs-bordered">
-                <button
-                  className={`tab gap-2 ${
-                    activeTab === "description" ? "tab-active" : ""
-                  }`}
-                  onClick={() => setActiveTab("description")}
-                >
-                  <FileText className="w-4 h-4" />
-                  Description
-                </button>
-                <button
-                  className={`tab gap-2 ${
-                    activeTab === "submissions" ? "tab-active" : ""
-                  }`}
-                  onClick={() => setActiveTab("submissions")}
-                >
-                  <Code2 className="w-4 h-4" />
-                  Submissions
-                </button>
-                <button
-                  className={`tab gap-2 ${
-                    activeTab === "editorial" ? "tab-active" : ""
-                  }`}
-                  onClick={() => setActiveTab("editorial")}
-                >
-                  <MessageSquare className="w-4 h-4" />
-                  Editorial
-                </button>
-                <button
-                  className={`tab gap-2 ${
-                    activeTab === "hints" ? "tab-active" : ""
-                  }`}
-                  onClick={() => setActiveTab("hints")}
-                >
-                  <Lightbulb className="w-4 h-4" />
-                  Hints
-                </button>
-              </div>
-
-              <div className="p-6">{renderTabContent()}</div>
-            </div>
-          </div>
-
-          <div className="card bg-base-100 shadow-xl">
-            <div className="card-body p-0">
-              <div className="tabs tabs-bordered">
-                <button className="tab tab-active gap-2">
-                  <Terminal className="w-4 h-4" />
-                  Code Editor
-                </button>
-              </div>
-
-              <div className="h-[600px] w-full">
-                <Editor
-                  height="100%"
-                  language={selectedLanguage.toLowerCase()}
-                  theme="vs-dark"
-                  value={code}
-                  onChange={(value) => setCode(value || "")}
-                  options={{
-                    minimap: { enabled: false },
-                    fontSize: 14,
-                    lineNumbers: "on",
-                    roundedSelection: false,
-                    scrollBeyondLastLine: true,
-                    readOnly: false,
-                    automaticLayout: true,
-                  }}
-                />
-              </div>
-
-              <div className="p-4 border-t border-base-300 bg-base-200">
-                <div className="flex justify-between items-center">
-                  <button
-                    className={`btn btn-primary gap-2 ${
-                      isExecuting ? "loading" : ""
-                    }`}
-                    onClick={handleRunCode}
-                    disabled={isExecuting}
-                  >
-                    {!isExecuting && <Play className="w-4 h-4" />}
-                    Run Code
-                  </button>
-                  <button className="btn btn-success gap-2">
-                    Submit Solution
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
-        <div className="card bg-base-100 shadow-xl mt-6">
-          <div className="card-body">
-            {submission ? (
-              <Submission submission={submission} />
-            ) : (
-              <>
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-xl font-bold">Test Cases</h3>
+        <div className="mb-8 flex flex-col md:flex-row gap-4">
+          <div className="flex-grow relative">
+            <Search
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+              size={20}
+            />
+            <input
+              type="text"
+              placeholder="Search problems..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 bg-gray-900 border border-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-white"
+            />
+          </div>
+
+          <div className="relative">
+            <button
+              onClick={() => setIsFilterOpen(!isFilterOpen)}
+              className="px-4 py-3 bg-gray-900 border border-gray-800 rounded-lg text-white flex items-center space-x-2"
+            >
+              <Filter size={18} />
+              <span>Filters</span>
+              <ChevronDown
+                size={18}
+                className={`transition-transform ${
+                  isFilterOpen ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+
+            {isFilterOpen && (
+              <div className="absolute right-0 mt-2 w-64 bg-gray-900 border border-gray-800 rounded-lg shadow-lg z-10 p-4">
+                <div className="mb-4">
+                  <h3 className="text-white font-medium mb-2">Difficulty</h3>
+                  <div className="space-y-2">
+                    {filters.difficulty.map((difficulty) => (
+                      <label
+                        key={difficulty}
+                        className="flex items-center text-gray-300"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={filters.difficulty.includes(difficulty)}
+                          onChange={() =>
+                            handleFilterChange("difficulty", difficulty)
+                          }
+                          className="mr-2 h-4 w-4 rounded border-gray-700 text-indigo-600 focus:ring-indigo-500"
+                        />
+                        {difficulty}
+                      </label>
+                    ))}
+                  </div>
                 </div>
-                <div className="overflow-x-auto">
-                  <table className="table table-zebra w-full">
-                    <thead>
-                      <tr>
-                        <th>Input</th>
-                        <th>Expected Output</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {testcases.map((testCase, index) => (
-                        <tr key={index}>
-                          <td className="font-mono">{testCase.input}</td>
-                          <td className="font-mono">{testCase.output}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+
+                <div className="mb-4">
+                  <h3 className="text-white font-medium mb-2">Tags</h3>
+                  <div className="space-y-2">
+                    {filters.tags.map((tag) => (
+                      <label
+                        key={tag}
+                        className="flex items-center text-gray-300"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={filters.tags.includes(tag)}
+                          onChange={() => handleFilterChange("tags", tag)}
+                          className="mr-2 h-4 w-4 rounded border-gray-700 text-indigo-600 focus:ring-indigo-500"
+                        />
+                        {tag}
+                      </label>
+                    ))}
+                  </div>
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>
+
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-gray-900 rounded-lg overflow-hidden">
+            <thead>
+              <tr className="bg-gray-800">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  Status
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  Save
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  Title
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  Difficulty
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  Acceptance
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  Tags
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-800">
+              {filteredProblems.slice(0, visibleCount).map((problem) => {
+                const isSolved = problem.solvedBy.some(
+                  (user) => user.userId === authUser?.data?.id,
+                );
+                return (
+                  <tr
+                    key={problem.id}
+                    className="group transition-colors hover:bg-gray-800/50"
+                  >
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {isSolved ? (
+                        <CheckCircle className="h-5 w-5 text-green-500" />
+                      ) : (
+                        <div className="h-5 w-5 rounded-full border-2 border-gray-500" />
+                      )}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <button
+                        className="text-indigo-400 hover:text-indigo-300 font-medium flex items-center"
+                        onClick={() => handleAddToPlaylist(problem.id)}
+                      >
+                        <Bookmark className="w-4 h-4" />
+                      </button>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <Link
+                        to={`/problem/${problem.id}`}
+                        className="text-indigo-400 hover:text-indigo-300 font-medium flex items-center"
+                      >
+                        {problem.title}
+                        <ArrowUpRight className="ml-1 h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </Link>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span
+                        className={`px-2 py-1 text-xs font-medium rounded-full ${getDifficultyColor(
+                          problem.difficulty,
+                        )}`}
+                      >
+                        {problem.difficulty}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                      {Math.floor(Math.random() * 100) + 1}%
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex flex-wrap gap-2">
+                        {problem.tags.slice(0, 2).map((tag, index) => (
+                          <span
+                            key={index}
+                            className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded-full"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                        {problem.tags.length > 2 && (
+                          <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded-full">
+                            +{problem.tags.length - 2}
+                          </span>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+
+        {visibleCount < filteredProblems.length && (
+          <div className="text-center py-4 text-gray-400">Loading more...</div>
+        )}
+
+        {filteredProblems.length === 0 && (
+          <div className="text-center py-10">
+            <p className="text-gray-400">
+              No problems match your filters. Try adjusting your search
+              criteria.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
-};
-
-export default ProblemPage;
+}
