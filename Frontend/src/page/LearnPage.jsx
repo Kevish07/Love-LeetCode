@@ -352,7 +352,7 @@ const LearnPage = () => {
                       {topic.problems.map((problem, problemIndex) => (
                         <Card 
                           key={problem.id} 
-                          className="border border-slate-700 hover:border-purple-500/50 transition-all duration-300 cursor-pointer bg-gradient-to-br from-slate-800/30 to-slate-900/30 animate-fade-in"
+                          className="border border-slate-700 hover:border-purple-500/50 transition-all duration-300 bg-gradient-to-br from-slate-800/30 to-slate-900/30 animate-fade-in"
                           style={{ animationDelay: `${problemIndex * 0.05}s` }}
                         >
                           <CardContent className="p-4">
@@ -368,7 +368,7 @@ const LearnPage = () => {
                               </Badge>
                             </div>
                             <Link to={`/problem/${problem.id}`}>
-                              <Button size="sm" variant="outline" className="w-full text-xs border-purple-500/30 text-white">
+                              <Button size="sm" variant="outline" className="w-full text-xs border-purple-500/30 text-white hover:text-white hover:border-purple-500/50 cursor-pointer">
                                 Solve Problem
                               </Button>
                             </Link>

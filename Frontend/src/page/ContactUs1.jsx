@@ -39,7 +39,7 @@ export default function ContactUs1() {
   };
 
   return (
-    <section className="relative w-full overflow-hidden bg-background py-16 md:py-24">
+    <section className="min-h-screen flex items-center justify-center w-full overflow-hidden bg-background py-16 md:py-24">
       <div
         className="absolute left-0 top-0 h-[500px] w-[500px] rounded-full opacity-20 blur-[120px]"
         style={{

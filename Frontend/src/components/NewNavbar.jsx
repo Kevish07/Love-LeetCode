@@ -34,6 +34,7 @@ const Navbar = () => {
     { name: "Learn", path: "/learn" },
     { name: "Contest", path: "/contest" },
     { name: "Dashboard", path: "/dashboard" },
+    { name: "Contact Us", path: "/contact" },
   ];
 
   const adminNavLinks = [
@@ -42,6 +43,7 @@ const Navbar = () => {
     { name: "Contest", path: "/contest" },
     { name: "Add problem", path: "/add-problem" },
     { name: "Dashboard", path: "/dashboard" },
+    { name: "Contact Us", path: "/contact" },
   ];
 
   return (

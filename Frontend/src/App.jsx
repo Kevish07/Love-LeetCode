@@ -20,6 +20,8 @@ import NewProblemSolver from "./page/NewProblemSolver";
 import AllProblems from "./page/AllProblems";
 import LearnPage from "./page/LearnPage";
 import ContestPage from "./page/ContestPage";
+import ContactUs1 from "./page/ContactUs1"
+import Dashboard from "./page/Dashboard";
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -54,7 +56,8 @@ const App = () => {
 
         <Route path="/learn" element={<LearnPage />} />
         <Route path="/contest" element={<ContestPage />} />
-
+        <Route path="/contact" element={<ContactUs1 />} />
+        <Route path="/dashboard" element={<Dashboard />} />
 
         <Route
           path="/login"
@@ -78,7 +81,7 @@ const App = () => {
           />
         </Route>
       </Routes>
-      </>
+    </>
   );
 };
 
