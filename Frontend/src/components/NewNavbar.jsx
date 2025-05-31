@@ -70,7 +70,7 @@ const Navbar = () => {
                 <Link
                   key={link.name}
                   to={link.path}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`px-3 py-2 text-sm font-medium transition-colors ${
                     location.pathname === link.path
                       ? "text-indigo-400 bg-gray-800"
                       : "text-gray-300 hover:bg-gray-800 hover:text-white"
@@ -83,7 +83,7 @@ const Navbar = () => {
                 <Link
                   key={"Add problem"}
                   to="/add-problem"
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`px-3 py-2 text-sm font-medium transition-colors ${
                     location.pathname === "/add-problem"
                       ? "text-indigo-400 bg-gray-800"
                       : "text-gray-300 hover:bg-gray-800 hover:text-white"

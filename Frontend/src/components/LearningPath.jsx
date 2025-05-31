@@ -28,13 +28,13 @@ export default function LearningPath() {
               ].map((path, index) => (
                 <Card
                   key={index}
-                  className="bg-gray-800/30 border-gray-700 hover:bg-gray-800/50 transition-all duration-300 rounded-lg shadow-lg hover:shadow-lg transform hover:scale-101"
+                  className="bg-gray-800/30 border-gray-700 hover:bg-gray-800/50 transition-all duration-300  shadow-lg hover:shadow-lg transform hover:scale-101"
                 >
                   <CardContent className="">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
                         <div
-                          className={`w-12 h-12 bg-${path.color}-500/20 border border-${path.color}-500/30 rounded-lg flex items-center justify-center`}
+                          className={`w-12 h-12 bg-${path.color}-500/20 border border-${path.color}-500/30 flex items-center justify-center`}
                         >
                           <CheckCircle className={`w-6 h-6 text-${path.color}-400`} />
                         </div>

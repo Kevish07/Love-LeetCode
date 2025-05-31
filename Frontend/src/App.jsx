@@ -37,7 +37,7 @@ const App = () => {
   }
 
   return (
-    <div className="bg-black">
+    <>
       <Toaster />
       <Routes>
         <Route path="/test" element={<LandingPage />} />
@@ -78,7 +78,7 @@ const App = () => {
           />
         </Route>
       </Routes>
-    </div>
+      </>
   );
 };
 

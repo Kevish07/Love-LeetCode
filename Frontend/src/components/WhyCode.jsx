@@ -78,11 +78,11 @@ export default function WhyCode() {
               <div
                 key={index}
                 data-index={index}
-                className={`feature-card p-6 rounded-lg bg-gray-900 border border-gray-800 transform transition-all duration-700 hover:shadow-lg hover:shadow-indigo-500/10 ${getFeatureAnimation(
+                className={`feature-card p-6  bg-gray-800/30 border border-gray-800 transform transition-all duration-700 hover:shadow-lg hover:shadow-indigo-500/10 ${getFeatureAnimation(
                   index,
                 )}`}
               >
-                <div className="h-12 w-12 rounded-lg bg-gray-800 flex items-center justify-center mb-4">
+                <div className="h-12 w-12  bg-gray-800 flex items-center justify-center mb-4">
                   {feature.icon}
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2">

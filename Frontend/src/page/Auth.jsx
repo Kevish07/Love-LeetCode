@@ -218,9 +218,9 @@ const onSubmit = async (data) => {
               ].map((feature, index) => (
                 <div
                   key={index}
-                  className="flex items-center space-x-3 p-3 rounded-lg bg-gray-800/30 border border-gray-700/50 hover:border-gray-600/50 transition-all duration-300"
+                  className="flex items-center space-x-3 p-3 bg-gray-800/30 border border-gray-700/50 hover:border-gray-600/50 transition-all duration-300"
                 >
-                  <div className={`w-8 h-8 bg-${feature.color}-500/20 rounded-lg flex items-center justify-center`}>
+                  <div className={`w-8 h-8 bg-${feature.color}-500/20 flex items-center justify-center`}>
                     <feature.icon className={`w-4 h-4 text-${feature.color}-400`} />
                   </div>
                   <span className="text-gray-300 font-medium">{feature.text}</span>

@@ -29,11 +29,7 @@ export default function AppHero() {
           prev.submissions >= 500 ? 500 : prev.submissions + 25;
         const newNetworks = prev.networks >= 20 ? 20 : prev.networks + 1;
 
-        if (
-          newUsers === 200 &&
-          newSubmissions === 500 &&
-          newNetworks === 20
-        ) {
+        if (newUsers === 200 && newSubmissions === 500 && newNetworks === 20) {
           clearInterval(interval);
         }
 
@@ -209,57 +205,54 @@ export default function AppHero() {
         />
         <motion.div
           variants={tooltipVariants}
-          className="absolute -left-4 top-4 rounded-lg border border-purple-500/30 bg-black/80 p-2 backdrop-blur-md lg:-left-20 lg:top-1/4"
+          className="absolute -left-4 top-4  border border-purple-500/30 bg-black/80 p-2 backdrop-blur-md lg:-left-20 lg:top-1/4"
         >
           <div className="flex items-center gap-2">
             <Zap className="h-4 w-4 text-purple-400" />
             <span className="text-xs font-medium text-purple-200">
               <BlurText
-  text="Fast Enough"
-  delay={150}
-  animateBy="words"
-  direction="top"
-  className="text-l"
-/>
-              
+                text="Fast Enough"
+                delay={150}
+                animateBy="words"
+                direction="top"
+                className="text-l"
+              />
             </span>
           </div>
         </motion.div>
 
         <motion.div
           variants={tooltipVariants}
-          className="absolute -right-4 top-1/2 rounded-lg border border-blue-500/30 bg-black/80 p-2 backdrop-blur-md lg:-right-24"
+          className="absolute -right-4 top-1/2  border border-blue-500/30 bg-black/80 p-2 backdrop-blur-md lg:-right-24"
         >
           <div className="flex items-center gap-2">
             <Database className="h-4 w-4 text-blue-400" />
             <span className="text-xs font-medium text-blue-200">
               <BlurText
-  text="Database Ready"
-  delay={200}
-  animateBy="words"
-  direction="top"
-  className="text-l"
-/>
-            
+                text="Database Ready"
+                delay={200}
+                animateBy="words"
+                direction="top"
+                className="text-l"
+              />
             </span>
           </div>
         </motion.div>
 
         <motion.div
           variants={tooltipVariants}
-          className="absolute bottom-4 left-4 rounded-lg border border-indigo-500/30 bg-black/80 p-2 backdrop-blur-md lg:bottom-1/4 lg:left-8"
+          className="absolute bottom-4 left-4 border border-indigo-500/30 bg-black/80 p-2 backdrop-blur-md lg:bottom-1/4 lg:left-8"
         >
           <div className="flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-indigo-400" />
             <span className="text-xs font-medium text-indigo-200">
               <BlurText
-  text="Easy to Use"
-  delay={250}
-  animateBy="words"
-  direction="top"
-  className="text-l"
-/>
-             
+                text="Easy to Use"
+                delay={250}
+                animateBy="words"
+                direction="top"
+                className="text-l"
+              />
             </span>
           </div>
         </motion.div>
@@ -289,7 +282,8 @@ export default function AppHero() {
               className="mb-6 bg-gradient-to-r from-white/70 via-white to-slate-500/80 bg-clip-text text-3xl leading-tight text-transparent sm:text-4xl md:text-5xl lg:text-6xl"
             >
               <span className="text-6xl">
-              Master Data Structures and Algorithms <br className="hidden sm:inline" />
+                Master Data Structures and Algorithms{" "}
+                <br className="hidden sm:inline" />
               </span>
               <span className="bg-gradient-to-r from-purple-400 via-blue-400 to-purple-400 bg-clip-text text-transparent text-4xl">
                 Ace Interviews, Build your Future.
@@ -301,19 +295,19 @@ export default function AppHero() {
               variants={itemVariants}
               className="mb-6 flex flex-wrap justify-center gap-4 md:gap-6 lg:justify-start"
             >
-              <div className="rounded-lg border border-purple-500/20 bg-black/40 px-4 py-2 backdrop-blur-sm">
+              <div className="border border-purple-500/20 bg-black/40 px-4 py-2 backdrop-blur-sm">
                 <p className="text-2xl font-bold text-white">
                   {stats.users.toLocaleString()}+
                 </p>
                 <p className="text-xs text-gray-400">Active Users</p>
               </div>
-              <div className="rounded-lg border border-blue-500/20 bg-black/40 px-4 py-2 backdrop-blur-sm">
+              <div className="border border-blue-500/20 bg-black/40 px-4 py-2 backdrop-blur-sm">
                 <p className="text-2xl font-bold text-white">
                   {stats.submissions.toLocaleString()}+
                 </p>
                 <p className="text-xs text-gray-400">Submissions</p>
               </div>
-              <div className="rounded-lg border border-indigo-500/20 bg-black/40 px-4 py-2 backdrop-blur-sm">
+              <div className="border border-indigo-500/20 bg-black/40 px-4 py-2 backdrop-blur-sm">
                 <p className="text-2xl font-bold text-white">
                   {stats.networks}+
                 </p>
@@ -362,24 +356,24 @@ export default function AppHero() {
               className="mb-8 flex flex-col flex-wrap gap-4 sm:flex-row lg:justify-end"
             >
               <Link to="/problems">
-              <Button
-                className="group rounded-full border-t border-purple-400 bg-gradient-to-b from-purple-700 to-slate-950/80 px-6 py-6 text-white shadow-lg shadow-purple-600/20 transition-all hover:shadow-purple-600/40 cursor-pointer"
-                size="lg"
-              >
-                Start Solving Now
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </Button>
-                </Link>
+                <Button
+                  className="group rounded-full border-t border-purple-400 bg-gradient-to-b from-purple-700 to-slate-950/80 px-6 py-6 text-white shadow-lg shadow-purple-600/20 transition-all hover:shadow-purple-600/40 cursor-pointer"
+                  size="lg"
+                >
+                  Start Solving Now
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </Button>
+              </Link>
 
               <Link to="/learn">
-              <Button
-                variant="outline"
-                className="rounded-full border-purple-500/30 bg-transparent text-white hover:bg-purple-500/10 hover:text-white cursor-pointer"
-                size="lg"
-              >
+                <Button
+                  variant="outline"
+                  className="rounded-full border-purple-500/30 bg-transparent text-white hover:bg-purple-500/10 hover:text-white cursor-pointer"
+                  size="lg"
+                >
                   Explore Learning Paths
-              </Button>
-                </Link>
+                </Button>
+              </Link>
             </motion.div>
 
             {/* Social proof */}

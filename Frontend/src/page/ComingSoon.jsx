@@ -101,8 +101,8 @@ const ComingSoon = ({ feature }) => {
           <div className="space-y-6">
             {/* Neon Feature Box */}
             <div className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-lg blur-sm"></div>
-              <div className="relative bg-slate-900/80 border-2 border-purple-500/30 rounded-lg p-6 backdrop-blur-sm hover:border-purple-400/50 transition-all duration-300">
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 blur-sm"></div>
+              <div className="relative bg-slate-900/80 border-2 border-purple-500/30 p-6 backdrop-blur-sm hover:border-purple-400/50 transition-all duration-300">
                 <div className="flex items-center gap-3 mb-4">
                   <Zap className="h-6 w-6 text-yellow-400 animate-pulse" />
                   <h3 className="text-purple-400 font-bold text-lg">Next-Gen Features</h3>
