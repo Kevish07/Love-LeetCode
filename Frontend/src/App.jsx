@@ -4,7 +4,6 @@ import { Toaster } from "react-hot-toast";
 import { useAuthStore } from "./store/useAuthStore";
 import { Loader } from "lucide-react";
 
-import RegisterPage from "../../Error/RegisterPage";
 import Layout from "./layout/Layout";
 import AdminRoute from "./components/AdminRoute";
 import AddProblem from "./page/AddProblem";
@@ -59,10 +58,10 @@ const App = () => {
           element={!authUser ? <Auth /> : <Navigate to={"/"} />}
         />
 
-        <Route
+        {/* <Route
           path="/register"
           element={!authUser ? <RegisterPage /> : <Navigate to={"/"} />}
-        />
+        /> */}
 
         <Route
           path="/problem/:id"
