@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import { useProblemStore } from "../store/useProblemStore";
-import { Loader } from "lucide-react";
+import Loader from "../components/Loader";
 import NewProblemPage from "./ProblemPage";
 
 const AllProblems = () => {
@@ -14,7 +14,7 @@ const AllProblems = () => {
   if (isProblemsLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <Loader className="size-10 animate-spin" />
+        <Loader className="" />
       </div>
     );
   }

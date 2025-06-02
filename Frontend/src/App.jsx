@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { useAuthStore } from "./store/useAuthStore";
-import { Loader } from "lucide-react";
+import Loader from "./components/Loader";
 
 import Layout from "./layout/Layout";
 import LandingPage from "./page/Landing";
@@ -28,7 +28,7 @@ const App = () => {
   if (isCheckingAuth && !authUser) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <Loader className="size-10 animate-spin" />
+        <Loader className="" />
       </div>
     );
   }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { X, Plus, Loader } from "lucide-react";
+import { X, Plus } from "lucide-react";
 import { usePlaylistStore } from "../store/usePlaylistStore";
+import Loader from "./Loader";
 
 const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
   const { playlists, getAllPlaylists, addProblemToPlaylist, isLoading } =
@@ -63,7 +64,7 @@ const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
               disabled={!selectedPlaylist || isLoading}
             >
               {isLoading ? (
-                <Loader className="w-4 h-4 animate-spin" />
+                <Loader className="" />
               ) : (
                 <Plus className="w-4 h-4" />
               )}

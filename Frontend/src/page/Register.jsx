@@ -146,7 +146,7 @@ export default function Register() {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-80px)] p-4">
+      <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
         <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Side - Marketing Content */}
           <div className="space-y-8 text-center lg:text-left">
@@ -160,7 +160,7 @@ export default function Register() {
 
               <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
                 <span className="bg-gradient-to-r from-white via-violet-200 to-emerald-200 bg-clip-text text-transparent">
-                  Master DSA
+                  Level Up DSA
                 </span>
                 <br />
                 <span className="bg-gradient-to-r from-violet-400 to-emerald-400 bg-clip-text text-transparent">
@@ -177,10 +177,10 @@ export default function Register() {
             {/* Features */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg mx-auto lg:mx-0">
               {[
-                { icon: Shield, text: "Access to Problems", color: "emerald" },
-                { icon: Zap, text: "Level up Skills", color: "violet" },
-                { icon: Trophy, text: "Customized problems", color: "orange" },
-                { icon: Brain, text: "Reference Solutions", color: "pink" },
+                { icon: Shield, text: "Access to Problems", color: "text-emerald-400" },
+                { icon: Zap, text: "Level up Skills", color: "text-violet-400" },
+                { icon: Trophy, text: "Customized problems", color: "text-orange-400" },
+                { icon: Brain, text: "Reference Solutions", color: "text-pink-400" },
               ].map((feature, index) => (
                 <div
                   key={index}
@@ -190,7 +190,7 @@ export default function Register() {
                     className={`w-8 h-8 bg-${feature.color}-500/20 flex items-center justify-center`}
                   >
                     <feature.icon
-                      className={`w-4 h-4 text-${feature.color}-400`}
+                      className={`w-4 h-4 ${feature.color}`}
                     />
                   </div>
                   <span className="text-gray-300 font-medium">
@@ -379,7 +379,7 @@ export default function Register() {
                       </div>
                     ) : (
                       <div className="flex items-center space-x-2">
-                        Sign In
+                        Get Started
                         <ArrowRight className="w-4 h-4" />
                       </div>
                     )}
@@ -389,7 +389,7 @@ export default function Register() {
                 {/* Toggle Form */}
                 <div className="mt-6 text-center">
                   <p className="text-gray-400">
-                      Already have an account?
+                      Already have an account?{" "}
                     <Link 
                         to="/login"
                       className="text-violet-400 hover:text-violet-300 font-medium transition-colors cursor-pointer"
