@@ -13,6 +13,8 @@ import {
 import { useAuthStore } from "../store/useAuthStore";
 import { useActions } from "../store/useAction";
 import { usePlaylistStore } from "../store/usePlaylistStore";
+import AddToPlaylistModal from "../components/AddToPlaylist";
+import CreatePlaylistModal from "../components/CreatePlaylistModal";
 
 export default function ProblemPage({ problems }) {
   const { authUser } = useAuthStore();
@@ -99,11 +101,11 @@ export default function ProblemPage({ problems }) {
 
   const getDifficultyColor = (difficulty) => {
     switch (difficulty.toLowerCase()) {
-      case "Easy":
+      case "EASY":
         return "text-green-500 bg-green-900/20";
-      case "Medium":
+      case "MEDIUM":
         return "text-yellow-500 bg-yellow-900/20";
-      case "Hard":
+      case "HARD":
         return "text-red-500 bg-red-900/20";
       default:
         return "text-gray-500 bg-gray-900/20";
@@ -265,7 +267,7 @@ export default function ProblemPage({ problems }) {
                   Difficulty
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                  Acceptance
+                  Edit
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                   Tags
@@ -291,7 +293,7 @@ export default function ProblemPage({ problems }) {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <button
-                        className="text-indigo-400 hover:text-indigo-300 font-medium flex items-center"
+                        className="text-indigo-400 hover:text-indigo-300 font-medium flex items-center cursor-pointer"
                         onClick={() => handleAddToPlaylist(problem.id)}
                       >
                         <Bookmark className="w-4 h-4" />
@@ -355,6 +357,17 @@ export default function ProblemPage({ problems }) {
           </div>
         )}
       </div>
+      <CreatePlaylistModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onSubmit={handleCreatePlaylist}
+      />
+
+      <AddToPlaylistModal
+        isOpen={isAddToPlaylistModalOpen}
+        onClose={() => setIsAddToPlaylistModalOpen(false)}
+        problemId={selectedProblemId}
+      />
     </div>
   );
 }

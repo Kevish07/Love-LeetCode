@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @custom-variant dark (&:is(.dark *));
-/* @plugin "daisyui"; */
+@plugin "daisyui";
 
 @layer base {
   :root {
