@@ -25,35 +25,33 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useAuthStore } from "../store/useAuthStore";
 
-const LoginSchema = z.object({
+const RegisterSchema = z.object({
   email: z.string().email("Enter a valid email"),
-  password: z.string().min(6, "Password must be atleast of 6 characters"),
+  password: z.string().min(6, "Password must be at least of 6 characters"),
+  name: z.string().min(3, "Name must be at least 3 character"),
 });
 
-export default function AuthPage() {
-  const { isLoggingIn, login } = useAuthStore();
+export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
-  const navigation = useNavigate();
-
+  const { registers, isRegistered } = useAuthStore();
   const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(LoginSchema),
-  });
+      register,
+      handleSubmit,
+      formState:{errors},
+    } = useForm({
+      resolver:zodResolver(RegisterSchema)
+    })
 
-  const onSubmit = async (data) => {
-    try {
-      await login(data);
-      setTimeout(() =>  window.location.reload(), 500);
+  const onSubmit = async (data)=>{
+   try {
+    await registers(data)
+    console.log("register data" , data)
+   } catch (error) {
+     console.error("registration failed:", error);
+   }
+  }
 
-
-    } catch (error) {
-      console.error("Register failed", error);
-    }
-  };
-
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
@@ -226,10 +224,10 @@ export default function AuthPage() {
                 {/* Form Header */}
                 <div className="text-center mb-8">
                   <h2 className="text-3xl font-bold text-white mb-2">
-                    Welcome Back
+                    Join Love Leetcode
                   </h2>
                   <p className="text-gray-400">
-                    Sign in to continue your problem solving journey
+                    Start your problem solving journey today
                   </p>
                 </div>
 
@@ -282,6 +280,22 @@ export default function AuthPage() {
 
                 {/* Email Form */}
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="name" className="text-gray-300">
+                        Full Name
+                      </Label>
+                      <Input
+                        id="name"
+                        type="text"
+                        {...register("name")}
+                        placeholder="Enter your full name"
+                        className={`bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:border-violet-500 focus:ring-violet-500/20 ${
+                    errors.name ? "input-error" : ""
+                  }`}
+                        required
+                      />
+                    </div>
+
                   <div className="space-y-2">
                     <Label htmlFor="email" className="text-gray-300">
                       Email Address
@@ -335,12 +349,30 @@ export default function AuthPage() {
                     </div>
                   </div>
 
+                    <div className="space-y-2">
+                      <Label
+                        htmlFor="confirmPassword"
+                        className="text-gray-300"
+                      >
+                        Confirm Password
+                      </Label>
+                      <Input
+                        id="confirmPassword"
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        placeholder="Confirm your password"
+                        className="bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:border-violet-500 focus:ring-violet-500/20"
+                        required
+                      />
+                    </div>
+
                   <Button
                     type="submit"
-                    disabled={isLoggingIn}
+                    disabled={isRegistered}
                     className="w-full bg-gradient-to-r from-violet-600 to-emerald-600 hover:from-violet-700 hover:to-emerald-700 text-white font-medium py-3 transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                   >
-                    {isLoggingIn ? (
+                    {isRegistered ? (
                       <div className="flex items-center space-x-2">
                         <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                         <span>Please wait...</span>
@@ -357,19 +389,32 @@ export default function AuthPage() {
                 {/* Toggle Form */}
                 <div className="mt-6 text-center">
                   <p className="text-gray-400">
-                    Don't have an account?{" "}
-                    <Link
-                      to="/register"
-                      // className="ml-1 text-violet-400 hover:text-violet-300 font-medium transition-colors"
-                    >
-                    <button
+                      Already have an account?
+                    <Link 
+                        to="/login"
                       className="text-violet-400 hover:text-violet-300 font-medium transition-colors cursor-pointer"
                     >
-                    Create an account
-                    </button>
+                    Sign in
                     </Link>
                   </p>
                 </div>
+
+                  <p className="mt-4 text-xs text-gray-500 text-center">
+                    By creating an account, you agree to our{" "}
+                    <Link
+                      href="#"
+                      className="text-violet-400 hover:text-violet-300"
+                    >
+                      Terms of Service
+                    </Link>{" "}
+                    and{" "}
+                    <Link
+                      href="#"
+                      className="text-violet-400 hover:text-violet-300"
+                    >
+                      Privacy Policy
+                    </Link>
+                  </p>
               </CardContent>
             </Card>
           </div>

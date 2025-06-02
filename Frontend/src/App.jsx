@@ -5,11 +5,12 @@ import { useAuthStore } from "./store/useAuthStore";
 import { Loader } from "lucide-react";
 
 import Layout from "./layout/Layout";
+import LandingPage from "./page/Landing";
+import Auth from "./page/Auth";
+import Register from "./page/Register";
 import AdminRoute from "./components/AdminRoute";
 import AddProblem from "./page/AddProblem";
 
-import Auth from "./page/Auth";
-import LandingPage from "./page/Landing";
 import NewProblemSolver from "./page/ProblemSolver";
 import AllProblems from "./page/AllProblems";
 import LearnPage from "./page/LearnPage";
@@ -46,22 +47,22 @@ const App = () => {
             path="/problems"
             element={authUser ? <AllProblems /> : <Navigate to={"/login"} />}
           />
-        </Route>
-
         <Route path="/learn" element={<LearnPage />} />
-        <Route path="/contest" element={<ContestPage />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+
+        <Route path="/contest" element={<ContestPage />} />
 
         <Route
           path="/login"
           element={!authUser ? <Auth /> : <Navigate to={"/"} />}
         />
 
-        {/* <Route
+        <Route
           path="/register"
-          element={!authUser ? <RegisterPage /> : <Navigate to={"/"} />}
-        /> */}
+          element={!authUser ? <Register /> : <Navigate to={"/"} />}
+        />
 
         <Route
           path="/problem/:id"
