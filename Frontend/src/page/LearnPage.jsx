@@ -334,7 +334,7 @@ const LearnPage = () => {
                       </div>
                       <Button
                         onClick={() => setSelectedPath(path.id)}
-                        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white transition-all duration-300 cursor-pointer"
+                        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white transition-all duration-300 cursor-pointer hover:rounded-none"
                       >
                         Start Learning
                         <ChevronRight className="ml-2 h-4 w-4" />
@@ -399,7 +399,7 @@ const LearnPage = () => {
                       {topic.problems.map((problem, problemIndex) => (
                         <Card
                           key={problem.id}
-                          className="border border-slate-700 hover:border-purple-500/50 transition-all duration-300 bg-gradient-to-br from-slate-800/30 to-slate-900/30 animate-fade-in"
+                          className="border border-slate-700 transition-all duration-300 bg-gradient-to-br from-slate-800/30 to-slate-900/30 animate-fade-in"
                           style={{ animationDelay: `${problemIndex * 0.05}s` }}
                         >
                           <CardContent className="p-4">
@@ -420,7 +420,7 @@ const LearnPage = () => {
                               <Button
                                 size="sm"
                                 variant="outline"
-                                className="w-full text-xs border-purple-500/30 text-white hover:text-white hover:border-purple-500/50 cursor-pointer"
+                                className="w-full text-xs border-purple-500/30 text-white transition-all duration-200 hover:text-white hover:border-purple-500/50 cursor-pointer hover:rounded-none"
                               >
                                 Solve Problem
                               </Button>

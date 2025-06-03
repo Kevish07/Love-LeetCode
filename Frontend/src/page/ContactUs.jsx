@@ -39,7 +39,7 @@ export default function ContactUs() {
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center w-full overflow-hidden bg-background py-16 md:py-24">
+    <section className="min-h-screen flex items-center justify-center w-full overflow-hidden bg-background py-16 md:py-24 bg-gradient-to-br from-slate-950 via-purple-950/20 to-slate-900">
       <div
         className="absolute left-0 top-0 h-[500px] w-[500px] rounded-full opacity-20 blur-[120px]"
         style={{
@@ -170,7 +170,7 @@ export default function ContactUs() {
             >
               <div className="flex flex-col items-center justify-center overflow-hidden">
                 <article className="relative mx-auto h-[350px] min-h-60 max-w-[450px] overflow-hidden rounded-3xl border bg-gradient-to-b from-[#e60a64] to-[#e60a64]/5 p-6 text-3xl tracking-tight text-white md:h-[450px] md:min-h-80 md:p-8 md:text-4xl md:leading-[1.05] lg:text-5xl">
-                  Presenting you with the best UI possible.
+                  Presenting you with the best Service possible.
                   <div className="absolute -bottom-20 -right-20 z-10 mx-auto flex h-full w-full max-w-[300px] items-center justify-center transition-all duration-700 hover:scale-105 md:-bottom-28 md:-right-28 md:max-w-[550px]">
                     <Earth
                       scale={1.1}

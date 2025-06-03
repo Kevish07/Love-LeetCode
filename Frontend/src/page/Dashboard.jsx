@@ -227,16 +227,16 @@ const Dashboard = () => {
   // };
 
   useEffect(() => {
-     getSolvedProblemByUser();
+    getSolvedProblemByUser();
     setTotalSolved(solvedProblems.length);
   }, []);
 
-  useEffect( () => {
-     getAllPlaylists();
+  useEffect(() => {
+    getAllPlaylists();
   }, []);
 
-  useEffect( () => {
-     getAllSubmissions();
+  useEffect(() => {
+    getAllSubmissions();
   }, []);
 
   const handleCreatePlaylist = async (data) => {
@@ -395,7 +395,7 @@ const Dashboard = () => {
                 Your Playlists
               </h2>
               <button
-                className="btn btn-primary gap-2"
+                className="gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg flex items-center hover:shadow-lg transition-all duration-200 hover:rounded-none cursor-pointer"
                 onClick={() => setIsCreateModalOpen(true)}
               >
                 <Plus className="w-4 h-4" />
