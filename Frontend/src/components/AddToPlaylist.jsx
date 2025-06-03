@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { X, Plus } from "lucide-react";
+import { X } from "lucide-react";
 import { usePlaylistStore } from "../store/usePlaylistStore";
 import Loader from "./Loader";
 
@@ -11,13 +11,13 @@ const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
   useEffect(() => {
     if (isOpen) {
       getAllPlaylists();
+      setSelectedPlaylist("");
     }
-  }, [isOpen]);
+  }, [isOpen, getAllPlaylists]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedPlaylist) return;
-
     await addProblemToPlaylist(selectedPlaylist, [problemId]);
     onClose();
   };
@@ -25,22 +25,25 @@ const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-base-100 rounded-lg shadow-xl w-full max-w-md">
-        <div className="flex justify-between items-center p-4 border-b border-base-300">
-          <h3 className="text-xl font-bold">Add to Playlist</h3>
-          <button onClick={onClose} className="btn btn-ghost btn-sm btn-circle">
-            <X className="w-5 h-5" />
-          </button>
-        </div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+      <div className="relative w-full max-w-xs mx-auto bg-zinc-900 border border-zinc-700 shadow-lg rounded-lg p-5">
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-2 text-zinc-400 hover:text-white transition cursor-pointer"
+          aria-label="Close"
+        >
+          <X className="w-5 h-5" />
+        </button>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text font-medium">Select Playlist</span>
-            </label>
+        <h2 className="text-lg font-semibold text-white mb-4 text-center">
+          Add to Playlist
+        </h2>
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+          <div>
             <select
-              className="select select-bordered w-full"
+              className="w-full rounded-md px-3 py-2 bg-zinc-800 text-white border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
               value={selectedPlaylist}
               onChange={(e) => setSelectedPlaylist(e.target.value)}
               disabled={isLoading}
@@ -53,22 +56,21 @@ const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
               ))}
             </select>
           </div>
-
-          <div className="flex justify-end gap-2 mt-6">
-            <button type="button" onClick={onClose} className="btn btn-ghost">
+          <div className="flex justify-end gap-2 mt-2">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-3 py-1 rounded-md bg-zinc-800 text-zinc-300 hover:bg-zinc-700 text-sm cursor-pointer"
+            >
               Cancel
             </button>
             <button
               type="submit"
-              className="btn btn-primary"
+              className="px-3 py-1 rounded-md bg-indigo-600 text-white font-medium hover:bg-indigo-700 text-sm flex items-center gap-2 cursor-pointer"
               disabled={!selectedPlaylist || isLoading}
             >
-              {isLoading ? (
-                <Loader className="" />
-              ) : (
-                <Plus className="w-4 h-4" />
-              )}
-              Add to Playlist
+              {isLoading && <Loader className="w-4 h-4" />}
+              Add
             </button>
           </div>
         </form>

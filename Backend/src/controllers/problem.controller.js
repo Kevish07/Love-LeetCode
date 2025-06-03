@@ -271,13 +271,6 @@ const getAllSolvedProblemsByUser = async (req, res) => {
             userId: req.user.id,
           },
         },
-        include: {
-          solvedBy: {
-            where: {
-              userId: req.user.id,
-            },
-          },
-        },
       },
     });
   
@@ -291,6 +284,7 @@ const getAllSolvedProblemsByUser = async (req, res) => {
         ),
       );
   } catch (error) {
+    console.error("Error while fetching all solved problems:", error);
     res.status(500).json(500,"Error while fetching all solved problems")
   }
 };

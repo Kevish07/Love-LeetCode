@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { X } from "lucide-react";
+
 const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }) => {
   const {
     register,
@@ -18,55 +19,59 @@ const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-base-100 rounded-lg shadow-xl w-full max-w-md">
-        <div className="flex justify-between items-center p-4 border-b border-base-300">
-          <h3 className="text-xl font-bold">Create New Playlist</h3>
-          <button onClick={onClose} className="btn btn-ghost btn-sm btn-circle">
-            <X className="w-5 h-5" />
-          </button>
-        </div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+      <div className="relative w-full max-w-xs mx-auto bg-zinc-900 border border-zinc-700 shadow-lg rounded-lg p-5">
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-2 text-zinc-400 hover:text-white transition cursor-pointer"
+          aria-label="Close"
+        >
+          <X className="w-5 h-5" />
+        </button>
+
+        <h2 className="text-lg font-semibold text-white mb-4 text-center">
+          New Playlist
+        </h2>
 
         <form
           onSubmit={handleSubmit(handleFormSubmit)}
-          className="p-6 space-y-4"
+          className="flex flex-col gap-3"
         >
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text font-medium">Playlist Name</span>
-            </label>
+          <div>
             <input
               type="text"
-              className="input input-bordered w-full"
-              placeholder="Enter playlist name"
+              className="w-full rounded-md px-3 py-2 bg-zinc-800 text-white placeholder-zinc-400 border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+              placeholder="Playlist name"
               {...register("name", { required: "Playlist name is required" })}
             />
             {errors.name && (
-              <label className="label">
-                <span className="label-text-alt text-error">
-                  {errors.name.message}
-                </span>
-              </label>
+              <span className="text-xs text-red-400 mt-1 block">
+                {errors.name.message}
+              </span>
             )}
           </div>
-
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text font-medium">Description</span>
-            </label>
+          <div>
             <textarea
-              className="textarea textarea-bordered h-24"
-              placeholder="Enter playlist description"
+              className="w-full rounded-md px-3 py-2 bg-zinc-800 text-white placeholder-zinc-400 border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm resize-none"
+              placeholder="Description (optional)"
               {...register("description")}
+              rows={2}
             />
           </div>
-
-          <div className="flex justify-end gap-2 mt-6">
-            <button type="button" onClick={onClose} className="btn btn-ghost">
+          <div className="flex justify-end gap-2 mt-2">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-3 py-1 rounded-md bg-zinc-800 text-zinc-300 hover:bg-zinc-700 text-sm cursor-pointer"
+            >
               Cancel
             </button>
-            <button type="submit" className="btn btn-primary">
-              Create Playlist
+            <button
+              type="submit"
+              className="px-3 py-1 rounded-md bg-indigo-600 text-white font-medium hover:bg-indigo-700 text-sm cursor-pointer"
+            >
+              Create
             </button>
           </div>
         </form>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Clock,
   Code,
@@ -31,15 +31,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
 import { useProblemStore } from "../store/useProblemStore";
 import { usePlaylistStore } from "../store/usePlaylistStore";
 import { useSubmissionStore } from "../store/useSubmissionStore";
@@ -235,18 +226,18 @@ const Dashboard = () => {
   //   );
   // };
 
-  useEffect(async () => {
-    await getSolvedProblemByUser();
+  useEffect(() => {
+     getSolvedProblemByUser();
     setTotalSolved(solvedProblems.length);
-  }, [getSolvedProblemByUser]);
+  }, []);
 
-  useEffect(async () => {
-    await getAllPlaylists();
-  }, [getAllPlaylists]);
+  useEffect( () => {
+     getAllPlaylists();
+  }, []);
 
-  useEffect(async () => {
-    await getAllSubmissions();
-  }, [getAllSubmissions]);
+  useEffect( () => {
+     getAllSubmissions();
+  }, []);
 
   const handleCreatePlaylist = async (data) => {
     await createPlaylist(data);
@@ -301,9 +292,9 @@ const Dashboard = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="text-3xl font-bold text-purple-400">
-                    {totalSolved}
+                    {solvedProblems.length}
                   </div>
-                  <p className="text-xs text-slate-500">+5 this week</p>
+                  <p className="text-xs text-slate-500">+0 this week</p>
                 </CardContent>
               </Card>
 
@@ -574,7 +565,7 @@ const Dashboard = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {recentSubmissions.map((submission, index) => (
+                  {submissions?.map((submission, index) => (
                     <div
                       key={submission.id}
                       className="flex items-center justify-between p-4 bg-slate-900/50 rounded-lg border border-slate-700 hover:border-purple-500/30 transition-all duration-300 animate-fade-in hover:scale-[1.02]"

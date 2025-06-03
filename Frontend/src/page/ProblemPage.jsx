@@ -8,7 +8,9 @@ import {
   ArrowUpRight,
   Plus,
   Bookmark,
+  TrashIcon,
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 import { useAuthStore } from "../store/useAuthStore";
 import { useActions } from "../store/useAction";
@@ -153,24 +155,41 @@ export default function ProblemPage({ problems }) {
   }, [visibleCount, filteredProblems.length, isLoading]);
 
   return (
-    <div className="pt-20 pb-16 px-4 min-h-screen">
+    <div className="pt-20 pb-16 px-4 min-h-screen bg-gradient-to-br from-slate-950 via-purple-950/20 to-slate-900">
       <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
+        <motion.div
+          initial={{ opacity: 0, y: -40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="flex justify-between items-center mb-8"
+        >
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2">Problem Set</h1>
-            <p className="text-gray-400">
+            <motion.h1
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.7, ease: "easeOut" }}
+              className="text-3xl font-bold text-white mb-2"
+            >
+              Problem Set
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.7, ease: "easeOut" }}
+              className="text-gray-400"
+            >
               Sharpen your coding skills with our curated collection of
               algorithmic challenges.
-            </p>
+            </motion.p>
           </div>
           <button
-            className="btn btn-primary gap-2"
+            className="gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg flex items-center hover:shadow-lg transition-all duration-200 hover:rounded-none cursor-pointer"
             onClick={() => setIsCreateModalOpen(true)}
           >
             <Plus className="w-4 h-4" />
             Create Playlist
           </button>
-        </div>
+        </motion.div>
 
         <div className="mb-8 flex flex-col md:flex-row gap-4">
           <div className="flex-grow relative">
@@ -250,7 +269,7 @@ export default function ProblemPage({ problems }) {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="">
           <table className="min-w-full bg-gray-900 rounded-lg overflow-hidden">
             <thead>
               <tr className="bg-gray-800">
@@ -275,71 +294,86 @@ export default function ProblemPage({ problems }) {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-800">
-              {filteredProblems.slice(0, visibleCount).map((problem) => {
-                const isSolved = problem.solvedBy.some(
-                  (user) => user.userId === authUser?.data?.id,
-                );
-                return (
-                  <tr
-                    key={problem.id}
-                    className="group transition-colors hover:bg-gray-800/50"
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {isSolved ? (
-                        <CheckCircle className="h-5 w-5 text-green-500" />
-                      ) : (
-                        <div className="h-5 w-5 rounded-full border-2 border-gray-500" />
-                      )}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <button
-                        className="text-indigo-400 hover:text-indigo-300 font-medium flex items-center cursor-pointer"
-                        onClick={() => handleAddToPlaylist(problem.id)}
-                      >
-                        <Bookmark className="w-4 h-4" />
-                      </button>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <Link
-                        to={`/problem/${problem.id}`}
-                        className="text-indigo-400 hover:text-indigo-300 font-medium flex items-center"
-                      >
-                        {problem.title}
-                        <ArrowUpRight className="ml-1 h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </Link>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={`px-2 py-1 text-xs font-medium rounded-full ${getDifficultyColor(
-                          problem.difficulty,
-                        )}`}
-                      >
-                        {problem.difficulty}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                      {Math.floor(Math.random() * 100) + 1}%
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex flex-wrap gap-2">
-                        {problem.tags.slice(0, 2).map((tag, index) => (
-                          <span
-                            key={index}
-                            className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded-full"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                        {problem.tags.length > 2 && (
-                          <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded-full">
-                            +{problem.tags.length - 2}
-                          </span>
+              <AnimatePresence>
+                {filteredProblems.slice(0, visibleCount).map((problem, idx) => {
+                  const isSolved = problem.solvedBy.some(
+                    (user) => user.userId === authUser?.data?.id,
+                  );
+                  return (
+                    <motion.tr
+                      key={problem.id}
+                      className="group transition-colors hover:bg-gray-800/50"
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 30 }}
+                      transition={{
+                        duration: 0.5,
+                        delay: 0.1 + idx * 0.07,
+                        ease: "easeOut",
+                      }}
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {isSolved ? (
+                          <CheckCircle className="h-5 w-5 text-green-500" />
+                        ) : (
+                          <div className="h-5 w-5 rounded-full border-2 border-gray-500" />
                         )}
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <button
+                          className="text-indigo-400 hover:text-indigo-300 font-medium flex items-center cursor-pointer"
+                          onClick={() => handleAddToPlaylist(problem.id)}
+                        >
+                          <Bookmark className="w-4 h-4" />
+                        </button>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <Link
+                          to={`/problem/${problem.id}`}
+                          className="text-indigo-400 hover:text-indigo-300 font-medium flex items-center"
+                        >
+                          {problem.title}
+                          <ArrowUpRight className="ml-1 h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </Link>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span
+                          className={`px-2 py-1 text-xs font-medium rounded-full ${getDifficultyColor(
+                            problem.difficulty,
+                          )}`}
+                        >
+                          {problem.difficulty}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                        <button
+                              onClick={() => handleDelete(problem.id)}
+                              className="btn btn-sm btn-error"
+                            >
+                              <TrashIcon className="w-4 h-4 text-white" />
+                            </button>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex flex-wrap gap-2">
+                          {problem.tags.slice(0, 2).map((tag, index) => (
+                            <span
+                              key={index}
+                              className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded-full"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                          {problem.tags.length > 2 && (
+                            <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded-full">
+                              +{problem.tags.length - 2}
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                    </motion.tr>
+                  );
+                })}
+              </AnimatePresence>
             </tbody>
           </table>
         </div>
