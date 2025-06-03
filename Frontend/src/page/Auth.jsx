@@ -24,6 +24,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useAuthStore } from "../store/useAuthStore";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 const LoginSchema = z.object({
   email: z.string().email("Enter a valid email"),
@@ -46,9 +48,7 @@ export default function AuthPage() {
   const onSubmit = async (data) => {
     try {
       await login(data);
-      setTimeout(() =>  window.location.reload(), 500);
-
-
+      setTimeout(() => window.location.reload(), 500);
     } catch (error) {
       console.error("Register failed", error);
     }
@@ -66,6 +66,23 @@ export default function AuthPage() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (response) => {
+      try {
+        const res = await axios.get(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          {
+            headers: {
+              Authorization: `Bearer ${response.access_token}`,
+            },
+          },
+        );
+        console.log(res);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
   const handleSocialAuth = (provider) => {
     setIsLoading(true);
     // Simulate social auth
@@ -151,7 +168,7 @@ export default function AuthPage() {
       <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
         <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Side - Marketing Content */}
-          <div className="space-y-8 text-center lg:text-left">
+          <div className="space-y-8 text-center lg:text-left animate-fade-in-left">
             <div className="space-y-4">
               <div className="inline-flex items-center space-x-2 bg-violet-500/10 border border-violet-500/20 rounded-full px-4 py-2">
                 <Sparkles className="w-4 h-4 text-violet-400" />
@@ -179,10 +196,26 @@ export default function AuthPage() {
             {/* Features */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg mx-auto lg:mx-0">
               {[
-                { icon: Shield, text: "Access to Problems", color: "text-emerald-400" },
-                { icon: Zap, text: "Level up Skills", color: "text-violet-400" },
-                { icon: Trophy, text: "Customized problems", color: "text-orange-400" },
-                { icon: Brain, text: "Reference Solutions", color: "text-pink-400" },
+                {
+                  icon: Shield,
+                  text: "Access to Problems",
+                  color: "text-emerald-400",
+                },
+                {
+                  icon: Zap,
+                  text: "Level up Skills",
+                  color: "text-violet-400",
+                },
+                {
+                  icon: Trophy,
+                  text: "Customized problems",
+                  color: "text-orange-400",
+                },
+                {
+                  icon: Brain,
+                  text: "Reference Solutions",
+                  color: "text-pink-400",
+                },
               ].map((feature, index) => (
                 <div
                   key={index}
@@ -191,9 +224,7 @@ export default function AuthPage() {
                   <div
                     className={`w-8 h-8 bg-${feature.color}-500/20 flex items-center justify-center`}
                   >
-                    <feature.icon
-                      className={`w-4 h-4 ${feature.color}`}
-                    />
+                    <feature.icon className={`w-4 h-4 ${feature.color}`} />
                   </div>
                   <span className="text-gray-300 font-medium">
                     {feature.text}
@@ -220,7 +251,7 @@ export default function AuthPage() {
           </div>
 
           {/* Right Side - Auth Form */}
-          <div className="flex justify-center">
+          <div className="flex justify-center animate-fade-in-right">
             <Card className="w-full max-w-md bg-gray-900/50 border-gray-700/50 backdrop-blur-sm shadow-2xl">
               <CardContent className="p-8">
                 {/* Form Header */}
@@ -236,7 +267,7 @@ export default function AuthPage() {
                 {/* Social Auth Buttons */}
                 <div className="space-y-3 mb-6">
                   <Button
-                    onClick={() => handleSocialAuth("google")}
+                    onClick={() => googleLogin()}
                     disabled={isLoading}
                     className="w-full bg-white hover:bg-gray-100 text-gray-900 font-medium py-3 transition-all duration-300 transform hover:scale-[1.02] cursor-pointer"
                   >
@@ -362,11 +393,9 @@ export default function AuthPage() {
                       to="/register"
                       // className="ml-1 text-violet-400 hover:text-violet-300 font-medium transition-colors"
                     >
-                    <button
-                      className="text-violet-400 hover:text-violet-300 font-medium transition-colors cursor-pointer"
-                    >
-                    Create an account
-                    </button>
+                      <button className="text-violet-400 hover:text-violet-300 font-medium transition-colors cursor-pointer">
+                        Create an account
+                      </button>
                     </Link>
                   </p>
                 </div>

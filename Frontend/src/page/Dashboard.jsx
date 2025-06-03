@@ -40,121 +40,144 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { useProblemStore } from "../store/useProblemStore";
+import { usePlaylistStore } from "../store/usePlaylistStore";
+import { useSubmissionStore } from "../store/useSubmissionStore";
+import CreatePlaylistModal from "../components/CreatePlaylistModal";
 
 const Dashboard = () => {
+  const {
+    getAllProblems,
+    problems,
+    isProblemsLoading,
+    getSolvedProblemByUser,
+    solvedProblems,
+  } = useProblemStore();
+  const {
+    createPlaylist,
+    getAllPlaylists,
+    playlists,
+    getPlaylistDetails,
+    removeProblemFromPlaylist,
+    deletePlaylist,
+  } = usePlaylistStore();
+  const { getAllSubmissions, submissions } = useSubmissionStore();
+
   const [activeTab, setActiveTab] = useState("overview");
+  const [totalSolved, setTotalSolved] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
-  const [playlists, setPlaylists] = useState([
-    {
-      id: 1,
-      name: "Array Fundamentals",
-      problems: [
-        { id: 1, title: "Two Sum", difficulty: "Easy" },
-        { id: 3, title: "Binary Search", difficulty: "Medium" },
-      ],
-    },
-    {
-      id: 2,
-      name: "Dynamic Programming",
-      problems: [{ id: 5, title: "Maximum Subarray", difficulty: "Medium" }],
-    },
-  ]);
-  const [newPlaylistName, setNewPlaylistName] = useState("");
-  const [isCreatePlaylistOpen, setIsCreatePlaylistOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
-  const solvedProblems = [
-    {
-      id: 1,
-      title: "Two Sum",
-      difficulty: "Easy",
-      status: "Solved",
-      date: "2024-01-15",
-      language: "JavaScript",
-    },
-    {
-      id: 2,
-      title: "Valid Parentheses",
-      difficulty: "Easy",
-      status: "Solved",
-      date: "2024-01-14",
-      language: "Python",
-    },
-    {
-      id: 3,
-      title: "Binary Search",
-      difficulty: "Medium",
-      status: "Solved",
-      date: "2024-01-13",
-      language: "JavaScript",
-    },
-    {
-      id: 4,
-      title: "Merge Two Sorted Lists",
-      difficulty: "Easy",
-      status: "Solved",
-      date: "2024-01-12",
-      language: "Python",
-    },
-    {
-      id: 5,
-      title: "Maximum Subarray",
-      difficulty: "Medium",
-      status: "Solved",
-      date: "2024-01-11",
-      language: "JavaScript",
-    },
-    {
-      id: 6,
-      title: "Climbing Stairs",
-      difficulty: "Easy",
-      status: "Solved",
-      date: "2024-01-10",
-      language: "Python",
-    },
-  ];
+  // const [playlists, setPlaylists] = useState([
+  //   {
+  //     id: 1,
+  //     name: "Array Fundamentals",
+  //     problems: [
+  //       { id: 1, title: "Two Sum", difficulty: "Easy" },
+  //       { id: 3, title: "Binary Search", difficulty: "Medium" },
+  //     ],
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Dynamic Programming",
+  //     problems: [{ id: 5, title: "Maximum Subarray", difficulty: "Medium" }],
+  //   },
+  // ]);
 
-  const recentSubmissions = [
-    {
-      id: 1,
-      problem: "Longest Palindromic Substring",
-      result: "Accepted",
-      time: "2 hours ago",
-      runtime: "84ms",
-      memory: "41.2MB",
-    },
-    {
-      id: 2,
-      problem: "Container With Most Water",
-      result: "Accepted",
-      time: "5 hours ago",
-      runtime: "120ms",
-      memory: "45.1MB",
-    },
-    {
-      id: 3,
-      problem: "3Sum",
-      result: "Time Limit Exceeded",
-      time: "1 day ago",
-      runtime: "N/A",
-      memory: "N/A",
-    },
-    {
-      id: 4,
-      problem: "Letter Combinations",
-      result: "Accepted",
-      time: "2 days ago",
-      runtime: "68ms",
-      memory: "38.9MB",
-    },
-  ];
+  // const [newPlaylistName, setNewPlaylistName] = useState("");
+  // const [isCreatePlaylistOpen, setIsCreatePlaylistOpen] = useState(false);
+
+  // const solvedProblems = [
+  //   {
+  //     id: 1,
+  //     title: "Two Sum",
+  //     difficulty: "Easy",
+  //     status: "Solved",
+  //     date: "2024-01-15",
+  //     language: "JavaScript",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Valid Parentheses",
+  //     difficulty: "Easy",
+  //     status: "Solved",
+  //     date: "2024-01-14",
+  //     language: "Python",
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Binary Search",
+  //     difficulty: "Medium",
+  //     status: "Solved",
+  //     date: "2024-01-13",
+  //     language: "JavaScript",
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "Merge Two Sorted Lists",
+  //     difficulty: "Easy",
+  //     status: "Solved",
+  //     date: "2024-01-12",
+  //     language: "Python",
+  //   },
+  //   {
+  //     id: 5,
+  //     title: "Maximum Subarray",
+  //     difficulty: "Medium",
+  //     status: "Solved",
+  //     date: "2024-01-11",
+  //     language: "JavaScript",
+  //   },
+  //   {
+  //     id: 6,
+  //     title: "Climbing Stairs",
+  //     difficulty: "Easy",
+  //     status: "Solved",
+  //     date: "2024-01-10",
+  //     language: "Python",
+  //   },
+  // ];
+
+  // const recentSubmissions = [
+  //   {
+  //     id: 1,
+  //     problem: "Longest Palindromic Substring",
+  //     result: "Accepted",
+  //     time: "2 hours ago",
+  //     runtime: "84ms",
+  //     memory: "41.2MB",
+  //   },
+  //   {
+  //     id: 2,
+  //     problem: "Container With Most Water",
+  //     result: "Accepted",
+  //     time: "5 hours ago",
+  //     runtime: "120ms",
+  //     memory: "45.1MB",
+  //   },
+  //   {
+  //     id: 3,
+  //     problem: "3Sum",
+  //     result: "Time Limit Exceeded",
+  //     time: "1 day ago",
+  //     runtime: "N/A",
+  //     memory: "N/A",
+  //   },
+  //   {
+  //     id: 4,
+  //     problem: "Letter Combinations",
+  //     result: "Accepted",
+  //     time: "2 days ago",
+  //     runtime: "68ms",
+  //     memory: "38.9MB",
+  //   },
+  // ];
 
   const stats = {
     totalSolved: 156,
     easyCount: 89,
     mediumCount: 52,
     hardCount: 15,
-    currentStreak: 12,
-    maxStreak: 28,
     acceptanceRate: "73.5%",
     totalSubmissions: 212,
   };
@@ -182,34 +205,51 @@ const Dashboard = () => {
     problem.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
-  const createPlaylist = () => {
-    if (newPlaylistName.trim()) {
-      const newPlaylist = {
-        id: Date.now(),
-        name: newPlaylistName,
-        problems: [],
-      };
-      setPlaylists([...playlists, newPlaylist]);
-      setNewPlaylistName("");
-      setIsCreatePlaylistOpen(false);
-    }
-  };
+  // const createPlaylist = () => {
+  //   if (newPlaylistName.trim()) {
+  //     const newPlaylist = {
+  //       id: Date.now(),
+  //       name: newPlaylistName,
+  //       problems: [],
+  //     };
+  //     setPlaylists([...playlists, newPlaylist]);
+  //     setNewPlaylistName("");
+  //     setIsCreatePlaylistOpen(false);
+  //   }
+  // };
 
-  const deletePlaylist = (playlistId) => {
-    setPlaylists(playlists.filter((p) => p.id !== playlistId));
-  };
+  // const deletePlaylist = (playlistId) => {
+  //   setPlaylists(playlists.filter((p) => p.id !== playlistId));
+  // };
 
-  const removeProblemFromPlaylist = (playlistId, problemId) => {
-    setPlaylists(
-      playlists.map((playlist) =>
-        playlist.id === playlistId
-          ? {
-              ...playlist,
-              problems: playlist.problems.filter((p) => p.id !== problemId),
-            }
-          : playlist,
-      ),
-    );
+  // const removeProblemFromPlaylist = (playlistId, problemId) => {
+  //   setPlaylists(
+  //     playlists.map((playlist) =>
+  //       playlist.id === playlistId
+  //         ? {
+  //             ...playlist,
+  //             problems: playlist.problems.filter((p) => p.id !== problemId),
+  //           }
+  //         : playlist,
+  //     ),
+  //   );
+  // };
+
+  useEffect(async () => {
+    await getSolvedProblemByUser();
+    setTotalSolved(solvedProblems.length);
+  }, [getSolvedProblemByUser]);
+
+  useEffect(async () => {
+    await getAllPlaylists();
+  }, [getAllPlaylists]);
+
+  useEffect(async () => {
+    await getAllSubmissions();
+  }, [getAllSubmissions]);
+
+  const handleCreatePlaylist = async (data) => {
+    await createPlaylist(data);
   };
 
   return (
@@ -226,7 +266,7 @@ const Dashboard = () => {
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex space-x-1 bg-slate-900/50 p-1 rounded-lg mb-8 border border-purple-500/20">
+        <div className="flex space-x-1 bg-slate-900/50 p-1 mb-8 border border-purple-500/20">
           {[
             { key: "overview", label: "Overview", icon: BarChart3 },
             { key: "playlists", label: "Playlists", icon: PlaySquare },
@@ -236,7 +276,7 @@ const Dashboard = () => {
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-all duration-200 ${
+              className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-all duration-300 hover:rounded-none ${
                 activeTab === tab.key
                   ? "bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg"
                   : "text-slate-400 hover:text-white hover:bg-slate-800/50"
@@ -261,7 +301,7 @@ const Dashboard = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="text-3xl font-bold text-purple-400">
-                    {stats.totalSolved}
+                    {totalSolved}
                   </div>
                   <p className="text-xs text-slate-500">+5 this week</p>
                 </CardContent>
@@ -363,50 +403,13 @@ const Dashboard = () => {
               <h2 className="text-2xl font-bold text-blue-200">
                 Your Playlists
               </h2>
-              <Dialog
-                open={isCreatePlaylistOpen}
-                onOpenChange={setIsCreatePlaylistOpen}
+              <button
+                className="btn btn-primary gap-2"
+                onClick={() => setIsCreateModalOpen(true)}
               >
-                <DialogTrigger asChild>
-                  <Button className="bg-gradient-to-r from-purple-500 to-blue-500">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Create Playlist
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="bg-slate-900 border-slate-600">
-                  <DialogHeader>
-                    <DialogTitle className="text-blue-200">
-                      Create New Playlist
-                    </DialogTitle>
-                    <DialogDescription className="text-slate-400">
-                      Give your playlist a name to organize your problems.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="space-y-4">
-                    <div>
-                      <Label htmlFor="playlist-name" className="text-slate-300">
-                        Playlist Name
-                      </Label>
-                      <Input
-                        id="playlist-name"
-                        value={newPlaylistName}
-                        onChange={(e) => setNewPlaylistName(e.target.value)}
-                        placeholder="Enter playlist name"
-                        className="bg-slate-800 border-slate-600 text-white"
-                      />
-                    </div>
-                    <div className="flex justify-end space-x-2">
-                      <Button
-                        variant="outline"
-                        onClick={() => setIsCreatePlaylistOpen(false)}
-                      >
-                        Cancel
-                      </Button>
-                      <Button onClick={createPlaylist}>Create</Button>
-                    </div>
-                  </div>
-                </DialogContent>
-              </Dialog>
+                <Plus className="w-4 h-4" />
+                Create Playlist
+              </button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -618,6 +621,11 @@ const Dashboard = () => {
           </div>
         )}
       </div>
+      <CreatePlaylistModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onSubmit={handleCreatePlaylist}
+      />
     </div>
   );
 };

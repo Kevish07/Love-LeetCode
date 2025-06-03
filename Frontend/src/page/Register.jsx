@@ -24,6 +24,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useAuthStore } from "../store/useAuthStore";
+import { useGoogleLogin } from "@react-oauth/google";
 
 const RegisterSchema = z.object({
   email: z.string().email("Enter a valid email"),
@@ -63,6 +64,24 @@ export default function Register() {
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
+
+    const googleLogin = useGoogleLogin({
+    onSuccess: async (response) => {
+      try {
+        const res = await axios.get(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          {
+            headers: {
+              Authorization: `Bearer ${response.access_token}`,
+            },
+          },
+        );
+        console.log(res);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
 
   const handleSocialAuth = (provider) => {
     setIsLoading(true);
@@ -149,7 +168,7 @@ export default function Register() {
       <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
         <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Side - Marketing Content */}
-          <div className="space-y-8 text-center lg:text-left">
+          <div className="space-y-8 text-center lg:text-left animate-fade-in-left">
             <div className="space-y-4">
               <div className="inline-flex items-center space-x-2 bg-violet-500/10 border border-violet-500/20 rounded-full px-4 py-2">
                 <Sparkles className="w-4 h-4 text-violet-400" />
@@ -218,7 +237,7 @@ export default function Register() {
           </div>
 
           {/* Right Side - Auth Form */}
-          <div className="flex justify-center">
+          <div className="flex justify-center animate-fade-in-right">
             <Card className="w-full max-w-md bg-gray-900/50 border-gray-700/50 backdrop-blur-sm shadow-2xl">
               <CardContent className="p-8">
                 {/* Form Header */}
@@ -234,7 +253,7 @@ export default function Register() {
                 {/* Social Auth Buttons */}
                 <div className="space-y-3 mb-6">
                   <Button
-                    onClick={() => handleSocialAuth("google")}
+                    onClick={() => googleLogin()}
                     disabled={isLoading}
                     className="w-full bg-white hover:bg-gray-100 text-gray-900 font-medium py-3 transition-all duration-300 transform hover:scale-[1.02] cursor-pointer"
                   >
