@@ -9,6 +9,7 @@ import {
   Plus,
   Bookmark,
   TrashIcon,
+  PenBoxIcon,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -18,22 +19,59 @@ import { usePlaylistStore } from "../store/usePlaylistStore";
 import AddToPlaylistModal from "../components/AddToPlaylist";
 import CreatePlaylistModal from "../components/CreatePlaylistModal";
 
+function ConfirmDeleteModal({ isOpen, onClose, onDelete }) {
+  if (!isOpen) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+      <div className="bg-zinc-900 border border-red-700 rounded-lg shadow-xl p-6 w-full max-w-xs relative">
+        <div className="flex items-center gap-3 mb-4">
+          <TrashIcon className="w-7 h-7 text-red-500" />
+          <span className="text-lg font-bold text-red-400">Delete Problem?</span>
+        </div>
+        <p className="text-sm text-red-300 mb-6">
+          Are you sure you want to delete this problem? This action cannot be undone.
+        </p>
+        <div className="flex justify-end gap-2">
+          <button
+            onClick={onClose}
+            className="px-4 py-1 rounded bg-zinc-800 text-zinc-300 hover:bg-zinc-700 text-sm"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={onDelete}
+            className="px-4 py-1 rounded bg-red-600 text-white font-semibold hover:bg-red-700 text-sm shadow"
+          >
+            Delete Now
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ProblemPage({ problems }) {
   const { authUser } = useAuthStore();
   const { onDeleteProblem } = useActions();
   const { createPlaylist } = usePlaylistStore();
+  const [search, setSearch] = useState("");
+  const [difficulty, setDifficulty] = useState("ALL");
+  const [selectedTag, setSelectedTag] = useState("ALL");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [isAddToPlaylistModalOpen, setIsAddToPlaylistModalOpen] =
-    useState(false);
+  const [isAddToPlaylistModalOpen, setIsAddToPlaylistModalOpen] = useState(false);
   const [selectedProblemId, setSelectedProblemId] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteProblemId, setDeleteProblemId] = useState(null);
 
   // Extract all unique tags from problems
   const allTags = useMemo(() => {
-    if (!Array.isArray(problems)) return [];
-    const tagsSet = new Set();
-    problems.forEach((p) => p.tags?.forEach((t) => tagsSet.add(t)));
-    return Array.from(tagsSet);
+      if (!Array.isArray(problems)) return [];
+      const tagsSet = new Set();
+      problems.forEach((p) => p.tags?.forEach((t) => tagsSet.add(t)));
+      return Array.from(tagsSet);
   }, [problems]);
+
+  const difficulties = ["EASY", "MEDIUM", "HARD"];
 
   const handleDelete = (id) => {
     onDeleteProblem(id);
@@ -48,76 +86,108 @@ export default function ProblemPage({ problems }) {
     setIsAddToPlaylistModalOpen(true);
   };
 
-  // -----------
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [filters, setFilters] = useState({
-    difficulty: [],
-    tags: allTags,
-    status: [],
-  });
-  const [visibleCount, setVisibleCount] = useState(2);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleFilterChange = (category, value) => {
-    setFilters((prev) => {
-      const newFilters = { ...prev };
-      if (newFilters[category].includes(value)) {
-        newFilters[category] = newFilters[category].filter(
-          (item) => item !== value,
-        );
-      } else {
-        newFilters[category] = [...newFilters[category], value];
-      }
-      return newFilters;
-    });
+  const handleDeleteClick = (id) => {
+    setDeleteProblemId(id);
+    setShowDeleteModal(true);
   };
 
-  const filteredProblems = problems.filter((problem) => {
-    // Search filter
-    if (
-      searchTerm &&
-      !problem.title.toLowerCase().includes(searchTerm.toLowerCase())
-    ) {
-      return false;
-    }
+  const handleConfirmDelete = () => {
+    onDeleteProblem(deleteProblemId);
+    setShowDeleteModal(false);
+    setDeleteProblemId(null);
+  };
 
-    // Difficulty filter
-    if (
-      filters.difficulty.length > 0 &&
-      !filters.difficulty.includes(problem.difficulty)
-    ) {
-      return false;
-    }
+  const handleCancelDelete = () => {
+    setShowDeleteModal(false);
+    setDeleteProblemId(null);
+  };
 
-    // Tags filter
-    if (
-      filters.tags.length > 0 &&
-      !problem.tags.some((tag) => filters.tags.includes(tag))
-    ) {
-      return false;
-    }
+  // -----------
+  // const [searchTerm, setSearchTerm] = useState("");
+  // const [isFilterOpen, setIsFilterOpen] = useState(false);
+  // const [filters, setFilters] = useState({
+  //   difficulty: [],
+  //   tags: allTags,
+  //   status: [],
+  // });
 
-    return true;
-  });
+
+  // const handleFilterChange = (category, value) => {
+  //   setFilters((prev) => {
+  //     const newFilters = { ...prev };
+  //     if (newFilters[category].includes(value)) {
+  //       newFilters[category] = newFilters[category].filter(
+  //         (item) => item !== value,
+  //       );
+  //     } else {
+  //       newFilters[category] = [...newFilters[category], value];
+  //     }
+  //     return newFilters;
+  //   });
+  // };
+
+  // const filteredProblems = problems.filter((problem) => {
+  //   // Search filter
+  //   if (
+  //     searchTerm &&
+  //     !problem.title.toLowerCase().includes(searchTerm.toLowerCase())
+  //   ) {
+  //     return false;
+  //   }
+
+  //   // Difficulty filter
+  //   if (
+  //     filters.difficulty.length > 0 &&
+  //     !filters.difficulty.includes(problem.difficulty)
+  //   ) {
+  //     return false;
+  //   }
+
+  //   // Tags filter
+  //   if (
+  //     filters.tags.length > 0 &&
+  //     !problem.tags.some((tag) => filters.tags.includes(tag))
+  //   ) {
+  //     return false;
+  //   }
+
+  //   return true;
+  // });
+
+  const filteredProblems = useMemo(() => {
+    return (problems || [])
+      .filter((problem) =>
+        problem.title.toLowerCase().includes(search.toLowerCase()),
+      )
+      .filter((problem) =>
+        difficulty === "ALL" ? true : problem.difficulty === difficulty,
+      )
+      .filter((problem) =>
+        selectedTag === "ALL" ? true : problem.tags?.includes(selectedTag),
+      );
+    }, [problems, search, difficulty, selectedTag]);
 
   const getDifficultyColor = (difficulty) => {
-    switch (difficulty.toLowerCase()) {
+    switch (difficulty) {
       case "EASY":
-        return "text-green-500 bg-green-900/20";
+        return "text-green-500 bg-green-900/40";
       case "MEDIUM":
-        return "text-yellow-500 bg-yellow-900/20";
+        return "text-yellow-500 bg-yellow-900/40";
       case "HARD":
-        return "text-red-500 bg-red-900/20";
+        return "text-red-500 bg-red-900/40";
       default:
         return "text-gray-500 bg-gray-900/20";
     }
   };
 
+
+  const [visibleCount, setVisibleCount] = useState(2);
+  const [isLoading, setIsLoading] = useState(false);
+
   // Reset visibleCount when filters/search change
   useEffect(() => {
     setVisibleCount(2);
-  }, [searchTerm, filters]);
+  }, [search, filteredProblems]);
 
   // Infinite scroll handler
   const handleScroll = useCallback(() => {
@@ -191,7 +261,7 @@ export default function ProblemPage({ problems }) {
           </button>
         </motion.div>
 
-        <div className="mb-8 flex flex-col md:flex-row gap-4">
+        {/* <div className="mb-8 flex flex-col md:flex-row gap-4">
           <div className="flex-grow relative">
             <Search
               className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
@@ -267,6 +337,43 @@ export default function ProblemPage({ problems }) {
               </div>
             )}
           </div>
+        </div> */}
+        {/* Filters */}
+        <div className="mb-8 flex flex-col md:flex-row gap-4">
+          <div className="flex-grow relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-indigo-400" size={20} />
+            <input
+              type="text"
+              placeholder="Search by title"
+              className="w-full pl-10 pr-4 py-2 rounded-md bg-zinc-900 border border-zinc-800 text-white placeholder-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+          <select
+            className="rounded-md px-4 py-2 bg-zinc-900 border border-zinc-800 text-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+            value={difficulty}
+            onChange={(e) => setDifficulty(e.target.value)}
+          >
+            <option value="ALL">All Difficulties</option>
+            {difficulties.map((diff) => (
+              <option key={diff} value={diff}>
+                {diff.charAt(0).toUpperCase() + diff.slice(1).toLowerCase()}
+              </option>
+            ))}
+          </select>
+          <select
+            className="rounded-md px-4 py-2 bg-zinc-900 border border-zinc-800 text-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+            value={selectedTag}
+            onChange={(e) => setSelectedTag(e.target.value)}
+          >
+            <option value="ALL">All Tags</option>
+            {allTags.map((tag) => (
+              <option key={tag} value={tag}>
+                {tag}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="">
@@ -345,14 +452,22 @@ export default function ProblemPage({ problems }) {
                           {problem.difficulty}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                      {authUser?.data?.role === "ADMIN" && (
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400 flex items-center gap-2">
+                          <Link
+                            to={`/problem/edit/${problem.id}`}
+                            className="text-indigo-400 hover:text-indigo-300 font-medium flex items-center"
+                          >
+                            <PenBoxIcon className="w-4 h-4" />
+                          </Link>
                         <button
-                              onClick={() => handleDelete(problem.id)}
+                              onClick={() => handleDeleteClick(problem.id)}
                               className="btn btn-sm btn-error"
                             >
-                              <TrashIcon className="w-4 h-4 text-white" />
+                              <TrashIcon className="w-4 h-4 text-white hover:text-red-400/70 cursor-pointer" />
                             </button>
                       </td>
+                      )}
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex flex-wrap gap-2">
                           {problem.tags.slice(0, 2).map((tag, index) => (
@@ -384,7 +499,7 @@ export default function ProblemPage({ problems }) {
 
         {filteredProblems.length === 0 && (
           <div className="text-center py-10">
-            <p className="text-gray-400">
+            <p className="text-gray-800">
               No problems match your filters. Try adjusting your search
               criteria.
             </p>
@@ -401,6 +516,11 @@ export default function ProblemPage({ problems }) {
         isOpen={isAddToPlaylistModalOpen}
         onClose={() => setIsAddToPlaylistModalOpen(false)}
         problemId={selectedProblemId}
+      />
+      <ConfirmDeleteModal
+        isOpen={showDeleteModal}
+        onClose={handleCancelDelete}
+        onDelete={handleConfirmDelete}
       />
     </div>
   );

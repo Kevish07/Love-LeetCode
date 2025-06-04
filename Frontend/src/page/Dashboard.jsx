@@ -419,23 +419,23 @@ const Dashboard = () => {
                         variant="ghost"
                         size="sm"
                         onClick={() => deletePlaylist(playlist.id)}
-                        className="text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                        className="text-red-400 hover:text-red-300 hover:bg-red-500/10 cursor-pointer"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
                     <CardDescription className="text-slate-400">
-                      {playlist.problems.length} problems
+                      {playlist.problems?.length} problems
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-2">
-                      {playlist.problems.length === 0 ? (
+                      {playlist.problems?.length === 0 ? (
                         <p className="text-slate-500 text-sm">
                           No problems added yet
                         </p>
                       ) : (
-                        playlist.problems.map((problem) => (
+                        playlist.problems?.map((problem) => (
                           <div
                             key={problem.id}
                             className="flex items-center justify-between p-2 bg-slate-800/50 rounded"
@@ -446,7 +446,7 @@ const Dashboard = () => {
                               </span>
                               <Badge
                                 className={
-                                  problem.difficulty === "Easy"
+                                  problem.difficulty === "EASY"
                                     ? "bg-green-500/20 text-green-400 border-green-500/30"
                                     : problem.difficulty === "Medium"
                                     ? "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"
@@ -465,7 +465,7 @@ const Dashboard = () => {
                                   problem.id,
                                 )
                               }
-                              className="text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                              className="text-red-400 hover:text-red-300 hover:bg-red-500/10 cursor-pointer"
                             >
                               <X className="h-3 w-3" />
                             </Button>

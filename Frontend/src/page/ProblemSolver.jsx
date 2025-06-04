@@ -127,7 +127,7 @@ const ProblemSolver = () => {
     switch (activeTab) {
       case "description":
         return (
-          <div className="h-full glass-morphism border-r border-purple-500/20 overflow-y-auto animate-fade-in">
+          <div className="h-full animate-fade-in">
             <div className="p-6 space-y-6">
               {/* Problem header with animated icon */}
               <div className="flex items-center space-x-3">
@@ -161,7 +161,7 @@ const ProblemSolver = () => {
                     ([lang, example], index) => (
                       <div
                         key={index}
-                        className="mb-4 glass-morphism rounded-xl p-4 border border-purple-500/20 hover:border-purple-400/40 transition-all duration-300 hover:scale-[1.02] animate-fade-in"
+                        className="mb-4 glass-morphism rounded-xl p-4 border border-purple-500/20 hover:border-purple-400/40 transition-all duration-300 animate-fade-in"
                         style={{ animationDelay: `${index * 0.1}s` }}
                       >
                         <div className="text-sm space-y-3">
@@ -225,10 +225,10 @@ const ProblemSolver = () => {
         );
       case "editorial":
         return (
-          <div className="p-4 text-center text-base-content/70">
+          <div className="h-full animate-fade-in">
             {problem?.editorial ? (
-              <div className="bg-base-200 p-6 rounded-xl">
-                <span className="bg-black/90 px-4 py-1 rounded-lg  text-white text-lg">
+              <div className="p-6 rounded-xl">
+                <span className="py-1 rounded-lg text-white text-lg">
                   {problem.editorial}
                 </span>
               </div>
@@ -241,10 +241,10 @@ const ProblemSolver = () => {
         );
       case "hints":
         return (
-          <div className="p-4">
+          <div className="h-full animate-fade-in">
             {problem?.hints ? (
-              <div className="bg-base-200 p-6 rounded-xl">
-                <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white text-lg">
+              <div className="p-6 rounded-xl">
+                <span className="py-1 rounded-lg font-semibold text-white text-lg">
                   {problem.hints}
                 </span>
               </div>
@@ -263,16 +263,17 @@ const ProblemSolver = () => {
   // ----------------------------------------------------------------------
 
   const handleReset = () => {
-    setCode(`function twoSum(nums, target) {
-    // Write your solution here
-    
-}`);
+    setCode(
+        problem.codeSnippets?.[selectedLanguage] ||
+          submission?.sourceCode ||
+          "",
+      );
   };
 
   return (
-    <div className="h-screen bg-[linear-gradient(105deg,_rgb(49,46,100),_rgb(15,23,42),_rgb(30,27,75),_rgb(30,27,75),_rgb(15,23,42))] flex flex-col relative overflow-x-auto">
+    <div className="h-screen min-h-screen max-h-screen bg-gradient-to-br from-slate-950 via-purple-950/20 to-slate-900 flex flex-col relative">
       {/* Floating particles background */}
-      <div className="floating-particles"></div>
+      <div className="floating-particles pointer-events-none absolute inset-0 z-0" />
 
       {/* Header */}
       <header className="glass-morphism border-b border-purple-500/20 px-6 py-4 relative z-10 animate-fade-in">
@@ -282,27 +283,18 @@ const ProblemSolver = () => {
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-slate-300 hover:text-purple-400 hover:bg-purple-500/10 transition-all duration-300 hover:scale-105 cursor-pointer"
+                className="text-slate-300 hover:text-purple-400 hover:bg-purple-500/10 transition-all duration-300 cursor-pointer"
               >
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back to Problems
               </Button>
             </Link>
-            {/* <div className="flex items-center space-x-4">
-              <h1 className="text-2xl font-bold text-white hover:text-purple-300 transition-colors cursor-default">
-                {problem.id}. {problem.title}
-              </h1>
-              <Badge className={`${getDifficultyColor(problem.difficulty)} animate-pulse`}>
-                {problem.difficulty}
-              </Badge>
-            </div> */}
           </div>
-
           <div className="flex items-center space-x-3">
             <Button
               variant="outline"
               size="sm"
-              className={`border-purple-500/50 text-purple-300 hover:bg-purple-500/10 transition-all duration-300 hover:scale-105 cursor-pointer `}
+              className="border-purple-500/50 text-purple-300 hover:text-purple-500 hover:bg-purple-500/10 transition-all duration-300 cursor-pointer"
               onClick={handleReset}
             >
               <RotateCcw className="h-4 w-4 mr-2" />
@@ -310,7 +302,7 @@ const ProblemSolver = () => {
             </Button>
             <Button
               size="sm"
-              className="bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600 text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25 cursor-pointer"
+              className="bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600 text-white transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/25 cursor-pointer"
               onClick={handleRunCode}
               disabled={isExecuting}
             >
@@ -331,16 +323,17 @@ const ProblemSolver = () => {
       </header>
 
       {/* Main Content */}
-      <div className="flex-1 relative">
+      <div className="flex-1 relative z-10">
         <ResizablePanelGroup direction="horizontal" className="h-full">
           {/* Problem Description Panel */}
           <ResizablePanel defaultSize={35} minSize={25}>
-            {/* /in render tab */}
-            <div className="card-body p-0">
-              <div className="tabs tabs-bordered">
+            <div className="h-full flex flex-col">
+              <div className="flex border-b border-purple-500/20">
                 <button
-                  className={`tab gap-2 ${
-                    activeTab === "description" ? "tab-active" : ""
+                  className={`flex-1 py-3 px-2 text-sm font-semibold flex items-center justify-center gap-2 transition-all duration-200 border-b-2 cursor-pointer ${
+                    activeTab === "description"
+                      ? "border-purple-500 text-purple-300 bg-zinc-900"
+                      : "border-transparent text-purple-400 hover:bg-zinc-800/60"
                   }`}
                   onClick={() => setActiveTab("description")}
                 >
@@ -348,8 +341,10 @@ const ProblemSolver = () => {
                   Description
                 </button>
                 <button
-                  className={`tab gap-2 ${
-                    activeTab === "submissions" ? "tab-active" : ""
+                  className={`flex-1 py-3 px-2 text-sm font-semibold flex items-center justify-center gap-2 transition-all duration-200 border-b-2 cursor-pointer ${
+                    activeTab === "submissions"
+                      ? "border-purple-500 text-purple-300 bg-zinc-900"
+                      : "border-transparent text-purple-400 hover:bg-zinc-800/60"
                   }`}
                   onClick={() => setActiveTab("submissions")}
                 >
@@ -357,8 +352,10 @@ const ProblemSolver = () => {
                   Submissions
                 </button>
                 <button
-                  className={`tab gap-2 ${
-                    activeTab === "editorial" ? "tab-active" : ""
+                  className={`flex-1 py-3 px-2 text-sm font-semibold flex items-center justify-center gap-2 transition-all duration-200 border-b-2 cursor-pointer ${
+                    activeTab === "editorial"
+                      ? "border-purple-500 text-purple-300 bg-zinc-900"
+                      : "border-transparent text-purple-400 hover:bg-zinc-800/60"
                   }`}
                   onClick={() => setActiveTab("editorial")}
                 >
@@ -366,8 +363,10 @@ const ProblemSolver = () => {
                   Editorial
                 </button>
                 <button
-                  className={`tab gap-2 ${
-                    activeTab === "hints" ? "tab-active" : ""
+                  className={`flex-1 py-3 px-2 text-sm font-semibold flex items-center justify-center gap-2 transition-all duration-200 border-b-2 cursor-pointer ${
+                    activeTab === "hints"
+                      ? "border-purple-500 text-purple-300 bg-zinc-900"
+                      : "border-transparent text-purple-400 hover:bg-zinc-800/60"
                   }`}
                   onClick={() => setActiveTab("hints")}
                 >
@@ -375,8 +374,7 @@ const ProblemSolver = () => {
                   Hints
                 </button>
               </div>
-
-              <div className="">{renderTabContent()}</div>
+              <div className="flex-1 animate-fade-in">{renderTabContent()}</div>
             </div>
           </ResizablePanel>
 
@@ -400,7 +398,7 @@ const ProblemSolver = () => {
                       </div>
                       <span className="text-sm text-slate-300 font-medium">
                         <select
-                          className="select select-bordered select-primary w-40"
+                          className="w-full appearance-none bg-slate-800 text-slate-100 border border-slate-600 px-3 py-1 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                           value={selectedLanguage}
                           onChange={handleLanguageChange}
                         >
@@ -413,24 +411,9 @@ const ProblemSolver = () => {
                           )}
                         </select>
                       </span>
-                      {/* <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-slate-400 hover:text-purple-400 hover:scale-110 transition-all">
-                        <Settings className="h-3 w-3" />
-                      </Button> */}
                     </div>
                   </div>
-
-                  <div className="flex-1 p-6 relative">
-                    {/* <textarea
-                      value={code}
-                      onChange={(e) => setCode(e.target.value)}
-                      className="w-full h-full bg-transparent text-slate-200 code-editor resize-none outline-none focus:ring-2 focus:ring-purple-500/50 focus:ring-inset rounded-lg transition-all duration-300"
-                      placeholder="Write your solution here..."
-                      style={{ 
-                        fontFamily: 'JetBrains Mono, Monaco, Consolas, monospace',
-                        tabSize: 2
-                      }}
-                    /> */}
-
+                  <div className="flex-1 relative">
                     <div className="h-[600px] w-full">
                       <Editor
                         height="100%"
@@ -449,14 +432,6 @@ const ProblemSolver = () => {
                         }}
                       />
                     </div>
-
-                    {/* Code completion hints */}
-                    {/* <div className="absolute bottom-4 right-4 text-xs text-slate-500 opacity-0 hover:opacity-100 transition-opacity">
-                      <div className="bg-slate-800/80 p-2 rounded">
-                        <p>Ctrl+Space: Autocomplete</p>
-                        <p>Ctrl+/: Comment</p>
-                      </div>
-                    </div> */}
                   </div>
                 </div>
               </ResizablePanel>
@@ -468,7 +443,7 @@ const ProblemSolver = () => {
 
               {/* Test Results Panel */}
               <ResizablePanel defaultSize={30} minSize={20}>
-                <div className="h-full glass-morphism border-t border-purple-500/20 animate-fade-in overflow-x-auto">
+                <div className="h-full glass-morphism border-t border-purple-500/20 animate-fade-in">
                   <div className="p-6">
                     {submission ? (
                       <Submission submission={submission} />
@@ -477,40 +452,31 @@ const ProblemSolver = () => {
                         <div className="flex items-center justify-between mb-6">
                           <h3 className="text-lg font-semibold text-white flex items-center">
                             <Zap className="w-5 h-5 mr-2 text-purple-400 animate-pulse" />
-                            Test Results
+                            Test Cases Data
                           </h3>
                         </div>
-
-                        <div className="space-y-3 text-sm">
-                          {testcases.map((test, index) => (
-                            <div
-                              key={test.id}
-                              className={`glass-morphism border rounded-lg p-4 transition-all duration-300 hover:scale-[1.02] animate-fade-in ${
-                                test.passed
-                                  ? "border-green-500/30 hover:border-green-400/50"
-                                  : "border-red-500/30 hover:border-red-400/50"
-                              }`}
-                              style={{ animationDelay: `${index * 0.1}s` }}
-                            >
-                              <div
-                                className={`font-medium mb-2 flex items-center ${
-                                  test.passed
-                                    ? "text-green-400"
-                                    : "text-red-400"
-                                }`}
-                              >
-                                {test.passed ? (
-                                  <CheckCircle className="w-4 h-4 mr-2" />
-                                ) : (
-                                  <XCircle className="w-4 h-4 mr-2" />
-                                )}
-                                Test Case : {test.passed ? "Passed" : "Failed"}
-                              </div>
-                              <div className="text-slate-400 text-xs font-mono">
-                                Input: {test.input} → (Expected: {test.output})
-                              </div>
-                            </div>
-                          ))}
+                        <div className="">
+                          <table className="min-w-full text-sm rounded-lg ">
+                            <thead>
+                              <tr className="text-purple-300">
+                                <th className="py-2 px-3 text-left font-semibold">#</th>
+                                <th className="py-2 px-3 text-left font-semibold">Input</th>
+                                <th className="py-2 px-3 text-left font-semibold">Expected Output</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {testcases.map((test, index) => (
+                                <tr
+                                  key={index}
+                                  className="border-b border-zinc-800 last:border-b-0 hover:bg-zinc-800/60 transition"
+                                >
+                                  <td className="py-2 px-3 text-indigo-300 font-semibold">{index + 1}</td>
+                                  <td className="py-2 px-3 font-mono text-indigo-200">{test.input}</td>
+                                  <td className="py-2 px-3 font-mono text-indigo-200">{test.output}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
                         </div>
                       </>
                     )}

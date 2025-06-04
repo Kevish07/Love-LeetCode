@@ -7,6 +7,13 @@ import {
 import { ApiError } from "../utils/api-error.js";
 import { ApiResponse } from "../utils/api-response.js";
 
+// Utility function to get a problem by id (returns the problem object directly)
+const getProblemByIdRaw = async (problemId) => {
+  return await db.problem.findUnique({
+    where: { id: problemId },
+  });
+};
+
 const createProblem = async (req, res) => {
   const {
     title,
@@ -290,6 +297,7 @@ const getAllSolvedProblemsByUser = async (req, res) => {
 };
 
 export {
+  getProblemByIdRaw,
   createProblem,
   getAllProblems,
   getAllSolvedProblemsByUser,

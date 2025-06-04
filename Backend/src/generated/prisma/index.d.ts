@@ -8646,6 +8646,8 @@ export namespace Prisma {
     id: string | null
     playlistId: string | null
     problemId: string | null
+    title: string | null
+    difficulty: $Enums.Difficulty | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -8654,6 +8656,8 @@ export namespace Prisma {
     id: string | null
     playlistId: string | null
     problemId: string | null
+    title: string | null
+    difficulty: $Enums.Difficulty | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -8662,6 +8666,8 @@ export namespace Prisma {
     id: number
     playlistId: number
     problemId: number
+    title: number
+    difficulty: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -8672,6 +8678,8 @@ export namespace Prisma {
     id?: true
     playlistId?: true
     problemId?: true
+    title?: true
+    difficulty?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -8680,6 +8688,8 @@ export namespace Prisma {
     id?: true
     playlistId?: true
     problemId?: true
+    title?: true
+    difficulty?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -8688,6 +8698,8 @@ export namespace Prisma {
     id?: true
     playlistId?: true
     problemId?: true
+    title?: true
+    difficulty?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -8769,6 +8781,8 @@ export namespace Prisma {
     id: string
     playlistId: string
     problemId: string
+    title: string
+    difficulty: $Enums.Difficulty
     createdAt: Date
     updatedAt: Date
     _count: ProblemInPlaylistCountAggregateOutputType | null
@@ -8794,6 +8808,8 @@ export namespace Prisma {
     id?: boolean
     playlistId?: boolean
     problemId?: boolean
+    title?: boolean
+    difficulty?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     playlist?: boolean | PlaylistDefaultArgs<ExtArgs>
@@ -8804,6 +8820,8 @@ export namespace Prisma {
     id?: boolean
     playlistId?: boolean
     problemId?: boolean
+    title?: boolean
+    difficulty?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     playlist?: boolean | PlaylistDefaultArgs<ExtArgs>
@@ -8814,6 +8832,8 @@ export namespace Prisma {
     id?: boolean
     playlistId?: boolean
     problemId?: boolean
+    title?: boolean
+    difficulty?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     playlist?: boolean | PlaylistDefaultArgs<ExtArgs>
@@ -8824,11 +8844,13 @@ export namespace Prisma {
     id?: boolean
     playlistId?: boolean
     problemId?: boolean
+    title?: boolean
+    difficulty?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ProblemInPlaylistOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "playlistId" | "problemId" | "createdAt" | "updatedAt", ExtArgs["result"]["problemInPlaylist"]>
+  export type ProblemInPlaylistOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "playlistId" | "problemId" | "title" | "difficulty" | "createdAt" | "updatedAt", ExtArgs["result"]["problemInPlaylist"]>
   export type ProblemInPlaylistInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     playlist?: boolean | PlaylistDefaultArgs<ExtArgs>
     problem?: boolean | ProblemDefaultArgs<ExtArgs>
@@ -8852,6 +8874,8 @@ export namespace Prisma {
       id: string
       playlistId: string
       problemId: string
+      title: string
+      difficulty: $Enums.Difficulty
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["problemInPlaylist"]>
@@ -9282,6 +9306,8 @@ export namespace Prisma {
     readonly id: FieldRef<"ProblemInPlaylist", 'String'>
     readonly playlistId: FieldRef<"ProblemInPlaylist", 'String'>
     readonly problemId: FieldRef<"ProblemInPlaylist", 'String'>
+    readonly title: FieldRef<"ProblemInPlaylist", 'String'>
+    readonly difficulty: FieldRef<"ProblemInPlaylist", 'Difficulty'>
     readonly createdAt: FieldRef<"ProblemInPlaylist", 'DateTime'>
     readonly updatedAt: FieldRef<"ProblemInPlaylist", 'DateTime'>
   }
@@ -9813,6 +9839,8 @@ export namespace Prisma {
     id: 'id',
     playlistId: 'playlistId',
     problemId: 'problemId',
+    title: 'title',
+    difficulty: 'difficulty',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -10507,6 +10535,8 @@ export namespace Prisma {
     id?: StringFilter<"ProblemInPlaylist"> | string
     playlistId?: StringFilter<"ProblemInPlaylist"> | string
     problemId?: StringFilter<"ProblemInPlaylist"> | string
+    title?: StringFilter<"ProblemInPlaylist"> | string
+    difficulty?: EnumDifficultyFilter<"ProblemInPlaylist"> | $Enums.Difficulty
     createdAt?: DateTimeFilter<"ProblemInPlaylist"> | Date | string
     updatedAt?: DateTimeFilter<"ProblemInPlaylist"> | Date | string
     playlist?: XOR<PlaylistScalarRelationFilter, PlaylistWhereInput>
@@ -10517,6 +10547,8 @@ export namespace Prisma {
     id?: SortOrder
     playlistId?: SortOrder
     problemId?: SortOrder
+    title?: SortOrder
+    difficulty?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     playlist?: PlaylistOrderByWithRelationInput
@@ -10531,6 +10563,8 @@ export namespace Prisma {
     NOT?: ProblemInPlaylistWhereInput | ProblemInPlaylistWhereInput[]
     playlistId?: StringFilter<"ProblemInPlaylist"> | string
     problemId?: StringFilter<"ProblemInPlaylist"> | string
+    title?: StringFilter<"ProblemInPlaylist"> | string
+    difficulty?: EnumDifficultyFilter<"ProblemInPlaylist"> | $Enums.Difficulty
     createdAt?: DateTimeFilter<"ProblemInPlaylist"> | Date | string
     updatedAt?: DateTimeFilter<"ProblemInPlaylist"> | Date | string
     playlist?: XOR<PlaylistScalarRelationFilter, PlaylistWhereInput>
@@ -10541,6 +10575,8 @@ export namespace Prisma {
     id?: SortOrder
     playlistId?: SortOrder
     problemId?: SortOrder
+    title?: SortOrder
+    difficulty?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ProblemInPlaylistCountOrderByAggregateInput
@@ -10555,6 +10591,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"ProblemInPlaylist"> | string
     playlistId?: StringWithAggregatesFilter<"ProblemInPlaylist"> | string
     problemId?: StringWithAggregatesFilter<"ProblemInPlaylist"> | string
+    title?: StringWithAggregatesFilter<"ProblemInPlaylist"> | string
+    difficulty?: EnumDifficultyWithAggregatesFilter<"ProblemInPlaylist"> | $Enums.Difficulty
     createdAt?: DateTimeWithAggregatesFilter<"ProblemInPlaylist"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ProblemInPlaylist"> | Date | string
   }
@@ -11143,6 +11181,8 @@ export namespace Prisma {
 
   export type ProblemInPlaylistCreateInput = {
     id?: string
+    title: string
+    difficulty?: $Enums.Difficulty
     createdAt?: Date | string
     updatedAt?: Date | string
     playlist: PlaylistCreateNestedOneWithoutProblemsInput
@@ -11153,12 +11193,16 @@ export namespace Prisma {
     id?: string
     playlistId: string
     problemId: string
+    title: string
+    difficulty?: $Enums.Difficulty
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type ProblemInPlaylistUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     playlist?: PlaylistUpdateOneRequiredWithoutProblemsNestedInput
@@ -11169,6 +11213,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     playlistId?: StringFieldUpdateOperationsInput | string
     problemId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11177,12 +11223,16 @@ export namespace Prisma {
     id?: string
     playlistId: string
     problemId: string
+    title: string
+    difficulty?: $Enums.Difficulty
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type ProblemInPlaylistUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11191,6 +11241,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     playlistId?: StringFieldUpdateOperationsInput | string
     problemId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11803,6 +11855,8 @@ export namespace Prisma {
     id?: SortOrder
     playlistId?: SortOrder
     problemId?: SortOrder
+    title?: SortOrder
+    difficulty?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -11811,6 +11865,8 @@ export namespace Prisma {
     id?: SortOrder
     playlistId?: SortOrder
     problemId?: SortOrder
+    title?: SortOrder
+    difficulty?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -11819,6 +11875,8 @@ export namespace Prisma {
     id?: SortOrder
     playlistId?: SortOrder
     problemId?: SortOrder
+    title?: SortOrder
+    difficulty?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -12974,6 +13032,8 @@ export namespace Prisma {
 
   export type ProblemInPlaylistCreateWithoutProblemInput = {
     id?: string
+    title: string
+    difficulty?: $Enums.Difficulty
     createdAt?: Date | string
     updatedAt?: Date | string
     playlist: PlaylistCreateNestedOneWithoutProblemsInput
@@ -12982,6 +13042,8 @@ export namespace Prisma {
   export type ProblemInPlaylistUncheckedCreateWithoutProblemInput = {
     id?: string
     playlistId: string
+    title: string
+    difficulty?: $Enums.Difficulty
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -13090,6 +13152,8 @@ export namespace Prisma {
     id?: StringFilter<"ProblemInPlaylist"> | string
     playlistId?: StringFilter<"ProblemInPlaylist"> | string
     problemId?: StringFilter<"ProblemInPlaylist"> | string
+    title?: StringFilter<"ProblemInPlaylist"> | string
+    difficulty?: EnumDifficultyFilter<"ProblemInPlaylist"> | $Enums.Difficulty
     createdAt?: DateTimeFilter<"ProblemInPlaylist"> | Date | string
     updatedAt?: DateTimeFilter<"ProblemInPlaylist"> | Date | string
   }
@@ -13591,6 +13655,8 @@ export namespace Prisma {
 
   export type ProblemInPlaylistCreateWithoutPlaylistInput = {
     id?: string
+    title: string
+    difficulty?: $Enums.Difficulty
     createdAt?: Date | string
     updatedAt?: Date | string
     problem: ProblemCreateNestedOneWithoutProblemInPlaylistInput
@@ -13599,6 +13665,8 @@ export namespace Prisma {
   export type ProblemInPlaylistUncheckedCreateWithoutPlaylistInput = {
     id?: string
     problemId: string
+    title: string
+    difficulty?: $Enums.Difficulty
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -14077,6 +14145,8 @@ export namespace Prisma {
   export type ProblemInPlaylistCreateManyProblemInput = {
     id?: string
     playlistId: string
+    title: string
+    difficulty?: $Enums.Difficulty
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -14154,6 +14224,8 @@ export namespace Prisma {
 
   export type ProblemInPlaylistUpdateWithoutProblemInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     playlist?: PlaylistUpdateOneRequiredWithoutProblemsNestedInput
@@ -14162,6 +14234,8 @@ export namespace Prisma {
   export type ProblemInPlaylistUncheckedUpdateWithoutProblemInput = {
     id?: StringFieldUpdateOperationsInput | string
     playlistId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14169,6 +14243,8 @@ export namespace Prisma {
   export type ProblemInPlaylistUncheckedUpdateManyWithoutProblemInput = {
     id?: StringFieldUpdateOperationsInput | string
     playlistId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14236,12 +14312,16 @@ export namespace Prisma {
   export type ProblemInPlaylistCreateManyPlaylistInput = {
     id?: string
     problemId: string
+    title: string
+    difficulty?: $Enums.Difficulty
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type ProblemInPlaylistUpdateWithoutPlaylistInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     problem?: ProblemUpdateOneRequiredWithoutProblemInPlaylistNestedInput
@@ -14250,6 +14330,8 @@ export namespace Prisma {
   export type ProblemInPlaylistUncheckedUpdateWithoutPlaylistInput = {
     id?: StringFieldUpdateOperationsInput | string
     problemId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14257,6 +14339,8 @@ export namespace Prisma {
   export type ProblemInPlaylistUncheckedUpdateManyWithoutPlaylistInput = {
     id?: StringFieldUpdateOperationsInput | string
     problemId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

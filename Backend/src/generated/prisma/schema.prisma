@@ -136,11 +136,13 @@ model Playlist {
 }
 
 model ProblemInPlaylist {
-  id         String   @id @default(uuid())
+  id         String     @id @default(uuid())
   playlistId String
   problemId  String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  title      String
+  difficulty Difficulty @default(EASY)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
 
   playlist Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
   problem  Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)

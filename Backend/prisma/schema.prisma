@@ -139,6 +139,8 @@ model ProblemInPlaylist {
   id         String   @id @default(uuid())
   playlistId String
   problemId  String
+  title      String
+  difficulty Difficulty @default(EASY)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 

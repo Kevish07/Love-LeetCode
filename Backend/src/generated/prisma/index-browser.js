@@ -203,6 +203,8 @@ exports.Prisma.ProblemInPlaylistScalarFieldEnum = {
   id: 'id',
   playlistId: 'playlistId',
   problemId: 'problemId',
+  title: 'title',
+  difficulty: 'difficulty',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

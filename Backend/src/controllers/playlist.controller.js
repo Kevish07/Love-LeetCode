@@ -2,6 +2,8 @@ import { db } from "../libs/db.js";
 import { ApiError } from "../utils/api-error.js";
 import { ApiResponse } from "../utils/api-response.js";
 
+import { getProblemByIdRaw } from "./problem.controller.js";
+
 const createPlaylist = async (req, res) => {
   try {
     const { name, description } = req.body;
@@ -104,23 +106,50 @@ const getAllListDetails = async (req, res) => {
 
 const addProblemToPlaylist = async (req, res) => {
   try {
+    console.log("at start");
+    
     const { playlistId } = req.params;
     const { problemIds } = req.body;
 
-    if (!Array.isArray(problemIds)  || problemIds.length === 0) {
+    if (!Array.isArray(problemIds) || problemIds.length === 0) {
       return res
         .status(400)
         .json(new ApiError(400, "Invalid or missing problem Id"));
     }
+    console.log("after checking problemIds");
+    
+    // Fetch problem details for each problemId
+    const problemsData = [];
+    for (const problemId of problemIds) {
+      console.log(problemId);
+      
+      const problem = await getProblemByIdRaw(problemId);
 
-    // Create records for each problem in the playlist
+      if (!problem) {
+        return res
+          .status(404)
+          .json(new ApiError(404, `Problem with id ${problemId} not found`));
+      }
+      problemsData.push({
+        playlistId,
+        problemId,
+        title: problem.title,
+        difficulty: problem.difficulty,
+      });
+    }
+    console.log("before creating problemsInPlaylist");
+    console.log(problemsData);
+    
+    
+    // Save problemId, title, and difficulty in problemInPlaylist
       const problemsInPlaylist = await db.problemInPlaylist.createMany({
-        data: problemIds.map((problemId) => ({
-          playlistId, // ✅ match your Prisma field name exactly
-          problemId,
+        data: problemsData.map((problem) => ({
+          playlistId: problem.playlistId,
+          problemId: problem.problemId,
+          title: problem.title,
+          difficulty: problem.difficulty,
         })),
       });
-
     res
       .status(201)
       .json(

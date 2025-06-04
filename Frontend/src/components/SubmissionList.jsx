@@ -59,7 +59,7 @@ const SubmissionsList = ({ submissions, isLoading }) => {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 px-4 py-6">
       {submissions.map((submission) => {
         const avgMemory = calculateAverageMemory(submission.memory);
         const avgTime = calculateAverageTime(submission.time);
@@ -67,53 +67,51 @@ const SubmissionsList = ({ submissions, isLoading }) => {
         return (
           <div
             key={submission.id}
-            className="card bg-base-200 shadow-lg hover:shadow-xl transition-shadow rounded-lg"
+            className="bg-zinc-900/80 border border-purple-700/20 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
           >
-            <div className="card-body p-4">
-              <div className="flex items-center justify-between">
-                {/* Left Section: Status and Language */}
-                <div className="flex items-center gap-4">
-                  {submission.status === "Accepted" ? (
-                    <div className="flex items-center gap-2 text-success">
-                      <CheckCircle2 className="w-6 h-6" />
-                      <span className="font-semibold">Accepted</span>
-                    </div>
-                  ) : (
-                    <div className="flex items-center gap-2 text-error">
-                      <XCircle className="w-6 h-6" />
-                      <span className="font-semibold">{submission.status}</span>
-                    </div>
-                  )}
-                  <div className="badge badge-neutral">
-                    {submission.language}
+            <div className="p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              {/* Left Section: Status and Language */}
+              <div className="flex items-center gap-4">
+                {submission.status === "Accepted" ? (
+                  <div className="flex items-center gap-2 text-green-400">
+                    <CheckCircle2 className="w-6 h-6" />
+                    <span className="font-semibold">Accepted</span>
                   </div>
-                </div>
+                ) : (
+                  <div className="flex items-center gap-2 text-red-400">
+                    <XCircle className="w-6 h-6" />
+                    <span className="font-semibold">{submission.status}</span>
+                  </div>
+                )}
+                <span className="px-3 py-1 rounded bg-purple-800/40 text-purple-200 text-xs font-semibold uppercase tracking-wide">
+                  {submission.language}
+                </span>
+              </div>
 
-                {/* Right Section: Runtime, Memory, and Date */}
-                <div className="flex items-center gap-4 text-base-content/70">
-                  <div className="flex items-center gap-1">
-                    <Clock className="w-4 h-4" />
-                    <span>{avgTime.toFixed(3)} s</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Memory className="w-4 h-4" />
-                    <span>{avgMemory.toFixed(2)} Mb</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Calendar className="w-4 h-4" />
-                    <span>
-                      {(() => {
-                        const date = new Date(submission.createdAt);
-                        return `${String(date.getDate()).padStart(
-                          2,
-                          "0",
-                        )}/${String(date.getMonth() + 1).padStart(
-                          2,
-                          "0",
-                        )}/${date.getFullYear()}`;
-                      })()}
-                    </span>
-                  </div>
+              {/* Right Section: Runtime, Memory, and Date */}
+              <div className="flex flex-wrap items-center gap-4 text-indigo-200 text-sm">
+                <div className="flex items-center gap-1">
+                  <Clock className="w-4 h-4" />
+                  <span>{avgTime.toFixed(3)} s</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Memory className="w-4 h-4" />
+                  <span>{avgMemory.toFixed(2)} Mb</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Calendar className="w-4 h-4" />
+                  <span>
+                    {(() => {
+                      const date = new Date(submission.createdAt);
+                      return `${String(date.getDate()).padStart(
+                        2,
+                        "0",
+                      )}/${String(date.getMonth() + 1).padStart(
+                        2,
+                        "0",
+                      )}/${date.getFullYear()}`;
+                    })()}
+                  </span>
                 </div>
               </div>
             </div>
