@@ -90,7 +90,34 @@ const Dashboard = () => {
   const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
   const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
 
-  const filteredProblems = solvedProblems.filter((problem) =>
+  // Helper: Get language for each solved problem from submissions
+  const solvedProblemsWithLanguage = useMemo(() => {
+    // Map: problemId -> latest accepted submission (by createdAt)
+    const acceptedSubmissionsMap = {};
+    submissions.forEach((sub) => {
+      if (
+        sub.status === "Accepted" &&
+        (!acceptedSubmissionsMap[sub.problemId] ||
+          new Date(sub.createdAt) > new Date(acceptedSubmissionsMap[sub.problemId].createdAt))
+      ) {
+        acceptedSubmissionsMap[sub.problemId] = sub;
+      }
+    });
+
+    // Attach language to each solved problem
+    return solvedProblems.map((problem) => ({
+      ...problem,
+      language:
+        acceptedSubmissionsMap[problem.id]?.language || "N/A",
+      updatedAt:
+        acceptedSubmissionsMap[problem.id]?.createdAt ||
+        problem.updatedAt ||
+        problem.date ||
+        "",
+    }));
+  }, [solvedProblems, submissions]);
+
+  const filteredProblems = solvedProblemsWithLanguage.filter((problem) =>
     problem.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
