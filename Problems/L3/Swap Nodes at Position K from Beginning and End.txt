@@ -1,0 +1,81 @@
+title = Swap Nodes at Position K from Beginning and End
+
+
+
+difficulty = Hard
+
+desc -----
+You are given head which is a reference node to a doubly- linked list of integers and an integer K. Complete the function swapNodes which swaps the values of nodes at distance K from beginning and end. The first node is at distance 1 from beginning.
+Input
+User task:
+Since this will be a functional problem, you don't have to take input. You just have to complete the function swapNodes that takes the head of the linked list and node distance K as parameters.
+
+Constraints:
+1 <= Number of nodes <= 10000.
+1 <= K <= Number of nodes
+Output
+The function need not return anything.
+
+
+
+
+
+Example
+Sample Input 1:-
+5 2
+1 2 3 4 5
+
+Sample Output 1:-
+1 4 3 2 5
+
+Explanation:
+The node at distance 2 from beginning is 2.
+The node at distance 2 from end is 4.
+We will swap 2 and 4.
+
+Sample Input 2:-
+3 2
+1 2 3
+
+Sample Output 2:-
+1 2 3
+
+Explanation:
+The node at distance 2 from beginning is 2.
+The node at distance 2 from end is 2.
+We will swap 2 and 2. So, the linked list remains as it is.
+
+
+
+
+
+
+
+
+test Cases -----
+
+
+
+
+solution -----
+'''
+class Node:
+    def __init__(self):
+        self.data = None
+        self.next = None
+        self.prev = None
+'''
+def swapNodes(head, k):
+    first = second = head
+
+    for _ in range(k - 1):
+        first = first.next 
+
+    temp = first
+    while temp.next:
+        second = second.next 
+        temp = temp.next
+
+    first.data, second.data = second.data, first.data 
+
+    return head

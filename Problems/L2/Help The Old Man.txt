@@ -1,0 +1,62 @@
+title = Help The Old Man
+
+
+difficulty = Hard
+
+desc -----
+An elderly woman working at a hotel needed money urgently for her husband's surgery. The hotel owner offered to cover the costs and double her salary if she passed a test.
+The test involved moving a stack of plates from Box A to Box C using Box B, following these rules:
+
+-> Only one plate can be moved at a time.
+-> A larger plate cannot be placed on top of a smaller one.
+-> Plates can only be taken from the top.
+
+Given N plates, number them from top to bottom as 1 to N. Write the sequence of steps to transfer all plates from Box A to Box C in the minimum number of moves.
+
+Input
+First line contains a single integer N representing number of plates.
+
+Constraints:
+1 ≤ N ≤ 16
+Output
+Print sequence of moving plates, where each move is shown in the following format-
+{PlateNumber}:{FromBox}->{ToBox}
+Each move in the sequence is separated by a new line
+
+
+
+
+
+Example
+Input
+2
+Output
+1:A->B
+2:A->C
+1:B->C
+
+
+
+
+
+
+
+test Cases -----
+
+
+
+
+solution -----
+n = int(input())
+source = "A"
+destination = "C"
+auxiliary = "B"
+def TowerOfHanoi(n , source, destination, auxiliary):
+    if n == 0:
+        return
+
+    TowerOfHanoi(n-1,source,auxiliary,destination)
+    print(f"{n}:{source}->{destination}")
+    TowerOfHanoi(n-1,auxiliary,destination,source)
+
+TowerOfHanoi(n,source, destination, auxiliary)

@@ -1,0 +1,72 @@
+title = Range Sum Query - 2
+
+
+difficulty = Hard
+
+desc -----
+Given an list of n integers lst[] and multiple queries, each query asks for the sum of elements between two indices L and R (inclusive).
+
+Write a program that efficiently answers multiple range sum queries on the list.
+
+Input
+The first line of input contains n space separated integers representing the elements of the list lst.
+The second line of input contains an integer q representing the number of queries.
+Next q lines contain q queries, where each query consists of two integers L and R, and you need to compute the sum of elements from index L to index R (inclusive).
+
+Constraints
+1 ≤ n ≤ 105
+1 ≤ q ≤ 105
+1 ≤ lst[i] ≤ 106
+0 ≤ L ≤ R < n
+Output
+For each query, output the sum of elements in the subarray lst[L] to lst[R] in a new line.
+
+Note
+Refer to the example test case for better understanding of input and output.
+
+
+
+
+Example
+Input
+1 2 3 4 5
+3
+1 3
+0 4
+2 2
+
+Output
+9
+15
+3
+
+
+Explanation
+Query 1: Sum of elements from index 1 to 3 -> lst[1] + lst[2] + lst[3] = 2 + 3 + 4 = 9
+Query 2: Sum of elements from index 0 to 4 -> lst[0] + lst[1] + lst[2] + lst[3] + lst[4] = 1 + 2 + 3 + 4 + 5 = 15
+Query 3: Sum of elements from index 2 to 2 -> lst[2] = 3
+
+
+
+test Cases -----
+
+
+
+solution -----
+
+lst = list(map(int, input().split()));
+new_arr = [];
+new_arr.append(lst[0]);
+
+for j in range(1,len(lst)):
+    new_arr.append(new_arr[j-1] + lst[j]);
+
+n = int(input());
+
+for i in range(n):
+    p,q = map(int,input().split());
+    if p > 0:
+        result = new_arr[q] - new_arr[p-1]
+    elif p == 0:
+        result = new_arr[q]
+    print(result)

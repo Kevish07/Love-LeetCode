@@ -1,0 +1,70 @@
+title = Find Pair with Target Sum
+
+
+difficulty = Medium
+
+desc -----
+You are given a sorted array of integers arr[] and an integer target. Your task is to determine if there exists a pair of numbers in the array whose sum equals the target. You need to return True if such a pair exists, otherwise return False
+
+Note:
+This is a functional problem, you need to complete the function has_pair_with_sum(arr,target) and return True or False from the above function, you do not need to read input or print the output i.e. no need to use print()/input() functions.
+You need to return boolean True or False
+Input
+The first line of input contains sorted array of integers arr, (space-seperated integers), where 1 ≤ len(arr) ≤ 10^5 and -10^6 ≤ arr[i] ≤ 10^6.
+The second line of input contains a single integer representing the target sum, where -10^6 ≤ target ≤ 10^6.
+
+Constraints
+1 ≤ len(arr) ≤ 105
+-10^6 ≤ target ≤ 10^6.
+Output
+Return True if there exists a pair of numbers a and b in the array such that a + b = target.
+Return False otherwise.
+
+
+
+
+
+Example
+Input
+1 2 3 4 5
+8
+
+Output
+True
+
+Explanation
+It can be seen that the elements at indices 2 and 4 sum up to 8 i.e. arr[2] + arr[4] = 3 + 5 = 8, hence we return True
+
+Input
+-1 0 1 2 3 4
+3
+
+Output
+True
+
+Explanation
+It can be seen that the elements at indices 2 and 3 sum up to 3 i.e. arr[2] + arr[3] = 2 + 3 = 5, hence we return True
+There are multiple pairs with sum 3 like (-1,4),(0,3), we just need to trace at least one, hence answer is True
+
+
+
+
+test Cases -----
+
+
+
+solution -----
+
+def has_pair_with_sum(arr, target):
+    i = 0
+    j = len(arr) - 1
+
+    while i<j:
+        if arr[i] + arr[j] > target:
+            j -= 1
+        elif arr[i] + arr[j] < target:
+            i += 1
+        else:
+            return True
+
+    return False

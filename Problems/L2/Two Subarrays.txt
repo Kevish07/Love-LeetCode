@@ -1,0 +1,81 @@
+title = Two Subarrays
+
+
+difficulty = Hard
+
+desc -----
+You are given an Array consisting of N integers. You have to choose exactly two non- intersecting subarrays (subarray can be empty) such that the total sum of the elements of the two subarrays is maximum. Note: Non Intersecting subarray means that there will be no array element that belongs to both subarrays.
+Input
+First line of the input contains an integer T denoting number of test cases.
+For each test case
+The first line of the input contains an integer N.
+The second line contains an array A of N integers.
+
+
+Constraints
+1 ≤ T ≤ 10
+2 ≤ N ≤ 103
+-109 ≤ Ai ≤ 109
+Output
+For each test case print the maximum total sum of the elements of the two chosen subarrays.
+
+
+
+
+
+Example
+Sample Input
+2
+3
+-4 -5 -2
+5
+5 -2 3 -6 5
+Sample Output
+0
+11
+Explanation
+For the first case we can choose both empty subarray hence 0 is the only max possible sum.
+For the second test case we can choose two subarray as [5, -2, 3] and [5] resulting in max sum of 11, 6 from the first one and 5 from the other.
+
+
+
+
+
+
+
+
+test Cases -----
+
+
+
+
+solution -----
+def max_subarray_sum(arr):
+    n = len(arr)
+    left_max = [0] * n
+    right_max = [0] * n
+
+    curr_max = 0
+    max_so_far = 0
+    for i in range(n):
+        curr_max = max(arr[i], curr_max + arr[i])
+        max_so_far = max(max_so_far, curr_max)
+        left_max[i] = max_so_far
+
+    curr_max = 0
+    max_so_far = 0
+    for i in range(n - 1, -1, -1):
+        curr_max = max(arr[i], curr_max + arr[i])
+        max_so_far = max(max_so_far, curr_max)
+        right_max[i] = max_so_far
+
+    max_sum = 0
+    for i in range(n - 1):
+        max_sum = max(max_sum, left_max[i] + right_max[i + 1])
+
+    return max_sum
+t = int(input())
+for _ in range(t):
+    n = int(input())
+    arr = list(map(int, input().split()))
+    print(max_subarray_sum(arr))

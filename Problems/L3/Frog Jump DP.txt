@@ -1,0 +1,132 @@
+title = Frog Jump DP
+
+
+
+difficulty = Medium
+
+desc -----
+There are N buildings, numbered 1,2,3,…,N. For each i (1 ≤ i ≤ N), the height of building i is 
+h
+e
+i
+g
+h
+t
+s
+i
+heights 
+i
+​
+ .
+There is a frog who is initially on Building 1's roof, He wants to reach Building N.
+The frog can jump from one building to another but there are some conditions to his jumps.
+
+If the frog is currently on Building i, he can jump on either building 
+i
++
+1
+i+1 or 
+i
++
+2
+i+2.
+
+The energy used by the frog for each jump is the difference in heights of the initial and final buildings. meaning | 
+h
+e
+i
+g
+h
+t
+s
+i
+−
+h
+e
+i
+g
+h
+t
+s
+j
+heights 
+i
+​
+ −heights 
+j
+​
+  |, where i is the initial building and j is the final building.
+Find the minimum possible energy used by the frog to reach building N.
+ 
+
+Input
+User Task:
+Since this will be a functional problem, you don't have to input anything. You just have to complete the function frogJump() that takes heights as parameter.
+
+Custom Input:
+First line contains a single integer n- number of stairs in the staircase.
+Second line contains n integers representing heights array.
+
+Constraints:
+1 ≤ heights. length ≤ 103
+1 ≤ heights[i] ≤ 1000
+Output
+Return the minimum total energy used by the frog to reach from '1st' stair to 'Nth' stair.
+
+
+
+
+
+
+
+Example
+Sample Input
+4
+10 20 30 10
+Sample Output
+20
+Explanation
+The frog can jump from 1st stair to 2nd stair (|20-10| = 10 energy lost).
+Then a jump from the 2nd stair to the last stair (|10-20| = 10 energy lost).
+So, the total energy lost is 20 which is the minimum.
+Hence, the answer is 20.
+
+Input:
+3
+10 50 10
+Output:
+0
+Explanation:
+The frog can jump from 1st stair to 3rd stair (|10-10| = 0 energy lost).
+So, the total energy lost is 0 which is the minimum.
+Hence, the answer is 0.
+
+
+
+
+
+
+
+test Cases -----
+
+
+
+
+solution -----
+def frogJump(heights):
+    memo = [-1 for _ in range(len(heights))]
+    def fun(heights,i):
+        if i == 0:
+            return 0
+        if i == 1:
+            return abs(heights[1] - heights[0])
+        
+        if memo[i] != -1:
+            return memo[i]
+
+        one = abs(heights[i]-heights[i-1]) + fun(heights,i-1)
+        two = abs(heights[i]-heights[i-2]) + fun(heights,i-2)
+        
+        memo[i] = min(one,two)
+        return memo[i]
+    return fun(heights,len(heights)-1)

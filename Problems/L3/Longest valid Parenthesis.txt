@@ -1,0 +1,67 @@
+title = Longest valid Parenthesis
+
+
+
+difficulty = Hard
+
+desc -----
+Given a string S consisting of opening and closing parenthesis '(' and ')'. Find the length of the longest valid parenthesis substring.
+Input
+Just complete the function longestValidParentheses(s).
+
+Custom Input:
+The first line of input contains string S.
+
+Constraints:
+1 ≤ |S| ≤ 105
+Output
+Return the length of the longest valid parenthesis substring.
+
+
+
+
+
+
+Example
+Input:
+(()
+Output:
+2
+Explanation:
+s = "(()"
+The longest valid parentheses substring is "()".
+
+Input:
+)()())
+Output: 4
+Explanation:
+s = ")()())"
+The longest valid parentheses substring is "()()".
+
+
+
+
+
+
+
+
+
+test Cases -----
+
+
+
+
+solution -----
+def longestValidParentheses(S):
+    max_length = 0
+    stack = [-1]
+    for i, ch in enumerate(S):
+        if ch == "(":
+            stack.append(i)
+        else:
+            stack.pop()
+            if not stack:
+                stack.append(i)
+            else:
+                max_length = max(max_length, i - stack[-1])
+    return max_length

@@ -1,7 +1,6 @@
 title = Manipulation of dict
 
 
-
 difficulty = Medium
 
 desc -----

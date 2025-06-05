@@ -1,0 +1,85 @@
+title = Count Subsets with Sum K DP
+
+
+
+difficulty = Medium
+
+desc -----
+You are given an array nums of size n containing both positive and negative integers, and a target sum k. Your task is to find the number of ways to select a subset of elements from the array such that the sum of the chosen elements is equal to the target sum k.
+Since the number of ways can be very large, print it modulo 10 ^ 9 + 7.
+
+Input
+User Task
+As this is a functional problem, Your task here is to complete the function findWays() which takes array nums and integer k  as its input parameter and returns true or false.
+
+Custom Input
+The first line contains an integer representing n and k
+The next line contains n space-separated integers as input representing the nums.
+
+Constraints
+1 ≤ n ≤ 100
+0≤ k ≤ 1000
+0; 'nums[i]' ≤ 1000
+Output
+Return the integer representing the number of ways of selecting the elements from the array such that the sum of chosen elements is equal to the target k.
+
+
+
+
+
+Example
+Sample Input
+4 5
+1 4 4 5
+
+Sample Output:
+3
+
+Explanation
+The possible ways are:
+[1, 4]
+[1, 4]
+[5]
+Hence the output will be 3.
+
+
+
+
+
+
+
+
+
+
+test Cases -----
+
+
+
+
+solution -----
+const int MOD = 1e9 + 7;
+
+int findWays(vector<int> &nums, int k) {
+    int n = nums.size();
+    
+    int sum = 0;
+    for (int num : nums) sum += num;
+
+    int offset = sum; // Offset to shift negative indices to positive
+    int maxSum = 2 * sum; // Max range of possible sums
+    if (k + offset > maxSum || k + offset < 0) return 0;
+
+    vector<vector<int>> dp(n + 1, vector<int>(maxSum + 1, 0));
+    dp[0][offset] = 1; // Base case: 1 way to achieve 0 sum (empty subset)
+
+    for (int i = 1; i <= n; i++) {
+        for (int j = 0; j <= maxSum; j++) {
+            dp[i][j] = dp[i - 1][j]; // Exclude current number
+            int prevIndex = j - nums[i - 1];
+            if (prevIndex >= 0 && prevIndex <= maxSum)
+                dp[i][j] = (dp[i][j] + dp[i - 1][prevIndex]) % MOD;
+        }
+    }
+
+    return dp[n][k + offset];
+}

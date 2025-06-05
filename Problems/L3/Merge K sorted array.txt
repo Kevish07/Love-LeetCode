@@ -1,0 +1,89 @@
+title = Merge K sorted array
+
+
+
+difficulty = Medium
+
+desc -----
+Given 
+K
+K arrays arranged in a matrix of dimensions 
+K
+∗
+K
+K∗K, where each row contains 
+K
+K elements sorted in non-decreasing order, the task is to combine all elements from these arrays into a single 1-d array, such that the elements are arranged in non-increasing order.
+
+Input
+Since this is a functional problem you don't have to take any input, you just need to complete the given function which takes arrays as a parameter containing K sorted arrays.
+
+Custom Input:
+The first line of input contains the number of test cases, then T test cases follow. Each test case will contain an integer K denoting the number of sorted arrays (each with size K). Then, the next K lines contain the elements of arrays to be merged.
+
+1 <= T <= 10
+1 <= K <= 100
+1 <= Elements of array <= 100
+Output
+Return a single merged sorted array for every test case.
+
+
+
+
+
+
+Example
+Sample Input
+2
+3
+1 2 3
+4 5 6
+7 8 9
+4
+1 2 3 4
+2 2 3 4
+5 5 6 6
+7 8 9 9
+Sample Output
+1 2 3 4 5 6 7 8 9
+1 2 2 2 3 3 4 4 5 5 6 6 7 8 9 9
+Explanation
+Testcase 1
+Above test case has 3 sorted arrays of size 3.
+The merged list, sorted in non-decreasing order will be [1, 2, 3, 4, 5, 6, 7, 8, 9].
+Testcase 2
+Above test case has 4 sorted arrays of size 4
+The merged list, sorted in non-decreasing order will be [1, 2, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 9, 9 ].
+
+
+
+
+
+
+test Cases -----
+
+
+
+
+solution -----
+def merge_k_sorted_arrays(arrays):
+    ans_arr = []
+
+    n = len(arrays)
+    pointer_arr = [0] * (n)
+
+    counter = 0 
+
+    curr_index = 0 
+    while (counter<(n*n)):
+        curr_min = 1000
+        for i in range(n):
+            if pointer_arr[i] < n and arrays[i][pointer_arr[i]] < curr_min:
+                curr_min = arrays[i][pointer_arr[i]] 
+                curr_index = i 
+    
+        ans_arr.append(curr_min)
+        pointer_arr[curr_index]+=1
+        counter+=1
+    
+    return ans_arr

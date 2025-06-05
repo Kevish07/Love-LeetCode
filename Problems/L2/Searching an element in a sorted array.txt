@@ -1,0 +1,69 @@
+title = Searching an element in a sorted array
+
+
+difficulty = Medium
+
+desc -----
+Given a sorted array arr of N integers and a number X is given. The task is to check if the element X is present in the array or not.
+
+Note: Try to use binary search to solve the problem
+Input
+User Task
+Since this is a functional problem you don't have to input anything, your task is to complete the function isPresent(), which takes three parameters as input, those are: the size of an array, the input array and the integer to find (X).
+
+Custon Input:
+The first line of input contains a number of test cases T. For each test case, the first line of input contains a number of elements in the array, and the number X is separated by space. The next line contains N elements.
+
+Constraints:
+1 ≤ T ≤ 1000
+1 ≤ N ≤ 106
+1 ≤ X ≤ 109
+1 ≤ arr[i] ≤ 109
+
+Sum of N over all test cases doesn't exceed 106
+Output
+If the element is present in the array return "1" else return "-1".
+
+
+
+
+
+
+Example
+Sample Input:
+2
+5 6
+1 2 3 4 6
+5 2
+1 3 4 5 6
+
+Sample Output:
+1
+-1
+
+
+
+
+
+
+
+
+test Cases -----
+
+
+
+
+solution -----
+def isPresent(n,arr,x):
+    start = 0
+    end = len(arr)-1
+
+    while start <= end:
+        mid = (start+end)//2
+        if x > arr[mid]:
+            start = mid + 1
+        elif x < arr[mid]:
+            end =  mid - 1
+        elif x == arr[mid]:
+            return 1
+    return -1

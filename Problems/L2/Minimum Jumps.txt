@@ -1,0 +1,76 @@
+title = Minimum Jumps
+
+
+difficulty = Medium
+
+desc -----
+You are given an array arr[] of non-negative numbers. Each number tells you the maximum number of steps you can jump forward from that position.
+For example:
+
+If arr[i] = 3, you can jump 1 step, 2 steps, or 3 steps forward from position i.
+If arr[i] = 0, you cannot jump forward from that position.
+Your task is to find the minimum number of jumps needed to move from the first position in the array to the last position.
+
+Note:  Print -1 if you can't reach the end of the array
+
+Input
+The first line contains a single integer N representing the size of the array.
+The second line contains N space separated integers, depicting array elements.
+
+Constraints
+1 <= N <= 20
+0 <= V <= N, where V is the element of the array.
+Output
+Print a single integer representing the minimum number of jumps. Print -1 if you can't reach the end.
+
+
+
+
+
+Example
+Input:
+3
+0 10 20
+Output:
+-1
+Explanation:
+We cannot move forward from the first element
+
+
+Input:
+6
+1 4 3 2 6 7
+Output:
+2
+Explanation:
+From first element, jump to second element, and then to last element.
+
+
+
+
+
+
+test Cases -----
+
+
+
+
+solution -----
+n = int(input())
+nums = list(map(int,input().split()))
+
+def solve(i):
+    if i>=len(nums)-1:
+        return 0
+
+    ans = float('inf')
+    for j in range(1,nums[i]+1):
+        ans = min(ans, solve(i+j))
+    
+    return ans+1
+
+ans = solve(0)
+if ans>=float('inf'):
+    print(-1)
+else:
+    print(ans)

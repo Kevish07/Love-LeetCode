@@ -1,0 +1,76 @@
+title = Matrix Multiplication
+
+
+difficulty = Medium
+
+desc -----
+You are given two square matrices A and B of size N x N. Your task is to multiply the two matrices and return the resulting matrix C.
+
+
+Input
+An integer N representing the size of the square matrices
+Two matrices A and B of size N x N. Each matrix contains N rows and N columns.
+
+
+Constraints
+All matrix elements are integers, which can be both positive and negative.
+The matrices are square, i.e., both A and B have dimensions N x N.
+1 ≤ N ≤ 100
+Output
+The resulting matrix C after multiplying matrices A and B.
+
+
+
+
+
+
+Example
+Input
+3
+1 2 3
+4 5 6
+7 8 9
+9 8 7
+6 5 4
+3 2 1
+
+
+Output
+30 24 18
+84 69 54
+138 114 90
+
+
+
+
+
+test Cases -----
+
+
+
+
+solution -----
+n = int(input())
+a = []
+b = []
+
+for _ in range(n):
+    t = list(map(int,input().split()))
+    a.append(t)
+for _ in range(n):
+    t = list(map(int,input().split()))
+    b.append(t)
+
+p = []
+for _ in range(n):
+    p.append([0]*n)
+
+for i in range(n):
+    for j in range(n):
+        sum = 0
+        for k in range(n):
+            p[i][j] += a[i][k]*b[k][j]
+for i in p:
+    for j in i:
+        print(j,end=" ")
+    print()

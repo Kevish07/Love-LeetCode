@@ -1,0 +1,81 @@
+title = Sort-Even_Sort-Odd
+
+
+
+difficulty = Medium
+
+desc -----
+You are given an array of integers. Your task is to sort the elements at even indices in ascending order and the elements at odd indices in descending order while keeping their positions intact in the array. You must implement the sorting using the Selection or Insertion Sort algorithm only.
+
+
+Additional Task: Can you solve it using O(1) space complexity?
+Input
+The first line of the input denotes the number of test cases T.
+The first line of the test case is the size of the array as an integer N.
+The second line of the test case consists of array elements, N space-separated integers.
+
+Constraints
+1 <= T <= 100
+1 <= N <= 103
+1 <= A[i] <= 103
+
+The sum of N over all test cases won't exceed 5 * 103
+Output
+For each test case, output the modified array after sorting even and odd indices separately.
+
+
+
+
+
+
+Example
+Input:
+2  
+6  
+4 1 3 2 8 5  
+5  
+10 15 20 25 30  
+
+Output:
+8 1 4 2 3 5
+30 15 20 25 10
+
+Explanation:
+For test case 1,
+The elements at odd indices are sorted in descending order: 8, 4, and 3.
+The elements at even indices are sorted in ascending order: 1, 2, and 5.
+
+
+
+
+
+
+test Cases -----
+
+
+
+
+solution -----
+def rearrange_array(arr):
+    odd_index_elements = sorted(arr[::2], reverse=True)  # Elements at odd indices (1-based)
+    even_index_elements = sorted(arr[1::2])  # Elements at even indices (1-based)
+    
+    result = []
+    odd_idx, even_idx = 0, 0
+    
+    for i in range(len(arr)):
+        if i % 2 == 0:
+            result.append(odd_index_elements[odd_idx])
+            odd_idx += 1
+        else:
+            result.append(even_index_elements[even_idx])
+            even_idx += 1
+    
+    return result
+
+# Reading input
+t = int(input())
+for _ in range(t):
+    n = int(input())
+    arr = list(map(int, input().split()))
+    print(*rearrange_array(arr))

@@ -1,0 +1,76 @@
+title = Longest valid Parenthesis
+
+
+
+difficulty = Medium
+
+desc -----
+You are given a String S and two empty strings A and B.
+You are allowed to perform following two operations.
+    1. Remove an element from start of S and add it to the end of B.
+    2. Remove an element from end of B and add it to the end of A. Find the lexicographical minimum string A that we can obtain using the above procedure.
+
+Note-1:
+The final length of string A must be equal to initial length of string S.
+
+Note-2:
+No need to handle input and output in your program. The class will be tested with predefined values, and the find_lexicographical_min_string() method will be automatically called during testing to verify correctness.
+Input
+Input contains string S containing only lowercase alphabets ('a' <= Si <= 'z').
+
+Constraints:
+1 <= |S| <= 104
+Output
+Return the lexicographical minimum string A that we can obtain from string S.
+
+
+
+
+
+
+
+Example
+Input
+cab
+Output
+abc
+Explanation
+It can be seen that "abc" is the lexicographical minimum string which can be obtained.
+
+Input
+acdb
+Output
+abdc
+
+
+
+
+
+
+
+
+test Cases -----
+
+
+
+
+solution -----
+def find_lexicographical_min_string(S):
+    n = len(S)
+    pre = [''] * n
+    pre[-1] = S[-1]
+    
+    for i in range(n - 2, -1, -1):
+        pre[i] = min(S[i], pre[i + 1])
+    # print(pre)
+    A = []
+    B = []
+    idx = 0
+    while idx < n:
+        B.append(S[idx])
+        idx += 1
+        while B and (idx == n or B[-1] <= pre[idx]):
+            A.append(B.pop())
+    while B:
+        A.append(B.pop())
+    return ''.join(A)

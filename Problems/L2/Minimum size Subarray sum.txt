@@ -1,0 +1,68 @@
+title = Minimum size Subarray sum
+
+
+difficulty = Medium
+
+desc -----
+Given an array of positive integers nums and a positive integer target, print the minimal length of a 
+subarray whose sum is greater than or equal to target. If there is no such subarray, print 0 instead.
+
+Definition of subarray : A subarray is a contiguous part of the array. An array that is inside another array. For example, consider the array [1, 2, 3, 4], There are 10 non-empty sub-arrays. The subarrays are (1), (2), (3), (4), (1,2), (2,3), (3,4), (1,2,3), (2,3,4) and (1,2,3,4).
+Input
+First line contains the value of target.
+Second line contains the element of list.
+
+Constraints:
+
+1 <= target <= 109
+1 <= nums.length <= 105
+1 <= nums[i] <= 104
+Output
+Print minimal length of subarray whose sum is greater than or equal to target.
+
+
+
+
+
+Example
+Input
+7
+2 3 1 2 4 3
+
+Output
+2
+
+Explanation
+The subarray [4,3] has the minimal length under the problem constraint.
+
+
+
+
+
+test Cases -----
+
+
+
+
+solution -----
+k = int(input())
+l = list(map(int, input().split()))
+n = len(l)
+i = 0
+j = 0
+a = []
+sum = 0
+
+while j < n:
+    sum += l[j]
+    
+    while sum >= k and i <= j:
+        a.append(j-i+1 )
+        sum -= l[i]
+        i += 1
+    j += 1
+
+if a!=[]:
+    print(min(a))
+else:
+    print(0)

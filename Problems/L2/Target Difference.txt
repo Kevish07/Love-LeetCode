@@ -1,0 +1,63 @@
+title = Target Difference
+
+
+difficulty = easy
+
+desc -----
+Given a one-dimensional sorted array A containing N integers. You are also given an integer target, find if there exists a pair of elements in the array whose difference is equal to the target. Approach this problem in O(n).
+Input
+The first line contains a single integer N.
+The second line contains N space- separated integers A[i].
+The third line contains an integer target.
+
+Constraints
+1<=N<=10^5
+0<=A[i]<=10^9
+0<=target<=10^9
+Output
+Print Yes if pair with given difference exists in our array otherwise print No.
+
+
+
+
+Example
+Sample Input 1:
+5
+1 2 7 9 11
+5
+Sample Output 1:
+Yes
+
+Sample Input 2:
+5
+1 1 8 8 25
+0
+Sample Output 2:
+Yes
+
+
+
+
+test Cases -----
+
+
+
+
+solution -----
+n = int(input())
+l = list(map(int,input().split()))
+t = int(input())
+
+s = 0
+e = 1
+
+while(e<n):
+    if l[e]-l[s]==t:
+        print("Yes")
+        break
+    elif l[e]-l[s]>t:
+        s += 1
+    elif l[e]-l[s]<t:
+        e += 1
+else:
+    print("No")
