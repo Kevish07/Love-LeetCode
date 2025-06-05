@@ -1,0 +1,45 @@
+title = Compare Two Numbers
+
+difficulty = easy
+
+desc -----
+Write a Python program that takes two numbers, a and b, as input and prints whether a is larger than b, b is larger than a, or if both numbers are equal.
+ 
+
+Input
+First line will contain an integer a as input
+Second line will contain an integer b as input.
+Output
+The program should print whether a is larger than b, b is larger than a, or Both numbers are equal.
+
+
+Example
+Input:
+10
+20
+Output:
+20 is larger than 10
+
+Input:
+20
+20
+Output:
+Both numbers are equal
+
+
+Constraints
+
+
+test Cases -----
+
+
+
+solution -----
+num1 = int(input())
+num2 = int(input())
+if num1 > num2:
+    print(num1, "is larger than", num2)
+if num2 > num1:
+    print(num2, "is larger than", num1)
+elif num1 == num2:
+    print("Both numbers are equal")

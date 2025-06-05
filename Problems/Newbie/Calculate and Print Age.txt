@@ -1,0 +1,29 @@
+title = Calculate and Print Age
+difficulty = easy
+
+desc -----
+Write a Python program that asks the user to enter their birth year and the current year. Calculate and print their age.
+
+First line will contain the birth year
+Next line will contain the current year
+
+Print the calculated age
+
+Example -----
+Input:
+2000
+2024
+
+Output:
+24
+
+test Cases -----
+
+
+
+solution -----
+
+birth_year = int(input())
+current_age = int(input())
+result = (current_age-birth_year)
+print(result)

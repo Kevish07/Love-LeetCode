@@ -1,0 +1,65 @@
+title = Rent a Book
+
+difficulty = Medium
+
+desc -----
+Given the weekly rental cost of a book X, the number of days you want to rent the book D, and your status as a staff member S (where S="true" if you are a staff member, otherwise S="false"), calculate the total rental cost based on the following rules:
+ 
+
+1. The cost to rent the book for up to 7 days is X.
+2. If D exceeds 7 days and you are not staff member, an additional charge of 2 Rs per extra day is applied.
+3. If you are staff member, no extra charges apply for exceeding 7 days.
+4. The full weekly cost X is charged even if you rent the book for less than 7 days.
+
+Write a program to determine the total cost of renting the book.
+
+Input
+The input consists of three lines:
+X: An integer representing the weekly rental cost of a book.
+D: An integer representing the number of days the book was rented.
+S: A string(either "true" or "false") indicating whether the person is a staff member.
+
+
+Output
+Print a single integer representing the total amount a person has to pay for D days.
+
+
+
+Example
+Input:
+50
+10
+false
+
+Output
+56
+
+Explanation:
+The cost to rent the book for 7 days is 50.
+Remaining (3) days, person had to pay 2rs per day i. e. 3 x 2 = 6rs
+Since the person was not a member of staff, he will have to pay the extra fine.
+So, total fine = 50 + 6 = 56
+
+
+
+
+Constraints
+1 ≤ n ≤ 109
+1 ≤ d ≤ 109
+
+test Cases -----
+
+
+
+solution -----
+
+X = int(input())
+D = int(input())
+S = str(input())
+if D<= 7:
+    print(X)
+elif D>7 and S == "false":
+    total = X+(D-7)*2
+    print(total)
+else :
+    print(X)

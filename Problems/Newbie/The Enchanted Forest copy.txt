@@ -1,0 +1,39 @@
+title = The Enchanted Forest
+
+difficulty = easy
+
+desc -----
+An enchanted forest has n trees. A storm damages 15% of the trees. Write a Python program to calculate how many trees remain after the storm.
+
+Take the number of trees to input from the user.
+
+Output
+Output the number of trees left after the process.
+
+
+Example
+Input
+100
+
+Output
+85
+
+Explanation
+After removing 15% trees of 100. 85 trees will be left.
+
+Constraints
+1 ≤ n ≤ 109
+
+test Cases -----
+
+
+
+solution -----
+def remaining_trees(n):
+    damaged_trees = n * 0.15
+    remaining = n - damaged_trees
+    return int(remaining)
+
+n = int(input())
+
+print(remaining_trees(n))

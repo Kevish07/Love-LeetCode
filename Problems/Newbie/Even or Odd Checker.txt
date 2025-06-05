@@ -1,0 +1,36 @@
+title = Even or Odd Checker
+
+
+difficulty = easy
+
+desc -----
+Write a Python program that checks if a given number is even or odd.
+
+Input
+The program should take an integer number as input.
+Output
+The program should print either Even or Odd according to number.
+
+
+Example
+Input:
+7
+
+Output:
+Odd
+
+
+
+Constraints
+1<=score<=100
+
+test Cases -----
+
+
+
+solution -----
+num = int(input())
+if num%2==0:
+    print("Even")
+else:
+    print("Odd")

@@ -1,0 +1,59 @@
+title = Simple Paired Product
+
+
+difficulty = easy
+
+desc -----
+Given an sequence of N number (N is always even), you need to output a new list with (N/2) numbers where each number represents the pair-wise product of consecutive elements of the array A. In simple terms output (A[0]*A[1]), (A[2]*A[3]), ..., (A[N-2]*A[N-1]).
+Input
+The first line of the input contains an integer N (even number) denoting the number of elements in the list. The next line contains N (white-space separated) integers.
+
+
+Output
+For each test case, output N/2 elements representing the pairwise product of adjacent elements in the list (white-space separated)
+
+
+
+
+
+Example
+Input-1
+10
+2 1 4 1 6 2 2 6 4 1
+
+Output-1
+2 4 12 12 4
+
+Explanation(
+Follow the below steps:-
+Step 1: [2 1 4 1 6 2 2 6 4 1]
+Step 2: (2 1), (4 1), (6 2), (2 6) and (4 1)
+Step 3: [2 4 12 12 4]
+
+Input-2
+8
+1 23 54 2 3 6 43 2
+
+Output-2
+23 108 18 86
+
+
+
+test Cases -----
+
+
+
+Constraints
+1 <= N <= 10^2
+1 <= A[i] <= 1000000000
+
+
+
+solution -----
+
+# Your code here
+n = int(input())
+L = list(map(int,input().split()))
+
+for i in range(0,n,2):
+    print(L[i] * L[i + 1],end=" ")

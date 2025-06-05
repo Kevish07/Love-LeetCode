@@ -1,0 +1,51 @@
+title = Grade Calculator
+
+difficulty = easy
+
+desc -----
+Write a program that takes a student's score as input and prints their grade based on the following criteria:
+      Score >= 90: Grade A
+      90 > Score  >= 80: Grade B
+      80 > Score >= 70: Grade C
+      70 > Score >= 60: Grade D
+      Score < 60: Grade F
+
+
+Input
+The program should take an integer score as input.
+Output
+The program should print the corresponding grade.
+
+
+Example
+Input:
+85
+Output:
+Grade B
+
+Input:
+60
+Output:
+Grade D
+
+
+Constraints
+1<=score<=100
+
+test Cases -----
+
+
+
+solution -----
+num = int(input())
+
+if num >= 90 :
+    print("Grade A")
+elif num >= 80 :
+    print("Grade B")
+elif num >= 70 :
+    print("Grade C")
+elif num >= 60 :
+    print("Grade D")
+elif num < 60  :
+    print("Grade F")

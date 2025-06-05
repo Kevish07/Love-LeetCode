@@ -1,0 +1,57 @@
+title = Calculate percentage
+
+
+
+difficulty = easy
+
+desc -----
+A student received marks in three subjects: Maths, Science, and English.
+
+Write a function calculate_percentage that takes the marks of these three subjects as parameteres and calculates the total marks, and then calculates the percentage.
+
+Assume that the maximum mark for each subject is 100.
+Input
+Three lines each containing marks in maths, science, and english respectively.
+Output
+First line contains total marks.
+Second line contains the percentage of marks.
+
+
+
+Example
+Input
+50
+50
+50
+
+Output
+150
+50.0
+
+Explanation
+Total marks is 150 and the percentage is 50.0
+
+
+
+Constraints
+1 ≤ n ≤ 109
+1 ≤ d ≤ 109
+
+test Cases -----
+
+
+
+solution -----
+def calculate_percentage(maths,sci,english):
+    total= maths+sci+english
+    percentage = (total/300)*100
+    return total,percentage
+
+maths= int(input())
+sci= int(input())
+english= int(input())
+
+total, percentage = calculate_percentage(maths,sci,english)
+
+print(total)
+print(percentage)

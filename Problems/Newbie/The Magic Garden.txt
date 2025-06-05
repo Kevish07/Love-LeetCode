@@ -1,0 +1,52 @@
+title = The Magic Garden
+
+
+difficulty = easy
+
+desc -----
+In a magical garden, the number of flowers doubles each day. If you start with n flowers, write a Python program to find out how many flowers you'll have after d days.
+
+Example: 
+Suppose you begin with 3 flowers in the magical garden. Since the flowers double each day, by the end of the first day, you'll have 6 flowers. By the second day, the count increases to 12 flowers, and by the third day, it reaches 24 flowers.
+
+Note: Your program should compute the total number of flowers for any given number of days d.
+
+Input
+First line will contain an integer n representing number of flowers.
+Second line will contain an integer d representing number of days.
+
+Output
+Print the total number of flowers after the d days.
+
+
+
+Example
+Input
+2
+4
+
+Output
+32
+
+Explanation
+There will be 32 flowers after 4 days
+
+
+
+Constraints
+1 ≤ n ≤ 109
+1 ≤ d ≤ 109
+
+test Cases -----
+
+
+
+solution -----
+def flowers_after_days(n, d):
+    total_flowers = n * (2 ** d)
+    return total_flowers
+
+n = int(input())
+d = int(input())
+
+print(flowers_after_days(n, d))

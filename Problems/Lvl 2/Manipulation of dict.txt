@@ -1,0 +1,76 @@
+title = Manipulation of dict
+
+
+
+difficulty = Medium
+
+desc -----
+You need to take the following inputs from the user: a book_catalog (a dictionary containing book information), a key (the unique identifier of the book to modify), the author's name, and a new_book_catalog (additional book information to add). The task is to update the book identified by key with the new author's name and merge the new_book_catalog data into the original book_catalog. Finally, it should print out the updated book_catalog.
+Input
+First line contains an integer n, which represents the number of entries in the dictionary.
+
+Next 2 * n lines describe the dictionary entries: Each pair of lines contains a book name followed by its corresponding author's name.
+
+Next two lines contain: A book name that exists in the dictionary, and the new author's name for this book, which you need to update in the dictionary.
+
+Next line contains an integer m, which represents the number of entries in the new book_catalog.
+
+Next 2 * m lines describe the entries for the new book catalog: Each pair of lines contains a book name followed by its corresponding author's name.
+
+
+Output
+Print the new required dictionary.
+
+
+
+
+Example
+Input
+4
+The God of Small Things
+Arundhati Roy
+Midnight's Children
+Salman Rushdie
+Interpreter of Maladies
+Jhumpa Lahiri
+The White Tiger
+Aravind Adiga
+Interpreter of Maladies
+Animay
+2
+The Palace of Illusions
+Chitra Banerjee Divakaruni
+Train to Pakistan
+Khushwant Singh
+
+Output
+{'The God of Small Things': 'Arundhati Roy', "Midnight's Children": 'Salman Rushdie', 'Interpreter of Maladies': 'Animay', 'The White Tiger': 'Aravind Adiga', 'The Palace of Illusions': 'Chitra Banerjee Divakaruni', 'Train to Pakistan': 'Khushwant Singh'}
+
+
+Explanation
+As you can see the book name of Interpreter of Maladies has been changed to Animay.
+
+
+
+
+
+test Cases -----
+
+
+
+
+solution -----
+n = int(input())
+og = {}
+for i in range(n+1):
+    title = input()
+    author = input()
+    og[title] = author
+
+m = int(input())
+for j in range(m):
+    title = input()
+    author = input()
+    og[title] = author
+    
+print(og)

@@ -1,0 +1,42 @@
+title = Divisibility of a number
+
+difficulty = easy
+
+desc -----
+Write a program that checks if a given number n is divisible by both 3 and 5.
+Input
+First line contains an integer n.
+Output
+Print a line n is divisible by both 3 and 5 or n is not divisible by both 3 and 5 with n being replaced by the value of input number.
+
+
+
+Example
+Input
+15
+
+Output
+15 is divisible by both 3 and 5
+
+Explanation
+15 is divisible by both 3 and 5.
+
+
+
+Constraints
+1<=score<=100
+
+test Cases -----
+
+
+
+solution -----
+n = int(input())
+
+if n%3 == 0:
+    if n%5 == 0:
+        print(f'{n} is divisible by both 3 and 5')
+    else:
+        print(f'{n} is not divisible by both 3 and 5')
+else:
+    print(f'{n} is not divisible by both 3 and 5')

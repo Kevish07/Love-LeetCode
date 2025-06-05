@@ -1,0 +1,53 @@
+title = String Reversal - Recursion
+
+
+
+difficulty = Medium
+
+desc -----
+In a quiet village, Riya found an old book that mentioned a secret spell. The spell's clue was simple: Reverse the spell. As a good friend of hers, your task is to write a program that reverses the given spell, to help Riya uncover the magic hidden within these mysterious words.
+Input
+The first and only line of input contains a string S , representing the spell you need to reverse.
+
+Constraints
+1 <= |S| <= 104
+String S can contain white characters (spaces).
+Output
+Print the string representing the reversed spell.
+
+
+
+
+
+Example
+Input
+Hello
+Output
+olleH
+
+Input
+Newton school of Technology is situated in Pune and Sonipat
+Output
+tapinoS dna enuP ni detautis si ygolonhceT fo loohcs notweN
+
+Input
+Eva, can I see bees in a cave
+Output
+evac a ni seeb ees I nac ,avE
+
+
+
+
+test Cases -----
+
+
+
+
+solution -----
+def str_reverse_krdo(s):
+    if len(s) == 1:
+        return s
+    return str_reverse_krdo(s[1:])+s[0]
+
+s = input()
+print(str_reverse_krdo(s))

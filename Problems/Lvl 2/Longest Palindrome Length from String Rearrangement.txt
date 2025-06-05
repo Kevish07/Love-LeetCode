@@ -1,0 +1,78 @@
+title = Longest Palindrome Length from String Rearrangement
+
+
+difficulty = Medium
+
+desc -----
+Given a Python function longest_palindrome_length(s) that analyzes a given string s and returns the length of the longest palindrome that can be constructed using the characters from the string.
+
+Follow the guidelines below:
+
+1)Input:
+The input parameter s is a string containing only lowercase letters.
+2)Initialization:
+
+Initialize an empty dictionary char_count to track the frequency of each character in the string.
+Initialize the variable odd_count to 0.
+3)Functionality:
+
+The function should count the frequency of each character in the input string.
+Calculate and return the length of the longest palindrome that can be formed using the characters in the string.
+4)Implementation:
+
+Use the initialized dictionary (char_count) to track the frequency of each character in the string.
+Iterate through the characters in the input string and update the character count in the dictionary.
+Determine the length of the longest palindrome:
+-For characters with even counts, all characters can be used in pairs in the palindrome.
+-For characters with odd counts, use (count - 1) characters in pairs, and keep track of whether there is at least one character with an odd count using the variable odd_count.
+-Add 1 to the length if there is at least one character with an odd count.
+Input
+This is a functional problem. You don't have to write code to take input.
+
+Enter a string.
+Output
+The code for printing the output is already been implemented in the backend.
+
+Return length of the string.
+
+
+
+
+Example
+Input:
+abccccdd
+
+Output:
+7
+
+Explanation:
+The longest palindrome that can be formed is "dccaccd"
+
+
+
+
+test Cases -----
+
+
+
+
+solution -----
+def longest_palindrome_length(s):
+    char_count = {}
+    for char in s:
+        char_count[char] = char_count.get(char, 0) + 1
+    
+    palindrome_length = 0
+    odd_count_found = False
+    
+    for count in char_count.values():
+        if count % 2 == 0:
+            palindrome_length += count
+        else:
+            palindrome_length += count - 1
+            odd_count_found = True
+    
+    if odd_count_found:
+        palindrome_length += 1
+    
+    return palindrome_length

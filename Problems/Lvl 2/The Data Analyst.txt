@@ -1,0 +1,51 @@
+title = The Data Analyst
+
+difficulty = easy
+
+desc -----
+The Data Analyst is analyzing the price of the items shown on the home page of "Khareedo.com". He wants to play around with the price list to know which arrangement of the list is effective to get the most engagement on the website. Help him to perform the following operations on the price list.
+
+
+Sort the list in such a way that the original list remains unchanged and print the new sorted list in space-separated format.
+
+Sort the list in place i.e by changing the original list and print the original list in space-separated format.
+
+Reverse the modified list and print it in space-separated format.
+
+Input
+The first and only line of input consist of space separated integers. Numbers can be negative also.
+Output
+Print three lines which consists of the result of each operation mentioned in the problem statement in different lines.
+
+
+
+
+Example
+Input
+1 -2 3 9 8
+
+Output
+-2 1 3 8 9
+-2 1 3 8 9
+9 8 3 1 -2
+
+
+test Cases -----
+
+
+
+solution -----
+
+# take input and start writing your code here
+L = list(map(int,input().split()))
+temp = sorted(L)
+for i in temp:
+    print(i,end=" ")
+print()
+L.sort()
+for i in L:
+    print(i,end=" ")
+print()
+L.reverse()
+for i in L:
+    print(i,end=" ")
