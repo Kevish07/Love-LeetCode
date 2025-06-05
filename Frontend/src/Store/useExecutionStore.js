@@ -13,6 +13,7 @@ export const useExecutionStore = create((set) => ({
     stdin,
     expected_outputs,
     problemId,
+    problemTitle,
   ) => {
     try {
       set({ isExecuting: true });
@@ -25,6 +26,7 @@ export const useExecutionStore = create((set) => ({
         stdin,
         expected_outputs,
         problemId,
+        problemTitle,
       });
       console.log("Response:", res.data);
 

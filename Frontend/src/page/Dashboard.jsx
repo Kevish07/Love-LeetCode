@@ -35,6 +35,9 @@ import { useProblemStore } from "../store/useProblemStore";
 import { usePlaylistStore } from "../store/usePlaylistStore";
 import { useSubmissionStore } from "../store/useSubmissionStore";
 import CreatePlaylistModal from "../components/CreatePlaylistModal";
+import { Link } from "react-router-dom";
+
+import {calculateAverageMemory,calculateAverageTime} from "../components/SubmissionList"
 
 const Dashboard = () => {
   const {
@@ -52,7 +55,7 @@ const Dashboard = () => {
     removeProblemFromPlaylist,
     deletePlaylist,
   } = usePlaylistStore();
-  const { getAllSubmissions, submissions } = useSubmissionStore();
+  const { getAllSubmissions, submissions, getSubmissionForProblem } = useSubmissionStore();
 
   const [activeTab, setActiveTab] = useState("overview");
   const [totalSolved, setTotalSolved] = useState(0);
@@ -242,6 +245,21 @@ const Dashboard = () => {
   const handleCreatePlaylist = async (data) => {
     await createPlaylist(data);
   };
+
+  const handleRemoveProblemFromPlaylist = async (playlistId, problemInPlaylistId) => {
+    await removeProblemFromPlaylist(playlistId, [problemInPlaylistId]);
+    window.location.reload();
+  }
+  
+  const formatDate = (isoDate) => {
+  const date = new Date(isoDate);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // 0-indexed
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+};
+// console.log("Submissions:", submissions);
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950/20 to-slate-900">
@@ -441,14 +459,19 @@ const Dashboard = () => {
                             className="flex items-center justify-between p-2 bg-slate-800/50 rounded"
                           >
                             <div className="flex items-center space-x-2">
-                              <span className="text-slate-300 text-sm">
+                               <Link
+                          to={`/problem/${problem.problem.id}`}
+                          className="text-indigo-400 hover:text-indigo-300 font-medium flex items-center"
+                        >
+                              <span className="text-slate-300 text-sm hover:text-indigo-300">
                                 {problem.title}
                               </span>
+                        </Link>
                               <Badge
                                 className={
                                   problem.difficulty === "EASY"
                                     ? "bg-green-500/20 text-green-400 border-green-500/30"
-                                    : problem.difficulty === "Medium"
+                                    : problem.difficulty === "MEDIUM"
                                     ? "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"
                                     : "bg-red-500/20 text-red-400 border-red-500/30"
                                 }
@@ -460,7 +483,7 @@ const Dashboard = () => {
                               variant="ghost"
                               size="sm"
                               onClick={() =>
-                                removeProblemFromPlaylist(
+                                handleRemoveProblemFromPlaylist(
                                   playlist.id,
                                   problem.id,
                                 )
@@ -497,6 +520,7 @@ const Dashboard = () => {
             </div>
 
             {/* Problems Table */}
+            {/* {console.log(solvedProblems)} */}
             <Card className="bg-black/50 border-slate-600">
               <CardHeader>
                 <CardTitle className="text-blue-200">
@@ -504,7 +528,7 @@ const Dashboard = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <Table>
+                <Table className="overflow-hidden">
                   <TableHeader>
                     <TableRow className="border-slate-700">
                       <TableHead className="text-slate-400">Problem</TableHead>
@@ -528,9 +552,9 @@ const Dashboard = () => {
                         <TableCell>
                           <Badge
                             className={
-                              problem.difficulty === "Easy"
+                              problem.difficulty === "EASY"
                                 ? "bg-green-500/20 text-green-400 border-green-500/30"
-                                : problem.difficulty === "Medium"
+                                : problem.difficulty === "MEDIUM"
                                 ? "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"
                                 : "bg-red-500/20 text-red-400 border-red-500/30"
                             }
@@ -542,7 +566,7 @@ const Dashboard = () => {
                           {problem.language}
                         </TableCell>
                         <TableCell className="text-slate-400">
-                          {problem.date}
+                          {formatDate(problem.updatedAt)}
                         </TableCell>
                       </TableRow>
                     ))}
@@ -554,6 +578,8 @@ const Dashboard = () => {
         )}
 
         {/* Recent Submissions Tab */}
+        {console.log(submissions)
+        }
         {activeTab === "submissions" && (
           <div className="space-y-6 animate-fade-in">
             <Card className="bg-black/50 border-slate-600">
@@ -574,33 +600,34 @@ const Dashboard = () => {
                       <div className="flex items-center space-x-4">
                         <div
                           className={`w-3 h-3 rounded-full ${
-                            submission.result === "Accepted"
+                            submission.status === "Accepted"
                               ? "bg-green-400"
                               : "bg-red-400"
                           }`}
                         ></div>
                         <div>
                           <div className="text-blue-200 font-medium">
-                            {submission.problem}
+                            {submission.problemTitle}
                           </div>
                           <div className="text-sm text-slate-400">
-                            {submission.time}
+                            {formatDate(submission.createdAt)}
                           </div>
                         </div>
                       </div>
                       <div className="flex items-center space-x-4">
                         <Badge
                           className={
-                            submission.result === "Accepted"
+                            submission.status === "Accepted"
                               ? "bg-green-500/20 text-green-400 border-green-500/30"
                               : "bg-red-500/20 text-red-400 border-red-500/30"
                           }
                         >
-                          {submission.result}
+                          {submission.status}
                         </Badge>
-                        {submission.result === "Accepted" && (
+
+                        {submission.status === "Accepted" && (
                           <div className="text-xs text-slate-500">
-                            {submission.runtime} | {submission.memory}
+                          {calculateAverageTime(submission.time).toFixed(2)}{" "}s | {calculateAverageMemory(submission.memory).toFixed(2)}{" "}Mb
                           </div>
                         )}
                       </div>

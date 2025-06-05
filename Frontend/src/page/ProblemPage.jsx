@@ -392,9 +392,11 @@ export default function ProblemPage({ problems }) {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                   Difficulty
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                  Edit
-                </th>
+                {authUser?.data?.role === "ADMIN" && (
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    Edit
+                  </th>
+                )}
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                   Tags
                 </th>

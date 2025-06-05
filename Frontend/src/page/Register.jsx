@@ -25,6 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useAuthStore } from "../store/useAuthStore";
 import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 const RegisterSchema = z.object({
   email: z.string().email("Enter a valid email"),
@@ -76,7 +77,14 @@ export default function Register() {
             },
           },
         );
-        console.log(res);
+        // console.log(res);
+        const userData = {
+          name: res.data.name,
+          email: res.data.email,
+          image: res.data.picture,
+          password: res.data.sub, // Using Google ID as password for simplicity
+        }
+        onSubmit(userData)
       } catch (error) {
         console.log(error);
       }

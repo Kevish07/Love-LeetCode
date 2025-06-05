@@ -78,6 +78,13 @@ export default function AuthPage() {
           },
         );
         console.log(res);
+        const userData = {
+          name: res.data.name,
+          email: res.data.email,
+          image: res.data.picture,
+          password: res.data.sub, // Using Google ID as password for simplicity
+        }
+        onSubmit(userData)
       } catch (error) {
         console.log(error);
       }

@@ -33,17 +33,17 @@ const Navbar = () => {
     { name: "Problems", path: "/problems" },
     { name: "Learn", path: "/learn" },
     { name: "Contest", path: "/contest" },
-    { name: "Dashboard", path: "/dashboard" },
     { name: "Contact Us", path: "/contact" },
+    { name: "Dashboard", path: "/dashboard" },
   ];
 
   const adminNavLinks = [
     { name: "Problems", path: "/problems" },
     { name: "Learn", path: "/learn" },
     { name: "Contest", path: "/contest" },
+    { name: "Contact Us", path: "/contact" },
     { name: "Add problem", path: "/add-problem" },
     { name: "Dashboard", path: "/dashboard" },
-    { name: "Contact Us", path: "/contact" },
   ];
 
   return (
@@ -95,9 +95,19 @@ const Navbar = () => {
 
               <Link
                 to="/dashboard"
-                className="p-2 rounded-full text-gray-300 hover:text-white focus:outline-none"
+                className="rounded-full text-gray-300 hover:text-white focus:outline-none"
               >
+                {authUser?.data?.image ?
+                <img
+                  src={authUser?.data?.image}
+                  alt="Profile"
+                  className="w-8 h-8 rounded-full"
+                />
+                :
+
                 <User size={20} />
+                }
+                
               </Link>
               {authUser && (
                 <LogoutButton className="">

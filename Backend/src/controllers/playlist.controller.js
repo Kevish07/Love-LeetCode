@@ -185,8 +185,13 @@ const removePlaylist = async (req, res) => {
 };
 
 const removerProblemFromPlaylist = async (req, res) => {
+  console.log(req.body);
+  
   const { playlistId } = req.params;
   const { problemIds } = req.body;
+  // console.log(playlistId, problemIds);
+  
+  // console.log("removerProblemFromPlaylist called with playlistId:", playlistId, "and problemIds:", problemIds);
   
   try {
     if (!Array.isArray(problemIds) || problemIds.length === 0) {
@@ -194,16 +199,26 @@ const removerProblemFromPlaylist = async (req, res) => {
         .status(400)
         .json(new ApiError(400, "Invalid or missing problem Id"));
     }
+  // console.log("before deleting problems from playlist");
+//   const existing = await db.problemInPlaylist.findMany({
+//   where: {
+//     playlistId,
+//     id: problemIds[0]
+//   },
+// });
+// console.log('Matching rows:', existing);
+
   
     const deleteProblem = await db.problemInPlaylist.deleteMany({
       where: {
         playlistId,
-        problemId: {
+        id: {
           in: problemIds,
         },
       },
     });
-
+    console.log("after deleting problems from playlist", deleteProblem);
+    
     res.status(200).json(new ApiResponse(200,"Problem deleted"))
   } catch (error) {
     res.status(500).json(new ApiResponse(500,"Problem not deleted"))

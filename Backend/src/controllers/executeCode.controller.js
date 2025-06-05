@@ -9,7 +9,7 @@ import { ApiError } from "../utils/api-error.js";
 import { ApiResponse } from "../utils/api-response.js";
 
 const executeCode = async (req, res) => {
-  const { source_code, stdin, expected_outputs, problemId } =
+  const { source_code, stdin, expected_outputs, problemId, problemTitle } =
     req.body;
 
   const userId = req.user.id;
@@ -72,6 +72,7 @@ const executeCode = async (req, res) => {
         data: {
           userId,
           problemId,
+          problemTitle,
           language: code[0][0], // Get the language from the first key of source_code object
           sourceCode: source_code,
           stdin: stdin.join("\n"),
@@ -94,6 +95,7 @@ const executeCode = async (req, res) => {
     
     
     // if all answers are correct then add it to problem solved for the user
+    
     if (allPassed) {
       await db.ProblemSolved.upsert({
         where: {
@@ -106,6 +108,7 @@ const executeCode = async (req, res) => {
         create: {
           userId,
           problemId,
+          language: code[0][0],
         },
       });
     }

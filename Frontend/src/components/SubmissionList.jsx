@@ -6,7 +6,6 @@ import {
   Calendar,
 } from "lucide-react";
 
-const SubmissionsList = ({ submissions, isLoading }) => {
   // Helper function to safely parse JSON strings
   const safeParse = (data) => {
     try {
@@ -39,6 +38,9 @@ const SubmissionsList = ({ submissions, isLoading }) => {
     if (timeArray.length === 0) return 0;
     return timeArray.reduce((acc, curr) => acc + curr, 0) / timeArray.length;
   };
+
+const SubmissionsList = ({ submissions, isLoading }) => {
+
 
   // Loading state
   if (isLoading) {
@@ -123,3 +125,4 @@ const SubmissionsList = ({ submissions, isLoading }) => {
 };
 
 export default SubmissionsList;
+export { calculateAverageMemory, calculateAverageTime }

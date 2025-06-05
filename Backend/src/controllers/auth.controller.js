@@ -6,7 +6,7 @@ import { UserRole } from "../generated/prisma/index.js";
 import jwt from "jsonwebtoken";
 
 const register = async (req, res) => {
-  const { name, email, password } = req.body; 
+  const { name, email, password, image } = req.body;
   
   if (!name || !email || !password) {
     return res.status(401).json(new ApiError(401, "All fields are required"));
@@ -23,12 +23,18 @@ const register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    let userImage = image;
+    if (!userImage) {
+      userImage = name.charAt(0).toUpperCase();
+    }
+
     const user = await db.user.create({
       data: {
         name,
         email,
         password: hashedPassword,
         role: UserRole.USER,
+        image: userImage || null, // Optional image field
       },
     });
 

@@ -70,6 +70,7 @@ model Submission {
   id            String  @id @default(uuid())
   userId        String
   problemId     String
+  problemTitle  String?
   language      String
   sourceCode    Json
   stdin         String?
@@ -109,9 +110,11 @@ model TestCasesResult {
 }
 
 model ProblemSolved {
-  id        String   @id @default(uuid())
+  id        String  @id @default(uuid())
   userId    String
   problemId String
+  language  String?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

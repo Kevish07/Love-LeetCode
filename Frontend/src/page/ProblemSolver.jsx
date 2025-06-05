@@ -106,12 +106,12 @@ const ProblemSolver = () => {
       const language_id = getLanguageId(selectedLanguage);
       const stdin = problem.testCases.map((tc) => tc.input);
       const expected_outputs = problem.testCases.map((tc) => tc.output);
-      executeCode(code, language_id, stdin, expected_outputs, id);
+      executeCode(code, language_id, stdin, expected_outputs, id, problem.title);
     } catch (error) {
       console.log("Error executing code", error);
     }
   };
-
+  
   if (isProblemLoading || !problem) {
     return (
       <div className="flex items-center justify-center h-screen bg-base-200">
