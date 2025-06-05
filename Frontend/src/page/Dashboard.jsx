@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   Clock,
   Code,
@@ -62,111 +62,6 @@ const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
-  // const [playlists, setPlaylists] = useState([
-  //   {
-  //     id: 1,
-  //     name: "Array Fundamentals",
-  //     problems: [
-  //       { id: 1, title: "Two Sum", difficulty: "Easy" },
-  //       { id: 3, title: "Binary Search", difficulty: "Medium" },
-  //     ],
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Dynamic Programming",
-  //     problems: [{ id: 5, title: "Maximum Subarray", difficulty: "Medium" }],
-  //   },
-  // ]);
-
-  // const [newPlaylistName, setNewPlaylistName] = useState("");
-  // const [isCreatePlaylistOpen, setIsCreatePlaylistOpen] = useState(false);
-
-  // const solvedProblems = [
-  //   {
-  //     id: 1,
-  //     title: "Two Sum",
-  //     difficulty: "Easy",
-  //     status: "Solved",
-  //     date: "2024-01-15",
-  //     language: "JavaScript",
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Valid Parentheses",
-  //     difficulty: "Easy",
-  //     status: "Solved",
-  //     date: "2024-01-14",
-  //     language: "Python",
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Binary Search",
-  //     difficulty: "Medium",
-  //     status: "Solved",
-  //     date: "2024-01-13",
-  //     language: "JavaScript",
-  //   },
-  //   {
-  //     id: 4,
-  //     title: "Merge Two Sorted Lists",
-  //     difficulty: "Easy",
-  //     status: "Solved",
-  //     date: "2024-01-12",
-  //     language: "Python",
-  //   },
-  //   {
-  //     id: 5,
-  //     title: "Maximum Subarray",
-  //     difficulty: "Medium",
-  //     status: "Solved",
-  //     date: "2024-01-11",
-  //     language: "JavaScript",
-  //   },
-  //   {
-  //     id: 6,
-  //     title: "Climbing Stairs",
-  //     difficulty: "Easy",
-  //     status: "Solved",
-  //     date: "2024-01-10",
-  //     language: "Python",
-  //   },
-  // ];
-
-  // const recentSubmissions = [
-  //   {
-  //     id: 1,
-  //     problem: "Longest Palindromic Substring",
-  //     result: "Accepted",
-  //     time: "2 hours ago",
-  //     runtime: "84ms",
-  //     memory: "41.2MB",
-  //   },
-  //   {
-  //     id: 2,
-  //     problem: "Container With Most Water",
-  //     result: "Accepted",
-  //     time: "5 hours ago",
-  //     runtime: "120ms",
-  //     memory: "45.1MB",
-  //   },
-  //   {
-  //     id: 3,
-  //     problem: "3Sum",
-  //     result: "Time Limit Exceeded",
-  //     time: "1 day ago",
-  //     runtime: "N/A",
-  //     memory: "N/A",
-  //   },
-  //   {
-  //     id: 4,
-  //     problem: "Letter Combinations",
-  //     result: "Accepted",
-  //     time: "2 days ago",
-  //     runtime: "68ms",
-  //     memory: "38.9MB",
-  //   },
-  // ];
-
   const stats = {
     totalSolved: 156,
     easyCount: 89,
@@ -199,35 +94,9 @@ const Dashboard = () => {
     problem.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
-  // const createPlaylist = () => {
-  //   if (newPlaylistName.trim()) {
-  //     const newPlaylist = {
-  //       id: Date.now(),
-  //       name: newPlaylistName,
-  //       problems: [],
-  //     };
-  //     setPlaylists([...playlists, newPlaylist]);
-  //     setNewPlaylistName("");
-  //     setIsCreatePlaylistOpen(false);
-  //   }
-  // };
-
-  // const deletePlaylist = (playlistId) => {
-  //   setPlaylists(playlists.filter((p) => p.id !== playlistId));
-  // };
-
-  // const removeProblemFromPlaylist = (playlistId, problemId) => {
-  //   setPlaylists(
-  //     playlists.map((playlist) =>
-  //       playlist.id === playlistId
-  //         ? {
-  //             ...playlist,
-  //             problems: playlist.problems.filter((p) => p.id !== problemId),
-  //           }
-  //         : playlist,
-  //     ),
-  //   );
-  // };
+  useEffect(()=> {
+    getAllProblems()
+  },[])
 
   useEffect(() => {
     getSolvedProblemByUser();
@@ -258,9 +127,31 @@ const Dashboard = () => {
   const year = date.getFullYear();
   return `${day}/${month}/${year}`;
 };
-// console.log("Submissions:", submissions);
 
+  // Dynamically calculate total available problems by difficulty
+  const totalProblemsByDifficulty = useMemo(() => {
+    const counts = { EASY: 0, MEDIUM: 0, HARD: 0 };
+    
+    problems.forEach((problem) => {
+      if (problem.difficulty === "EASY") counts.EASY += 1;
+      else if (problem.difficulty === "MEDIUM") counts.MEDIUM += 1;
+      else if (problem.difficulty === "HARD") counts.HARD += 1;
+    });
+    return counts;
+  }, [problems]);
 
+  // Dynamically calculate solved problems by difficulty
+  const solvedByDifficulty = useMemo(() => {
+    const counts = { EASY: 0, MEDIUM: 0, HARD: 0 };
+    solvedProblems.forEach((problem) => {
+      if (problem.difficulty === "EASY") counts.EASY += 1;
+      else if (problem.difficulty === "MEDIUM") counts.MEDIUM += 1;
+      else if (problem.difficulty === "HARD") counts.HARD += 1;
+    });
+    return counts;
+  }, [solvedProblems]);
+
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950/20 to-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -329,13 +220,22 @@ const Dashboard = () => {
                       <div className="flex justify-between text-sm">
                         <span className="text-slate-400">Easy</span>
                         <span className="text-green-400">
-                          {stats.easyCount}/200
+                          {solvedByDifficulty.EASY}/
+                          {totalProblemsByDifficulty.EASY}
                         </span>
                       </div>
                       <div className="w-full bg-slate-700 rounded-full h-2">
                         <div
                           className="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full transition-all duration-1000 ease-out"
-                          style={{ width: `${(stats.easyCount / 200) * 100}%` }}
+                          style={{
+                            width: `${
+                              totalProblemsByDifficulty.EASY
+                                ? (solvedByDifficulty.EASY /
+                                    totalProblemsByDifficulty.EASY) *
+                                  100
+                                : 0
+                            }%`,
+                          }}
                         ></div>
                       </div>
                     </div>
@@ -344,14 +244,21 @@ const Dashboard = () => {
                       <div className="flex justify-between text-sm">
                         <span className="text-slate-400">Medium</span>
                         <span className="text-yellow-400">
-                          {stats.mediumCount}/150
+                          {solvedByDifficulty.MEDIUM}/
+                          {totalProblemsByDifficulty.MEDIUM}
                         </span>
                       </div>
                       <div className="w-full bg-slate-700 rounded-full h-2">
                         <div
                           className="bg-gradient-to-r from-yellow-500 to-yellow-400 h-2 rounded-full transition-all duration-1000 ease-out"
                           style={{
-                            width: `${(stats.mediumCount / 150) * 100}%`,
+                            width: `${
+                              totalProblemsByDifficulty.MEDIUM
+                                ? (solvedByDifficulty.MEDIUM /
+                                    totalProblemsByDifficulty.MEDIUM) *
+                                  100
+                                : 0
+                            }%`,
                           }}
                         ></div>
                       </div>
@@ -361,13 +268,22 @@ const Dashboard = () => {
                       <div className="flex justify-between text-sm">
                         <span className="text-slate-400">Hard</span>
                         <span className="text-red-400">
-                          {stats.hardCount}/50
+                          {solvedByDifficulty.HARD}/
+                          {totalProblemsByDifficulty.HARD}
                         </span>
                       </div>
                       <div className="w-full bg-slate-700 rounded-full h-2">
                         <div
                           className="bg-gradient-to-r from-red-500 to-red-400 h-2 rounded-full transition-all duration-1000 ease-out"
-                          style={{ width: `${(stats.hardCount / 50) * 100}%` }}
+                          style={{
+                            width: `${
+                              totalProblemsByDifficulty.HARD
+                                ? (solvedByDifficulty.HARD /
+                                    totalProblemsByDifficulty.HARD) *
+                                  100
+                                : 0
+                            }%`,
+                          }}
                         ></div>
                       </div>
                     </div>
@@ -520,7 +436,6 @@ const Dashboard = () => {
             </div>
 
             {/* Problems Table */}
-            {/* {console.log(solvedProblems)} */}
             <Card className="bg-black/50 border-slate-600">
               <CardHeader>
                 <CardTitle className="text-blue-200">
@@ -578,8 +493,6 @@ const Dashboard = () => {
         )}
 
         {/* Recent Submissions Tab */}
-        {console.log(submissions)
-        }
         {activeTab === "submissions" && (
           <div className="space-y-6 animate-fade-in">
             <Card className="bg-black/50 border-slate-600">
