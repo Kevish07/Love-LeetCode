@@ -36,18 +36,18 @@ const problemSchema = z.object({
     .min(1, "At least one test case is required"),
   examples: z.object({
     JavaScript: z.object({
-      input: z.string().min(1, "Input is required"),
-      output: z.string().min(1, "Output is required"),
+      input: z.string().optional(),
+      output: z.string().optional(),
       explanation: z.string().optional(),
     }),
     Python: z.object({
-      input: z.string().min(1, "Input is required"),
-      output: z.string().min(1, "Output is required"),
+      input: z.string().optional(),
+      output: z.string().optional(),
       explanation: z.string().optional(),
     }),
     Java: z.object({
-      input: z.string().min(1, "Input is required"),
-      output: z.string().min(1, "Output is required"),
+      input: z.string().optional(),
+      output: z.string().optional(),
       explanation: z.string().optional(),
     }),
   }),

@@ -128,22 +128,22 @@ const ProblemSolver = () => {
       case "description":
         return (
           <div className="h-full animate-fade-in">
-            <div className="p-6 space-y-6">
+            <div className="p-3 space-y-3">
               {/* Problem header with animated icon */}
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center animate-spin-slow">
+                <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-blue-600 rounded flex items-center justify-center animate-spin-slow">
                   <Code2 className="w-5 h-5 text-white" />
                 </div>
                 <div>
                   <h2 className="text-lg font-semibold text-white">
                     {problem.title}
                   </h2>
-                  <p className="text-sm text-slate-400">Solve step by step</p>
+                  <p className="text-sm text-slate-400">{problem.difficulty}</p>
                 </div>
               </div>
 
               {/* Description */}
-              <div className="prose prose-invert max-w-none">
+              <div className="">
                 <div className="mb-6 animate-fade-in">
                   <p className="text-slate-300 leading-relaxed whitespace-pre-line">
                     {problem.description}
@@ -156,41 +156,42 @@ const ProblemSolver = () => {
                     <Zap className="w-4 h-4 mr-2 text-purple-400 animate-pulse" />
                     Examples
                   </h3>
-
                   {Object.entries(problem.examples).map(
                     ([lang, example], index) => (
+                      example.input && (
                       <div
                         key={index}
-                        className="mb-4 glass-morphism rounded-xl p-4 border border-purple-500/20 hover:border-purple-400/40 transition-all duration-300 animate-fade-in"
+                        className="mb-2 glass-morphism rounded-md p-1 border border-purple-500/20 hover:border-purple-400/40 transition-all duration-300 animate-fade-in"
                         style={{ animationDelay: `${index * 0.1}s` }}
                       >
-                        <div className="text-sm space-y-3">
-                          <div className="hover:bg-slate-800/30 p-2 rounded transition-colors">
-                            <span className="text-purple-400 font-medium">
+                        <div className="text-[.75rem] space-y-0">
+                          <div className="hover:bg-slate-800/20 p-1 rounded-none transition-colors">
+                            <div className="text-purple-400 font-medium">
                               Input:
-                            </span>
-                            <code className="ml-2 text-slate-300 bg-slate-800/50 px-3 py-1 rounded-lg font-mono">
+                            </div>
+                            <code className="text-slate-300 bg-slate-800 px-2 py-1 rounded font-mono">
                               {example.input}
                             </code>
                           </div>
-                          <div className="hover:bg-slate-800/30 p-2 rounded transition-colors">
-                            <span className="text-purple-400 font-medium">
+                          <div className="hover:bg-slate-800/20 p-1 rounded-none transition-colors">
+                            <div className="text-purple-400 font-medium">
                               Output:
-                            </span>
-                            <code className="ml-2 text-slate-300 bg-slate-800/50 px-3 py-1 rounded-lg font-mono">
+                            </div>
+                            <code className="text-slate-300 bg-slate-800 px-2 py-1 rounded font-mono">
                               {example.output}
                             </code>
                           </div>
-                          <div className="hover:bg-slate-800/30 p-2 rounded transition-colors">
-                            <span className="text-purple-400 font-medium">
+                          <div className="hover:bg-slate-800/20 p-1 rounded-none transition-colors">
+                            <div className="text-purple-400 font-medium">
                               Explanation:
-                            </span>
-                            <span className="ml-2 text-slate-400">
+                            </div>
+                            <span className="text-slate-400 px-2 py-1">
                               {example.explanation}
                             </span>
                           </div>
                         </div>
                       </div>
+                      ) 
                     ),
                   )}
                 </div>

@@ -10,7 +10,7 @@ export const useActions = create((set) => ({
       set({ isDeletingProblem: true });
       const res = await axiosInstance.delete(`/problems/delete-problem/${id}`);
       toast.success(res.data.message);
-      window.location.reload();
+      // window.location.reload();
     } catch (error) {
       console.log("Error deleting problem", error);
       toast.error("Error deleting problem");
