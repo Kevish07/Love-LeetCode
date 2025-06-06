@@ -14,7 +14,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
+      if (window.scrollY > 50) {
         setScrolled(true);
       } else {
         setScrolled(false);
@@ -48,11 +48,28 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed w-full z-50 transition-all duration-300 backdrop-blur-sm ${
-        scrolled ? "opacity-100 shadow-lg" : " opacity-0 bg-transparent"
-      }`}
+      className={`fixed w-full z-50 transition-all duration-300 backdrop-blur-sm`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative w-full flex justify-center">
+      <div 
+          className={`transition-all duration-700 ease-in-out transform-gpu ${
+            scrolled 
+              ? 'w-full scale-x-100 rounded-none  backdrop-blur-sm shadow-lg' 
+              : 'w-full max-w-4xl scale-x-100 rounded-2xl  backdrop-blur-md shadow-xl mt-3'
+          }`}
+          style={{
+            transformOrigin: 'center',
+            ...(scrolled ? {
+              borderRadius: '0px',
+              maxWidth: '100%',
+              marginLeft: '-1rem',
+              marginRight: '-1rem',
+              paddingLeft: '1rem',
+              paddingRight: '1rem'
+            } : {})
+          }}
+        >
+      <div className="mx-auto px-6 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link
@@ -155,6 +172,8 @@ const Navbar = () => {
             </Link>
           </div>
         </div>
+      </div>
+      </div>
       </div>
     </nav>
   );

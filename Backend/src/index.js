@@ -16,10 +16,21 @@ dotenv.config({
 
 const port = process.env.PORT
 const app = express()
-app.use(cors({
-    origin: process.env.FRONTEND_URL,
-    credentials: true
-}))
+// app.use(cors({
+//     // origin: process.env.FRONTEND_URL,
+//     origin: "*",
+//     credentials: true
+// }))
+
+const corsOptions = {
+  origin: "https://love-leetcode-frontend.vercel.app", // replace with your frontend origin
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json())
 app.use(cookieParser())
 

@@ -25,7 +25,7 @@ const register = async (req, res) => {
 
     let userImage = image;
     if (!userImage) {
-      userImage = name.charAt(0).toUpperCase();
+      userImage = null;
     }
 
     const user = await db.user.create({
@@ -43,7 +43,7 @@ const register = async (req, res) => {
     });
     const cookieOptions = {
       httpOnly: true,
-      sameSite: "strict",
+      sameSite: "none",
       secure: process.env.NODE_ENV !== "development",
       maxAge: 1000 * 60 * 60 * 24 * 7,
     };
@@ -94,7 +94,7 @@ const login = async (req, res) => {
     });
     const cookieOptions = {
       httpOnly: true,
-      sameSite: "strict",
+      sameSite: "none",
       secure: process.env.NODE_ENV !== "development",
       maxAge: 1000 * 60 * 60 * 24 * 7,
     };
@@ -103,7 +103,7 @@ const login = async (req, res) => {
     res.status(200).json(
       new ApiResponse(
         200,
-        `Login successfull, Welcome ${user.name}`,
+        `Login successful, Welcome ${user.name}`,
         {
           id: user.id,
           name: user.name,
@@ -122,7 +122,7 @@ const logout = async (req, res) => {
   try {
     const cookieOptions = {
       httpOnly: true,
-      sameSite: "strict",
+      sameSite: "none",
       secure: process.env.NODE_ENV !== "development",
       maxAge: 1000 * 60 * 60 * 24 * 7,
     };
