@@ -6,13 +6,13 @@ export const authMiddleware = async (req, res, next) => {
   try {
     const token = req.cookies.jwt;
     if (!token) {
-      res.status(401).json(new ApiError(401, "Unauthorized user"));
+      return res.status(401).json(new ApiError(401, "Unauthorized user"));
     }
     let decode;
     try {
       decode = jwt.verify(token, process.env.JWT_SECRET);
     } catch (error) {
-      res.status(401).json(new ApiError(401, "Unauthorized user"));
+      return res.status(401).json(new ApiError(401, "Unauthorized user"));
     }
 
     const user = await db.user.findUnique({
@@ -28,12 +28,12 @@ export const authMiddleware = async (req, res, next) => {
       },
     });
     if (!user) {
-      res.status(401).json(new ApiError(401, "User not found"));
+      return res.status(401).json(new ApiError(401, "User not found"));
     }
     req.user = user;
     next();
   } catch (error) {
-    res.status(401).json(new ApiError(401, "Unauthorized User"));
+    return res.status(401).json(new ApiError(401, "Unauthorized User"));
   }
 };
 
@@ -50,11 +50,11 @@ export const checkAdmin = async (req, res, next) => {
     });
 
     if (!user || user.role !== "ADMIN"){
-      res.status(403).json(new ApiError(403,"Access Denied - Admins only"))
+      return res.status(403).json(new ApiError(403,"Access Denied - Admins only"))
     }
 
     next()
   } catch (error) {
-    res.status(500).json(new ApiError(500,"Internal Server Error"))
+    return res.status(500).json(new ApiError(500,"Internal Server Error"))
   }
 };
