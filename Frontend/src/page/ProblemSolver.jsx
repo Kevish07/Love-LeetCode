@@ -25,7 +25,6 @@ import {
   ResizableHandle,
 } from "@/components/ui/resizable";
 import { Link, useParams } from "react-router-dom";
-import React from "react";
 import { useExecutionStore } from "../store/useExecutionStore";
 import { useProblemStore } from "../store/useProblemStore";
 import { useSubmissionStore } from "../store/useSubmissionStore";
@@ -127,7 +126,7 @@ const ProblemSolver = () => {
     switch (activeTab) {
       case "description":
         return (
-          <div className="h-full animate-fade-in">
+          <div className="h-full animate-fade-in overflow-x-auto scrollbar-none bg-zinc-900/50 rounded-b-xl">
             <div className="p-3 space-y-3">
               {/* Problem header with animated icon */}
               <div className="flex items-center space-x-3">
@@ -138,14 +137,26 @@ const ProblemSolver = () => {
                   <h2 className="text-lg font-semibold text-white">
                     {problem.title}
                   </h2>
-                  <p className="text-sm text-slate-400">{problem.difficulty}</p>
+                  <span
+                    className={`inline-block mt-1 px-2 py-0.5 rounded text-xs font-semibold
+                      ${
+                        problem.difficulty === "EASY"
+                          ? "bg-green-500/20 text-green-400 border border-green-500/30"
+                          : problem.difficulty === "MEDIUM"
+                          ? "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30"
+                          : "bg-red-500/20 text-red-400 border border-red-500/30"
+                      }
+                    `}
+                  >
+                    {problem.difficulty}
+                  </span>
                 </div>
               </div>
 
               {/* Description */}
-              <div className="">
+              <div>
                 <div className="mb-6 animate-fade-in">
-                  <p className="text-slate-300 leading-relaxed whitespace-pre-line">
+                  <p className="text-slate-200 leading-relaxed whitespace-pre-line">
                     {problem.description}
                   </p>
                 </div>
@@ -157,42 +168,45 @@ const ProblemSolver = () => {
                     Examples
                   </h3>
                   {Object.entries(problem.examples).map(
-                    ([lang, example], index) => (
+                    ([lang, example], index) =>
                       example.input && (
-                      <div
-                        key={index}
-                        className="mb-2 glass-morphism rounded-md p-1 border border-purple-500/20 hover:border-purple-400/40 transition-all duration-300 animate-fade-in"
-                        style={{ animationDelay: `${index * 0.1}s` }}
-                      >
-                        <div className="text-[.75rem] space-y-0">
-                          <div className="hover:bg-slate-800/20 p-1 rounded-none transition-colors">
-                            <div className="text-purple-400 font-medium">
-                              Input:
+                        <div
+                          key={index}
+                          className="mb-2 glass-morphism rounded-md p-2 border border-purple-500/20 hover:border-purple-400/40 transition-all duration-300 animate-fade-in bg-zinc-800/80"
+                          style={{ animationDelay: `${index * 0.1}s` }}
+                        >
+                          <div className="text-[.75rem] space-y-0">
+                            <div className="hover:bg-slate-800/20 p-1 rounded-none transition-colors">
+                              <div className="text-purple-400 font-medium">
+                                Input:
+                              </div>
+                              <code className="text-slate-200 bg-slate-900 px-2 py-1 rounded font-mono">
+                                {example.input}
+                              </code>
                             </div>
-                            <code className="text-slate-300 bg-slate-800 px-2 py-1 rounded font-mono">
-                              {example.input}
-                            </code>
-                          </div>
-                          <div className="hover:bg-slate-800/20 p-1 rounded-none transition-colors">
-                            <div className="text-purple-400 font-medium">
-                              Output:
+                            <div className="hover:bg-slate-800/20 p-1 rounded-none transition-colors">
+                              <div className="text-purple-400 font-medium">
+                                Output:
+                              </div>
+                              <code className="text-slate-200 bg-slate-900 px-2 py-1 rounded font-mono">
+                                {example.output}
+                              </code>
                             </div>
-                            <code className="text-slate-300 bg-slate-800 px-2 py-1 rounded font-mono">
-                              {example.output}
-                            </code>
-                          </div>
-                          <div className="hover:bg-slate-800/20 p-1 rounded-none transition-colors">
-                            <div className="text-purple-400 font-medium">
-                              Explanation:
+                            {example.explanation &&
+                            (
+<div className="hover:bg-slate-800/20 p-1 rounded-none transition-colors">
+                              <div className="text-purple-400 font-medium">
+                                Explanation:
+                              </div>
+                              <span className="text-slate-400 px-2 py-1">
+                                {example.explanation}
+                              </span>
                             </div>
-                            <span className="text-slate-400 px-2 py-1">
-                              {example.explanation}
-                            </span>
+                            )}
+                            
                           </div>
                         </div>
-                      </div>
-                      ) 
-                    ),
+                      ),
                   )}
                 </div>
 
@@ -207,8 +221,12 @@ const ProblemSolver = () => {
                       <span className="text-purple-400 mr-2 animate-pulse">
                         •
                       </span>
-                      <code className="bg-slate-800/30 px-2 py-1 rounded text-xs hover:bg-slate-700/50 transition-colors">
-                        {problem.constraints}
+                      <code className="bg-slate-900/70 px-2 py-1 rounded text-xs hover:bg-slate-800/80 transition-colors text-slate-200">
+                        {problem.constraints.split("\n").map((line, index) => (
+                    <div key={index} className="mb-2 space-y-1">
+                      {line}
+                    </div>
+                  ))}
                       </code>
                     </span>
                   </div>
@@ -219,22 +237,29 @@ const ProblemSolver = () => {
         );
       case "submissions":
         return (
-          <SubmissionsList
-            submissions={submissions}
-            isLoading={isSubmissionsLoading}
-          />
+          <div className="h-full overflow-x-auto scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent">
+            <SubmissionsList
+              submissions={submissions}
+              isLoading={isSubmissionsLoading}
+            />
+          </div>
         );
       case "editorial":
         return (
-          <div className="h-full animate-fade-in">
+          <div className="h-full animate-fade-in overflow-x-auto scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent">
             {problem?.editorial ? (
               <div className="p-6 rounded-xl">
                 <span className="py-1 rounded-lg text-white text-lg">
-                  {problem.editorial}
+                  {problem.editorial.split("\n").map((line, index) => (
+                    
+                    <div key={index} className="mb-2 space-y-1">
+                      {line}
+                    </div>
+                  ))}
                 </span>
               </div>
             ) : (
-              <div className="text-center text-base-content/70">
+              <div className="text-center text-white">
                 No editorial available for this problem.
               </div>
             )}
@@ -242,15 +267,19 @@ const ProblemSolver = () => {
         );
       case "hints":
         return (
-          <div className="h-full animate-fade-in">
+          <div className="h-full animate-fade-in overflow-x-auto scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent">
             {problem?.hints ? (
               <div className="p-6 rounded-xl">
                 <span className="py-1 rounded-lg font-semibold text-white text-lg">
-                  {problem.hints}
+                  {problem.hints.split("\n").map((line, index) => (
+                    <div key={index} className="mb-2 space-y-1">
+                      {line}
+                    </div>
+                  ))}
                 </span>
               </div>
             ) : (
-              <div className="text-center text-base-content/70">
+              <div className="text-center text-white">
                 No hints available
               </div>
             )}
@@ -272,7 +301,7 @@ const ProblemSolver = () => {
   };
 
   return (
-    <div className="h-screen min-h-screen max-h-screen bg-gradient-to-br from-slate-950 via-purple-950/20 to-slate-900 flex flex-col relative">
+    <div className="h-screen min-h-screen max-h-screen bg-gradient-to-br from-slate-950 via-purple-950/20 to-slate-900 flex flex-col relative overflow-hidden">
       {/* Floating particles background */}
       <div className="floating-particles pointer-events-none absolute inset-0 z-0" />
 
@@ -324,7 +353,7 @@ const ProblemSolver = () => {
       </header>
 
       {/* Main Content */}
-      <div className="flex-1 relative z-10">
+      <div className="flex-1 relative z-10 overflow-hidden">
         <ResizablePanelGroup direction="horizontal" className="h-full">
           {/* Problem Description Panel */}
           <ResizablePanel defaultSize={35} minSize={25}>
@@ -375,7 +404,9 @@ const ProblemSolver = () => {
                   Hints
                 </button>
               </div>
-              <div className="flex-1 animate-fade-in">{renderTabContent()}</div>
+              <div className="flex-1 animate-fade-in overflow-x-auto">
+                {renderTabContent()}
+              </div>
             </div>
           </ResizablePanel>
 
@@ -444,7 +475,7 @@ const ProblemSolver = () => {
 
               {/* Test Results Panel */}
               <ResizablePanel defaultSize={30} minSize={20}>
-                <div className="h-full glass-morphism border-t border-purple-500/20 animate-fade-in">
+                <div className="h-full glass-morphism border-t border-purple-500/20 animate-fade-in overflow-y-auto scrollbar-none">
                   <div className="p-6">
                     {submission ? (
                       <Submission submission={submission} />
@@ -456,7 +487,7 @@ const ProblemSolver = () => {
                             Test Cases Data
                           </h3>
                         </div>
-                        <div className="">
+                        <div className="overflow-x-auto">
                           <table className="min-w-full text-sm rounded-lg ">
                             <thead>
                               <tr className="text-purple-300">
