@@ -24,12 +24,12 @@ export default function AppHero() {
   useEffect(() => {
     const interval = setInterval(() => {
       setStats((prev) => {
-        const newUsers = prev.users >= 200 ? 200 : prev.users + 10;
+        const newUsers = prev.users >= 5000 ? 5000 : prev.users + 100;
         const newSubmissions =
-          prev.submissions >= 500 ? 500 : prev.submissions + 25;
-        const newNetworks = prev.networks >= 20 ? 20 : prev.networks + 1;
+          prev.submissions >= 1200 ? 1200 : prev.submissions + 25;
+        const newNetworks = prev.networks >= 150 ? 150 : prev.networks + 5;
 
-        if (newUsers === 200 && newSubmissions === 500 && newNetworks === 20) {
+        if (newUsers === 50000 && newSubmissions === 1200 && newNetworks === 150) {
           clearInterval(interval);
         }
 
@@ -347,7 +347,7 @@ export default function AppHero() {
               variants={itemVariants}
               className="mb-8 max-w-md px-6 text-center text-lg leading-relaxed text-slate-300/90 lg:text-end"
             >
-              Nexus connects AI tools with Web3 infrastructure, giving
+              Love Leetcode, giving
               developers the power to build beyond limits. One platform. Endless
               potential.
             </motion.p>
@@ -394,7 +394,7 @@ export default function AppHero() {
                 ))}
               </div>
               <span className="text-xs text-slate-300">
-                <span className="font-semibold text-white">500+</span>{" "}
+                <span className="font-semibold text-white">5000+</span>{" "}
                 developers already building
               </span>
               <ArrowUpRight className="h-3 w-3 text-purple-400" />

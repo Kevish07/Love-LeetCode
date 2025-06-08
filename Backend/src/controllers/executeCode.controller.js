@@ -142,6 +142,8 @@ const executeCode = async (req, res) => {
     
     res.status(200).json(new ApiResponse(200, "Code Executed",submissionWithTestCase));
   } catch (error) {
+    console.log(error);
+    
     res.status(500).json(new ApiError(500, "Error while executing code"));
   }
 };

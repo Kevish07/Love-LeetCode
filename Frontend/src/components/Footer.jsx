@@ -9,9 +9,25 @@ const Footer = () => {
           {/* Logo and Description */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-3 mb-4">
-              <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-2.5 rounded-xl">
+              {/* <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-2.5 rounded-xl">
                 <Code2 className="h-6 w-6 text-white" />
-              </div>
+              </div> */}
+              <svg
+                    width="50"
+                    height="50"
+                    viewBox="0 0 91 187"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M39.28 63.352H56.56L43.12 138.616H82.032L79.088 155H23.024L39.28 63.352Z"
+                      fill="white"
+                    />
+                    <path
+                      d="M17.28 31.352H34.56L21.12 106.616H60.032L57.088 123H1.024L17.28 31.352Z"
+                      fill="white"
+                    />
+                  </svg>
               <div className="flex items-center space-x-2">
                 <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
                   Love Leetcode
@@ -26,13 +42,19 @@ const Footer = () => {
             </p>
             <div className="flex space-x-4">
               <div className="p-2 bg-slate-800/50 rounded-lg hover:bg-purple-500/20 transition-colors cursor-pointer group">
+              <a href="https://github.com/Kevish07" target="blank">
                 <Github className="h-5 w-5 text-slate-400 group-hover:text-purple-400 transition-colors" />
+              </a>
               </div>
               <div className="p-2 bg-slate-800/50 rounded-lg hover:bg-purple-500/20 transition-colors cursor-pointer group">
+              <a href="https://x.com/kevish_on_x">
                 <Twitter className="h-5 w-5 text-slate-400 group-hover:text-purple-400 transition-colors" />
+              </a>
               </div>
               <div className="p-2 bg-slate-800/50 rounded-lg hover:bg-purple-500/20 transition-colors cursor-pointer group">
+              <a href="https://www.linkedin.com/in/kevish-sewliya/">
                 <Linkedin className="h-5 w-5 text-slate-400 group-hover:text-purple-400 transition-colors" />
+              </a>
               </div>
             </div>
           </div>
@@ -61,7 +83,7 @@ const Footer = () => {
               <li><a href="/problems" className="text-slate-300 hover:text-purple-400 transition-colors text-sm">Practice Problems</a></li>
               <li><a href="/dashboard" className="text-slate-300 hover:text-purple-400 transition-colors text-sm">Dashboard</a></li>
               <li><a href="/learn" className="text-slate-300 hover:text-purple-400 transition-colors text-sm">Structured Learning</a></li>
-              <li><a href="/profile" className="text-slate-300 hover:text-purple-400 transition-colors text-sm">Progress Tracking</a></li>
+              <li><a href="/contact" className="text-slate-300 hover:text-purple-400 transition-colors text-sm">Get Support</a></li>
             </ul>
           </div>
         </div>
@@ -74,7 +96,7 @@ const Footer = () => {
               <div className="text-sm text-slate-400">Problems</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-blue-400">50K+</div>
+              <div className="text-2xl font-bold text-blue-400">5000+</div>
               <div className="text-sm text-slate-400">Active Users</div>
             </div>
             <div className="text-center">

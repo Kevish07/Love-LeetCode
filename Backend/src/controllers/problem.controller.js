@@ -15,8 +15,6 @@ const getProblemByIdRaw = async (problemId) => {
 };
 
 const createProblem = async (req, res) => {
-  console.log("craeting");
-  
   const {
     title,
     description,
@@ -53,18 +51,16 @@ const createProblem = async (req, res) => {
         stdin: input,
         expected_output: output,
       }));
-      
+
       const submissionResults = await submitBatch(submissions);
 
       const tokens = submissionResults.map((res) => res.token);
-      
+
       const results = await pollBatchResults(tokens);
       
       for (let i = 0; i < results.length; i++) {
         const result = results[i];
-        console.log("in loop",result);
-        console.log(`Testcase ${i} failed for language ${language} and ${result.status.description}`);
-        
+
         if (result.status.id !== 3) {
           return res
             .status(400)
@@ -76,8 +72,7 @@ const createProblem = async (req, res) => {
             );
         }
       }
-      console.log("after all test cases passed & before creating a problem");
-      
+
       const newProblem = await db.problem.create({
         data: {
           title,
@@ -94,14 +89,12 @@ const createProblem = async (req, res) => {
           userId: req.user.id,
         },
       });
-      console.log("all good");
-      
+
       return res
         .status(201)
         .json(new ApiResponse(201, "Problem created successfully", newProblem));
     }
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .json(new ApiError(500, "Problem in creating a problem"));

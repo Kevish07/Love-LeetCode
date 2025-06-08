@@ -286,14 +286,14 @@ export default function Register() {
                     Continue with Google
                   </Button>
 
-                  <Button
+                  {/* <Button
                     onClick={() => handleSocialAuth("github")}
                     disabled={isLoading}
                     className="w-full bg-gray-800 hover:bg-gray-700 text-white font-medium py-3 transition-all duration-300 transform hover:scale-[1.02] cursor-pointer"
                   >
                     <Github className="w-5 h-5 mr-3" />
                     Continue with GitHub
-                  </Button>
+                  </Button> */}
                 </div>
 
                 <div className="relative mb-6">

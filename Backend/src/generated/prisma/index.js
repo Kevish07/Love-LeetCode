@@ -35,12 +35,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.8.2
- * Query Engine version: 2060c79ba17c6bb9f5823312b6f6b7f4a845738e
+ * Prisma Client JS version: 6.9.0
+ * Query Engine version: 81e4af48011447c3cc503a190e86995b66d2a28e
  */
 Prisma.prismaVersion = {
-  client: "6.8.2",
-  engine: "2060c79ba17c6bb9f5823312b6f6b7f4a845738e"
+  client: "6.9.0",
+  engine: "81e4af48011447c3cc503a190e86995b66d2a28e"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -244,7 +244,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\kevis\\OneDrive\\Desktop\\New folder\\Love-LeetCode\\Backend\\src\\generated\\prisma",
+      "value": "/Users/kevishsewliya/Desktop/love-leetcode-backend/src/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -253,12 +253,16 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "darwin-arm64",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\kevis\\OneDrive\\Desktop\\New folder\\Love-LeetCode\\Backend\\prisma\\schema.prisma",
+    "sourceFilePath": "/Users/kevishsewliya/Desktop/love-leetcode-backend/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -266,12 +270,13 @@ const config = {
     "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../../../prisma",
-  "clientVersion": "6.8.2",
-  "engineVersion": "2060c79ba17c6bb9f5823312b6f6b7f4a845738e",
+  "clientVersion": "6.9.0",
+  "engineVersion": "81e4af48011447c3cc503a190e86995b66d2a28e",
   "datasourceNames": [
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -280,8 +285,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum UserRole {\n  ADMIN\n  USER\n}\n\nenum Difficulty {\n  EASY\n  MEDIUM\n  HARD\n}\n\nmodel User {\n  id        String   @id @default(uuid())\n  name      String\n  email     String   @unique\n  password  String\n  image     String?\n  role      UserRole @default(USER)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  problems   Problem[]\n  submission Submission[]\n  solvedBy   ProblemSolved[]\n  playlist   Playlist[]\n}\n\nmodel Problem {\n  id          String     @id @default(uuid())\n  title       String\n  description String\n  difficulty  Difficulty @default(EASY)\n  tags        String[]\n  userId      String\n  examples    Json\n  constraints String\n  hints       String?\n  editorial   String?\n\n  testCases         Json\n  codeSnippets      Json\n  referenceSolution Json?\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)\n  submission        Submission[]\n  solvedBy          ProblemSolved[]\n  problemInPlaylist ProblemInPlaylist[]\n}\n\nmodel Submission {\n  id            String  @id @default(uuid())\n  userId        String\n  problemId     String\n  problemTitle  String?\n  language      String\n  sourceCode    Json\n  stdin         String?\n  stdout        String?\n  stderr        String?\n  compileOutput String?\n  status        String?\n  memory        String?\n  time          String?\n\n  createdAt DateTime          @default(now())\n  updatedAt DateTime          @updatedAt\n  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)\n  problem   Problem           @relation(fields: [problemId], references: [id], onDelete: Cascade)\n  testCases TestCasesResult[]\n}\n\nmodel TestCasesResult {\n  id            String  @id @default(uuid())\n  submissionId  String\n  testCase      Int\n  passed        Boolean\n  stdout        String?\n  expected      String\n  stderr        String?\n  compileOutput String?\n  status        String\n  memory        String?\n  time          String?\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  submission Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)\n\n  @@index([submissionId])\n}\n\nmodel ProblemSolved {\n  id        String  @id @default(uuid())\n  userId    String\n  problemId String\n  language  String?\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)\n  problem Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)\n\n  @@unique([userId, problemId])\n}\n\nmodel Playlist {\n  id          String   @id @default(uuid())\n  name        String\n  description String?\n  userId      String\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n\n  problems ProblemInPlaylist[]\n  user     User                @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([name, userId])\n}\n\nmodel ProblemInPlaylist {\n  id         String     @id @default(uuid())\n  playlistId String\n  problemId  String\n  title      String\n  difficulty Difficulty @default(EASY)\n  createdAt  DateTime   @default(now())\n  updatedAt  DateTime   @updatedAt\n\n  playlist Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)\n  problem  Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)\n\n  @@unique([playlistId, problemId])\n}\n",
-  "inlineSchemaHash": "83bc8826498bec89c47ea20e35441b22c3c4f695d01522e1397e2d148f4e24ab",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider      = \"prisma-client-js\"\n  output        = \"../src/generated/prisma\"\n  binaryTargets = [\"native\", \"debian-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum UserRole {\n  ADMIN\n  USER\n}\n\nenum Difficulty {\n  EASY\n  MEDIUM\n  HARD\n}\n\nmodel User {\n  id        String   @id @default(uuid())\n  name      String\n  email     String   @unique\n  password  String\n  image     String?\n  role      UserRole @default(USER)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  problems   Problem[]\n  submission Submission[]\n  solvedBy   ProblemSolved[]\n  playlist   Playlist[]\n}\n\nmodel Problem {\n  id          String     @id @default(uuid())\n  title       String\n  description String\n  difficulty  Difficulty @default(EASY)\n  tags        String[]\n  userId      String\n  examples    Json\n  constraints String\n  hints       String?\n  editorial   String?\n\n  testCases         Json\n  codeSnippets      Json\n  referenceSolution Json?\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)\n  submission        Submission[]\n  solvedBy          ProblemSolved[]\n  problemInPlaylist ProblemInPlaylist[]\n}\n\nmodel Submission {\n  id            String  @id @default(uuid())\n  userId        String\n  problemId     String\n  problemTitle  String?\n  language      String\n  sourceCode    Json\n  stdin         String?\n  stdout        String?\n  stderr        String?\n  compileOutput String?\n  status        String?\n  memory        String?\n  time          String?\n\n  createdAt DateTime          @default(now())\n  updatedAt DateTime          @updatedAt\n  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)\n  problem   Problem           @relation(fields: [problemId], references: [id], onDelete: Cascade)\n  testCases TestCasesResult[]\n}\n\nmodel TestCasesResult {\n  id            String  @id @default(uuid())\n  submissionId  String\n  testCase      Int\n  passed        Boolean\n  stdout        String?\n  expected      String\n  stderr        String?\n  compileOutput String?\n  status        String\n  memory        String?\n  time          String?\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  submission Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)\n\n  @@index([submissionId])\n}\n\nmodel ProblemSolved {\n  id        String  @id @default(uuid())\n  userId    String\n  problemId String\n  language  String?\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)\n  problem Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)\n\n  @@unique([userId, problemId])\n}\n\nmodel Playlist {\n  id          String   @id @default(uuid())\n  name        String\n  description String?\n  userId      String\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n\n  problems ProblemInPlaylist[]\n  user     User                @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([name, userId])\n}\n\nmodel ProblemInPlaylist {\n  id         String     @id @default(uuid())\n  playlistId String\n  problemId  String\n  title      String\n  difficulty Difficulty @default(EASY)\n  createdAt  DateTime   @default(now())\n  updatedAt  DateTime   @updatedAt\n\n  playlist Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)\n  problem  Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)\n\n  @@unique([playlistId, problemId])\n}\n",
+  "inlineSchemaHash": "8b4cc34b2ab372e619d679fddd9badaac9591d62aa479c9a09ef7cb0359205d0",
   "copyEngine": true
 }
 
@@ -320,8 +325,12 @@ exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
 // file annotations for bundling tools to include these files
-path.join(__dirname, "query_engine-windows.dll.node");
-path.join(process.cwd(), "src/generated/prisma/query_engine-windows.dll.node")
+path.join(__dirname, "libquery_engine-darwin-arm64.dylib.node");
+path.join(process.cwd(), "src/generated/prisma/libquery_engine-darwin-arm64.dylib.node")
+
+// file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-debian-openssl-3.0.x.so.node");
+path.join(process.cwd(), "src/generated/prisma/libquery_engine-debian-openssl-3.0.x.so.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "src/generated/prisma/schema.prisma")

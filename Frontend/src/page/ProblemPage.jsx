@@ -457,7 +457,7 @@ export default function ProblemPage({ problems }) {
                       {authUser?.data?.role === "ADMIN" && (
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400 flex items-center gap-2">
                           <Link
-                            to={`/problem/edit/${problem.id}`}
+                            to={`/add-problem`}
                             className="text-indigo-400 hover:text-indigo-300 font-medium flex items-center"
                           >
                             <PenBoxIcon className="w-4 h-4" />

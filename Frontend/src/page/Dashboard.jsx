@@ -34,12 +34,14 @@ import {
 import { useProblemStore } from "../store/useProblemStore";
 import { usePlaylistStore } from "../store/usePlaylistStore";
 import { useSubmissionStore } from "../store/useSubmissionStore";
+import {useAuthStore} from "../store/useAuthStore";
 import CreatePlaylistModal from "../components/CreatePlaylistModal";
 import { Link } from "react-router-dom";
 
 import {calculateAverageMemory,calculateAverageTime} from "../components/SubmissionList"
 
 const Dashboard = () => {
+  const {authUser} = useAuthStore()
   const {
     getAllProblems,
     problems,
@@ -180,12 +182,12 @@ const Dashboard = () => {
 
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950/20 to-slate-900">
+    <div className="min-h-screen pt-15 bg-gradient-to-br from-slate-950 via-purple-950/20 to-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header Section */}
         <div className="mb-8 animate-fade-in">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2">
-            Your Dashboard
+            {authUser?.data?.name} Dashboard
           </h1>
           <p className="text-slate-400">
             Track your progress and coding journey
